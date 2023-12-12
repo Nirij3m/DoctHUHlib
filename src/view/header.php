@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="src/css/header.css">
+    <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
     <script src="https://kit.fontawesome.com/5b8b37978c.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -65,19 +65,7 @@
                                 </div>';
                     }
                 ?>
-         
-        <div class="corpse"> <!-- Content area-->
-            <div id="topHeader">
-                <p id="namePage" class="fs-5 d-none d-sm-inline title">Accueil</p>
-            </div>
 
-
-
-
-
-        </div>
-    </div>
-</div>
 
 
 </body>
