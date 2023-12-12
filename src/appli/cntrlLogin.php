@@ -2,6 +2,10 @@
 require_once "utils.php";
 require_once "src/dao/DaoUser.php";
 class cntrlLogin {
+    /*
+    Contrôleur possédant toutes les pages en lien avec l'enregistrement et
+    la connexion.
+    */
     public function getConnectionForm() {
         $alerts = [];
 
