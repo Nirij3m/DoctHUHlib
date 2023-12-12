@@ -1,5 +1,7 @@
 <?php
 const PATH_VIEW = "src/view/";
+
+const PATH_CSS = "src/css/";
 const DBHOST = "localhost";
 const DBNAME = "themightypoo";
 const PORT = 5433;

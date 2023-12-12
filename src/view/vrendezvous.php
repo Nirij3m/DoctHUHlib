@@ -1,5 +1,6 @@
-<?php require_once "header.php"?>
-<link rel="stylesheet" href="../css/rendezvous.css">
+<?php require_once "src/view/header.php"?>
+<link rel="stylesheet" type="text/css" href="/src/css/rendezvous.css">
+
 
 
 <div class="corpse"> <!-- Content area-->
@@ -11,13 +12,16 @@
         <h3>Prendre un rendez-vous</h3>
         <hr>
         <div>
-            <form id="alignement">
+            <form id="alignement" action="/rendezvous/result" method="POST">
                 <div class="form-group">
-                    <span class="innerItem"> <i class="fa-solid fa-magnifying-glass"></i> <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Rechercher par nom"/></span>
+                    <span class="innerItem"> <i class="fa-solid fa-magnifying-glass"></i> <input type="text" name="nom" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Rechercher par nom"/></span>
                 </div>
-                <div class="form-group">
-                    <span class="innerItem"> <i class="fa-solid fa-location-dot"></i> <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Rechercher par ville"/></span>
-                </div>
+                <select class="form-select" aria-label="Default select example" name="specialite">
+                    <option selected>Sélectionner la spécialité</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
@@ -32,6 +36,10 @@
             </tr>
             </thead>
             <tbody>
+            <?php
+                //Penser au ifisset sinon affiche le tablea alors qu'il n'est pas défini (typiquement avant la requête)
+                foreach () {
+            ?>
             <tr>
                 <td>
                     <div class="d-flex align-items-center">
@@ -42,7 +50,7 @@
                                 class="rounded-circle"
                         />
                         <div class="ms-3">
-                            <p class="fw-bold mb-1">John Doe</p>
+                            <p class="fw-bold mb-1"><?= $nom ?></p>
                             <p class="text-muted mb-0">john.doe@gmail.com</p>
                         </div>
                     </div>
@@ -61,6 +69,7 @@
                     </button>
                 </td>
             </tr>
+            <?php }?>
 
 
 

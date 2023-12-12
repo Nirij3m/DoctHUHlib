@@ -50,4 +50,8 @@ class DaoUser {
         $statement->bindParam(":password", $password);
         $statement->execute();
     }
+
+    public function getByUserSpe(string $user, string $city){
+
+    }
 }

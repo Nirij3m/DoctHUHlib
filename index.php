@@ -20,11 +20,12 @@ $cntrlApp   = new cntrlApp();
 if ($method == "GET") {
     if ($uri == "/")                        $cntrlApp->getAccueil();
     elseif ($uri == "/login")               $cntrlLogin->getConnectionForm();
-    elseif ($uri == "/rendez-vous")         $cntrlApp->getRendezVous();
+    elseif ($uri == "/rendezvous")         $cntrlApp->getRendezVous();
     else $cntrlLogin->getConnectionForm();
 }
 elseif ($method == "POST") {
     if ($uri == "/login/result")                $cntrlLogin->getLoginResult();
     elseif ($uri == "/register/result")         $cntrlLogin->getRegisterResult();
+    elseif ($uri == "/rendezvous/result")       $cntrlApp->getMedecin();
     else $cntrlLogin->getConnectionForm();
 }
