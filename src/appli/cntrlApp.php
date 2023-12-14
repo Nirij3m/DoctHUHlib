@@ -12,16 +12,22 @@ class cntrlApp {
     public function getRendezVous() {
         $DaoSpeciality = new DaoSpeciality(DBHOST, DBNAME, PORT, USER, PASS);
         $alerts = [];
-        $speciality = $DaoSpeciality->getSpeciality();
-        print_r($speciality);
+        $speArray = $DaoSpeciality->getSpeciality();
+        //print_r($speArray);
 
 
         require PATH_VIEW . "vrendezvous.php";
     }
 
     public function getMedecin(){
+        $DaoSpeciality = new DaoSpeciality(DBHOST, DBNAME, PORT, USER, PASS);
+        $alerts = [];
+        $speArray = $DaoSpeciality->getSpeciality();
+
         $nom = $_POST["nom"];
+        printf($nom);
         $specialite = $_POST["specialite"];
+        printf($specialite);
 
         require PATH_VIEW . "vrendezvous.php";
     }

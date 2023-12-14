@@ -12,6 +12,6 @@
     align-items: center;
     gap: 5%
 }
-.table {
-
+.form-override {
+    width: 15%;
 }

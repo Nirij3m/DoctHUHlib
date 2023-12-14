@@ -3,9 +3,10 @@
         {
             "previewLimit": 50,
             "server": "localhost",
-            "port": 5433,
+            "port": 5432,
+            "askForPassword": true,
             "driver": "PostgreSQL",
-            "name": "GreatMightyPoo",
+            "name": "thegreatmightypoo",
             "database": "themightypoo",
             "username": "postgres"
         }

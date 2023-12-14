@@ -16,11 +16,15 @@
                 <div class="form-group">
                     <span class="innerItem"> <i class="fa-solid fa-magnifying-glass"></i> <input type="text" name="nom" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Rechercher par nom"/></span>
                 </div>
-                <select class="form-select" aria-label="Default select example" name="specialite">
+                <select class="form-select form-override" aria-label="Default select example" name="specialite">
                     <option selected>Sélectionner la spécialité</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    <?php
+                        if(isset($speArray)){
+                            foreach ($speArray as $s){
+                    ?>
+                     <option value="1"> <?=$s["type"]?> </option>
+                    <?php }
+                        }?>
                 </select>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
@@ -38,7 +42,7 @@
             <tbody>
             <?php
                 //Penser au ifisset sinon affiche le tablea alors qu'il n'est pas défini (typiquement avant la requête)
-                foreach () {
+                //foreach () {
             ?>
             <tr>
                 <td>
@@ -50,7 +54,7 @@
                                 class="rounded-circle"
                         />
                         <div class="ms-3">
-                            <p class="fw-bold mb-1"><?= $nom ?></p>
+                            <p class="fw-bold mb-1">John Doe</p>
                             <p class="text-muted mb-0">john.doe@gmail.com</p>
                         </div>
                     </div>
@@ -69,7 +73,6 @@
                     </button>
                 </td>
             </tr>
-            <?php }?>
 
 
 
