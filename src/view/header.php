@@ -14,21 +14,21 @@
     <div class="row flex-nowrap">
         <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg">
             <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-                <a href="accueil.php" class="linkTitle d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                    <span class="fs-5 d-none d-sm-inline title">Doct'HUH'lib</span>
+                <a href="/" class="linkTitle d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <span class="fs d-none d-sm-inline title">Doct'HUH'lib</span>
                 </a>
                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                     <li class="nav-item">
-                        <a href="accueil.php" class="link align-middle px-0">
+                        <a href="/" class="link align-middle px-0">
                             <i class="fa-solid fa-house"></i>
-                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Accueil</span>
+                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline fsblock">Accueil</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="/login" class="link px-0 align-middle">
                             <i class="fa-solid fa-calendar-days"></i>
-                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Rendez-vous</span></a>
+                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline fsblock">Rendez-vous</span></a>
                     </li>
 
                 </ul>
@@ -41,7 +41,7 @@
                         // couper le php avec un ? >, mettre l'HTML, puis reprendre le php avec < php ! (:
                         echo '
                                                 <div class="dropdown pb-4">
-                                                <a href="/login.php" class="d-flex align-items-center text-white text-decoration-none>
+                                                <a href="/login" class="d-flex align-items-center text-white text-decoration-none>
                                                     <i class="fa-solid fa-right-to-bracket"></i>
                                                     <span class="d-none d-sm-inline mx-1">Se connecter</span>
                                                 </a>

@@ -51,7 +51,16 @@ class DaoUser {
         $statement->execute();
     }
 
-    public function getByUserSpe(string $user, string $city){
-
+    public function getByUserSpe(string $surname, string $name, string $spe){
+        $surname = strtolower($surname);
+        $name = strtolower($surname);
+        $statement = $this->db->prepare("SELECT u.name, u.surname, s.type ,u.mail, u.phone, p.num_street, p.street, c.code_postal, c.city from users u JOIN place p ON p.id = u.id JOIN city c ON c.code_insee = p.code_insee JOIN speciality s ON u.id_speciality = s.id
+        WHERE s.type=:type OR u.name = :name OR u.surname = :surname");
+        $statement->bindParam(":type", $spe);
+        $statement->bindParam(':name', $name);
+        $statement->bindParam(":surname", $surname);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 }
