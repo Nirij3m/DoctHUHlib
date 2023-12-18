@@ -21,14 +21,14 @@ class DaoUser {
     }
 
     public function selectAll() {
-        $statement = $this->db->query("SELECT * FROM citation");
+        $statement = $this->db->query("SELECT * FROM users");
         $array = $statement->fetchAll(PDO::FETCH_ASSOC);
     
         return $array;
     }
 
     public function connectUser(string $mail, string $password) {
-        $id = null;
+        $id = NULL;
 
         $statement = $this->db->prepare("SELECT id, password FROM users WHERE mail = :mail");
         $statement->bindParam(":mail", $mail);
@@ -42,13 +42,29 @@ class DaoUser {
     }
 
     public function registerUser(string $name, string $surname, string $phone, string $mail, string $password) {
+        $utils = new Utils();
+        $name = strtolower($name);
+        $surname = strtolower($surname);
+        $phone = str_replace(' ', '', $phone);
+
         $statement = $this->db->prepare("INSERT INTO users (name, surname, phone, mail, password) VALUES (:name, :surname, :phone, :mail, :password)");
         $statement->bindParam(":name", $name);
         $statement->bindParam(":surname", $surname);
         $statement->bindParam(":phone", $phone);
         $statement->bindParam(":mail", $mail);
         $statement->bindParam(":password", $password);
-        $statement->execute();
+        try{
+            $statement->execute();
+            return "";
+        }
+        catch (PDOException $err){
+            $errMessage = $err->getMessage();
+            if(str_contains($errMessage, "phone")){
+                $needle = "Ce numéro de téléphone";
+            }
+            else $needle = "Cette adresse email";
+            return $errString = $utils->pdoErrors($err->getCode(), $needle);
+        }
     }
 
     public function getByUserSpe(string $surname, string $name, string $spe){

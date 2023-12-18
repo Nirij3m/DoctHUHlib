@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
     <script src="https://kit.fontawesome.com/5b8b37978c.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -21,14 +22,14 @@
                     <li class="nav-item">
                         <a href="/" class="link align-middle px-0">
                             <i class="fa-solid fa-house"></i>
-                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline fsblock">Accueil</span>
+                            <span class="ms-1 d-none d-sm-inline fsblock">Accueil</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="/login" class="link px-0 align-middle">
                             <i class="fa-solid fa-calendar-days"></i>
-                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline fsblock">Rendez-vous</span></a>
+                            <span class="ms-1 d-none d-sm-inline fsblock">Rendez-vous</span></a>
                     </li>
 
                 </ul>

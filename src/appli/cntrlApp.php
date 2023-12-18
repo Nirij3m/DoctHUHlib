@@ -10,10 +10,6 @@ class cntrlApp {
         require PATH_VIEW . "vaccueil.php";
     }
     public function getRendezVous() {
-        $DaoSpeciality = new DaoSpeciality(DBHOST, DBNAME, PORT, USER, PASS);
-        $alerts = [];
-        $speArray = $DaoSpeciality->getSpeciality();
-        //print_r($speArray);
 
 
         require PATH_VIEW . "vrendezvous.php";
@@ -21,9 +17,7 @@ class cntrlApp {
 
     public function getMedecin(){
         $DaoUser = new DaoUser(DBHOST, DBNAME, PORT, USER, PASS);
-        $DaoSpeciality = new DaoSpeciality(DBHOST, DBNAME, PORT, USER, PASS);
         $alerts = [];
-        $speArray = $DaoSpeciality->getSpeciality();
         $specialite = $_POST["specialite"];
 
         //TODO
@@ -36,7 +30,6 @@ class cntrlApp {
         if(!empty($_POST["nom"])){
             $nom = explode(" ", $_POST["nom"]); //Array that separates the name from the surname. [0] => surname, [1] => name
             if(isset($nom[1])){ //The user inputed a name and a surname
-                echo "Has inputed correct name and surname";
                 $users = $DaoUser->getByUserSpe($nom[0], $nom[1], $specialite);
             }
             else{ //Tests each name and surname in cas the user inputed only one thing

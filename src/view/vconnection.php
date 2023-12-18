@@ -89,12 +89,12 @@
                             
                             <div class="form-outline mb-4">
                               <input type="email" id="form2Example17" name="mail" class="form-control form-control-lg" />
-                              <label class="form-label" for="form2Example17">Mail</label>
+                              <label class="form-label" for="form2Example17">Adresse Mail</label>
                             </div>
                             
                             <div class="form-outline mb-4">
                               <input type="email" id="form2Example17" name="mailVerify" class="form-control form-control-lg" />
-                              <label class="form-label" for="form2Example17">Mail (vérification)</label>
+                              <label class="form-label" for="form2Example17">Adresse Mail (vérification)</label>
                             </div>
                             
                             <div class="form-outline mb-4">

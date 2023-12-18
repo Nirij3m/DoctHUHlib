@@ -13,21 +13,28 @@ class cntrlLogin {
     }
 
     public function getLoginResult() {
-        $alerts = [];
-
+        $utils = new Utils();
         $mail       = $_POST['mail'];
         $password   = $_POST['password'];
         $daoUser    = new DaoUser(DBHOST, DBNAME, PORT, USER, PASS);
         $id = $daoUser->connectUser($mail, $password);
 
         if ($id == NULL) {
-            array_push($alerts, ['danger', "L'adresse mail ou le login entré est incorrect"]);
+            $needle = "L'adresse email ou le mot de passe renseigné est incorrect";
+            $utils->echoError($needle);
+            require PATH_VIEW . "vconnection.php";
+
         }
-        
-        require PATH_VIEW . "vconnection.php";
+        else {
+            $needle = "Vous êtes connecté";
+            $utils->echoSuccess($needle);
+            require PATH_VIEW . "vrendezvous.php";
+        }
     }
 
     public function getRegisterResult() {
+
+        $utils = new Utils();
         $alerts = [];
 
         $name           = $_POST['name'];
@@ -41,7 +48,16 @@ class cntrlLogin {
         if ($mail == $mailVerify && $password == $passwordVerify) {
             $daoUser = new DaoUser(DBHOST, DBNAME, PORT, USER, PASS);
             $hashedPass = password_hash($password, PASSWORD_BCRYPT);
-            $daoUser->registerUser($name, $surname, $phone, $mail, $hashedPass);
+            $errString = $daoUser->registerUser($name, $surname, $phone, $mail, $hashedPass); //returns a string containing the appropriate warning message if a PDOException is catched. Empty if sucess
+        }
+        if(empty($errString)){ //No errors, account created, start session and redirect on rendez-vous page
+            require PATH_VIEW . "vrendezvous.php";
+            $utils->echoSuccess("Votre compte a bien été créé.");
+            $utils->clearAlert();
+        }
+        else{ //error, appen error message and reload the page
+            $utils->echoError($errString);
+            $utils->clearAlert();
         }
     }
 }

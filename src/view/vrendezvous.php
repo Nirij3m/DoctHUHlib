@@ -1,4 +1,7 @@
-<?php require_once "src/view/header.php"?>
+<?php require_once "src/view/header.php";
+$DaoSpeciality = new DaoSpeciality(DBHOST, DBNAME, PORT, USER, PASS);
+$speArray = $DaoSpeciality->getSpeciality();
+?>
 <link rel="stylesheet" type="text/css" href="/src/css/rendezvous.css">
 
 
@@ -71,11 +74,6 @@
                     <td>
                         <p class="fw-normal mb-1"><?= $u["num_street"] . " " . ucfirst($u["street"])?></p>
                         <p class="text-muted mb-0"><?= $u["code_postal"] . " " . ucfirst($u["city"])?></p>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-link btn-sm btn-rounded">
-                            Edit
-                        </button>
                     </td>
                 </tr>
             <?php

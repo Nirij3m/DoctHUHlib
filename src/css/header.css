@@ -56,3 +56,11 @@ html {
     margin-top: 2%;
     gap: 5%;
 }
+.errorWrapper{
+    z-index: 2;
+    position:absolute;
+    bottom:0;
+    right:20px;
+    margin-bottom: 1%;
+}
+
