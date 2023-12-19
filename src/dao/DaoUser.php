@@ -21,14 +21,14 @@ class DaoUser {
     }
 
     public function selectAll() {
-        $statement = $this->db->query("SELECT * FROM citation");
+        $statement = $this->db->query("SELECT * FROM users");
         $array = $statement->fetchAll(PDO::FETCH_ASSOC);
     
         return $array;
     }
 
     public function connectUser(string $mail, string $password) {
-        $id = null;
+        $id = NULL;
 
         $statement = $this->db->prepare("SELECT id, password FROM users WHERE mail = :mail");
         $statement->bindParam(":mail", $mail);
@@ -42,12 +42,41 @@ class DaoUser {
     }
 
     public function registerUser(string $name, string $surname, string $phone, string $mail, string $password) {
+        $utils = new Utils();
+        $name = strtolower($name);
+        $surname = strtolower($surname);
+        $phone = str_replace(' ', '', $phone);
+
         $statement = $this->db->prepare("INSERT INTO users (name, surname, phone, mail, password) VALUES (:name, :surname, :phone, :mail, :password)");
         $statement->bindParam(":name", $name);
         $statement->bindParam(":surname", $surname);
         $statement->bindParam(":phone", $phone);
         $statement->bindParam(":mail", $mail);
         $statement->bindParam(":password", $password);
+        try{
+            $statement->execute();
+            return "";
+        }
+        catch (PDOException $err){
+            $errMessage = $err->getMessage();
+            if(str_contains($errMessage, "phone")){
+                $needle = "Ce numéro de téléphone";
+            }
+            else $needle = "Cette adresse email";
+            return $errString = $utils->pdoErrors($err->getCode(), $needle);
+        }
+    }
+
+    public function getByUserSpe(string $surname, string $name, string $spe){
+        $surname = strtolower($surname);
+        $name = strtolower($surname);
+        $statement = $this->db->prepare("SELECT u.name, u.surname, s.type ,u.mail, u.phone, p.num_street, p.street, c.code_postal, c.city from users u JOIN place p ON p.id = u.id JOIN city c ON c.code_insee = p.code_insee JOIN speciality s ON u.id_speciality = s.id
+        WHERE s.type=:type OR u.name = :name OR u.surname = :surname");
+        $statement->bindParam(":type", $spe);
+        $statement->bindParam(':name', $name);
+        $statement->bindParam(":surname", $surname);
         $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 }

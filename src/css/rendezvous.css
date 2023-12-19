@@ -1,0 +1,17 @@
+#alignement{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-right: 15%;
+    gap: 5%;
+    margin-bottom: 2rem;
+}
+.innerItem{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5%
+}
+.form-override {
+    width: 15%;
+}

@@ -1,0 +1,16 @@
+#containerLogin {
+    padding: 0;
+    overflow-y: auto;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    margin-right: 13%;
+    margin-top: 5%;
+}
+#secondForm {
+    margin-top: 10%;
+}
+.noimg {
+    background: rgb(33,131,128);
+    background: radial-gradient(circle, rgba(33,131,128,1) 7%, rgba(169,204,213,1) 52%, rgba(180,199,222,1) 100%);
+}

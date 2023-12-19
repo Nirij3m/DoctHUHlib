@@ -1,22 +1,18 @@
-<!DOCTYPE html>
-<html lang="fr">
-    <head>
-        <meta charset="utf-8">
-        <title>  </title>
-        <script src="script.js" defer></script>
-        <link href="style.css" rel="stylesheet"> 
-    </head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-
-    <body>
-        <section class="vh-100" style="background-color: #9A616D;">
+<?php require_once "src/view/header.php"?>
+<link rel="stylesheet" href="/src/css/connection.css">
+<div class="corpse"> <!-- Content area-->
+    <div id="topHeader">
+        <p id="namePage" class="fs-5 d-none d-sm-inline title">Se connecter</p>
+    </div>
+    <div id="containerLogin">
+        <div class="vh-100" style="height: 100%;">
             <div class="container py-5 h-100">
               <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col col-xl-10">
                   <div class="card" style="border-radius: 1rem;">
                     <div class="row g-0">
                       <div class="col-md-6 col-lg-5 d-none d-md-block">
-                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img1.webp"
+                        <img src="https://source.unsplash.com/une-femme-en-chemise-blanche-tenant-un-stethoscope-tE7_jvK-_YU"
                           alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
                       </div>
                       <div class="col-md-6 col-lg-7 d-flex align-items-center">
@@ -55,10 +51,10 @@
                 </div>
               </div>
             </div>
-          </section>
+          </div>
 
           
-        <section class="vh-100" style="background-color: #9A616D;">
+        <div class="vh-100" id="secondForm" style="height: 100%;">
             <div class="container py-5 h-100">
               <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col col-xl-10">
@@ -93,12 +89,12 @@
                             
                             <div class="form-outline mb-4">
                               <input type="email" id="form2Example17" name="mail" class="form-control form-control-lg" />
-                              <label class="form-label" for="form2Example17">Mail</label>
+                              <label class="form-label" for="form2Example17">Adresse Mail</label>
                             </div>
                             
                             <div class="form-outline mb-4">
                               <input type="email" id="form2Example17" name="mailVerify" class="form-control form-control-lg" />
-                              <label class="form-label" for="form2Example17">Mail (vérification)</label>
+                              <label class="form-label" for="form2Example17">Adresse Mail (vérification)</label>
                             </div>
                             
                             <div class="form-outline mb-4">
@@ -119,17 +115,15 @@
                         </div>
                       </div>
                       
-                      <div class="col-md-6 col-lg-5 d-none d-md-block">
-                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img1.webp"
-                          alt="login form" class="img-fluid" style="border-radius: 0 1rem 1rem 0;" />
+                      <div class="col-md-6 col-lg-5 d-none d-md-block noimg">
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </section>
-
+          </div>
           <?php require_once "alerts.php"; ?>
-    </body>
+    </div>
+</div>
 </html>
