@@ -33,7 +33,7 @@ class cntrlLogin {
     }
 
     public function getRegisterResult() {
-
+        $name = $surname = $phone = $mail = $mailVerify = $password = $passwordVerify = "";
         $utils = new Utils();
         $alerts = [];
 
@@ -45,11 +45,28 @@ class cntrlLogin {
         $password       = $_POST['password'];
         $passwordVerify = $_POST['passwordVerify'];
 
-        if ($mail == $mailVerify && $password == $passwordVerify) {
+        if(!$utils->isSanitize($name) || !$utils->isSanitize($surname)){
+            $utils->echoWarning("Le nom et prénom ne peuvent contenir ni caractères spéciaux ni accents");
+            require PATH_VIEW . "vconnection.php";
+            return;
+        }
+
+        if($mail !== $mailVerify){
+            $utils->echoWarning("La deuxième adresse mail ne correspond pas à la première");
+            require PATH_VIEW . "vconnection.php";
+            return;
+        }
+        if($password !== $passwordVerify){
+            $utils->echoWarning("Le deuxième mot de passe ne correspond pas au premier");
+            require PATH_VIEW . "vconnection.php";
+            return;
+        }
+        else{
             $daoUser = new DaoUser(DBHOST, DBNAME, PORT, USER, PASS);
             $hashedPass = password_hash($password, PASSWORD_BCRYPT);
             $errString = $daoUser->registerUser($name, $surname, $phone, $mail, $hashedPass); //returns a string containing the appropriate warning message if a PDOException is catched. Empty if sucess
         }
+
         if(empty($errString)){ //No errors, account created, start session and redirect on rendez-vous page
             require PATH_VIEW . "vrendezvous.php";
             $utils->echoSuccess("Votre compte a bien été créé.");
@@ -58,6 +75,8 @@ class cntrlLogin {
         else{ //error, appen error message and reload the page
             $utils->echoError($errString);
             $utils->clearAlert();
+            require  PATH_VIEW . "vconnection.php";
+
         }
     }
 }
