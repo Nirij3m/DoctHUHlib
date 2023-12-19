@@ -17,16 +17,18 @@ class cntrlApp {
 
     public function getMedecin(){
         $DaoUser = new DaoUser(DBHOST, DBNAME, PORT, USER, PASS);
+        $utils = new Utils();
         $alerts = [];
         $specialite = $_POST["specialite"];
+        $nom = $_POST["nom"];
 
-        //TODO
-        // Sanitize the user input regarding the $_POST["nom"] variable. $_POST["specialite"] is safe whatever the value manipulation is made
-        /*
-        echo $_POST["nom"];
-        $_POST["nom"] = filter_var($_POST["nom"], FILTER_SANITIZE_STRING);
-        echo $_POST["nom"];
-        */
+        if(!$utils->isSanitize($nom)){
+            $utils->echoWarning("Le champ de recherche ne peut contenir ni caractères spéciaux ni accents");
+            require PATH_VIEW . "vrendezvous.php";
+            return;
+        }
+
+
         if(!empty($_POST["nom"])){
             $nom = explode(" ", $_POST["nom"]); //Array that separates the name from the surname. [0] => surname, [1] => name
             if(isset($nom[1])){ //The user inputed a name and a surname
@@ -42,7 +44,7 @@ class cntrlApp {
                     $users = $u2;
                 }
             }
-            //TODO Make and alert system when no doctors is found
+            $utils->echoInfo("Aucun practicien trouvé");
         }
         else if(empty($POST_["nom"])){
             $users = $DaoUser->getByUserSpe(" ", " ", $specialite);

@@ -73,37 +73,43 @@
                             <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Créez-votre compte en moins de 5 minutes</h5>
           
                             <div class="form-outline mb-4">
-                              <input type="text" id="form2Example17" name="name" class="form-control form-control-lg" />
-                              <label class="form-label" for="form2Example17">Nom</label>
+                              <input type="text" id="form2Example18" name="name" class="form-control form-control-lg" value="<?=$name?>"  required/>
+                              <label class="form-label" for="form2Example18">Nom</label>
+                                <div class="invalid-feedback">
+                                    Please choose a username.
+                                </div>
                             </div>
                             
                             <div class="form-outline mb-4">
-                              <input type="text" id="form2Example17" name="surname" class="form-control form-control-lg" />
+                              <input type="text" id="form2Example17" name="surname" class="form-control form-control-lg" value="<?=$surname?>" required/>
                               <label class="form-label" for="form2Example17">Prénom</label>
+                                <div class="invalid-feedback">
+                                    Please choose a username.
+                                </div>
                             </div>
                             
                             <div class="form-outline mb-4">
-                              <input type="tel" id="form2Example17" name="phone" class="form-control form-control-lg" />
+                              <input type="tel" id="form2Example17" name="phone" class="form-control form-control-lg" value="<?=$phone?>"required/>
                               <label class="form-label" for="form2Example17">Téléphone</label>
                             </div>
                             
                             <div class="form-outline mb-4">
-                              <input type="email" id="form2Example17" name="mail" class="form-control form-control-lg" />
+                              <input type="email" id="form2Example17" name="mail" class="form-control form-control-lg" value="<?=$mail?>" required/>
                               <label class="form-label" for="form2Example17">Adresse Mail</label>
                             </div>
                             
                             <div class="form-outline mb-4">
-                              <input type="email" id="form2Example17" name="mailVerify" class="form-control form-control-lg" />
+                              <input type="email" id="form2Example17" name="mailVerify" class="form-control form-control-lg" required/>
                               <label class="form-label" for="form2Example17">Adresse Mail (vérification)</label>
                             </div>
                             
                             <div class="form-outline mb-4">
-                              <input type="password" id="form2Example17" name="password" class="form-control form-control-lg" />
+                              <input type="password" id="form2Example17" name="password" class="form-control form-control-lg" value="<?=$password?>" required/>
                               <label class="form-label" for="form2Example17">Mot de passe</label>
                             </div>
           
                             <div class="form-outline mb-4">
-                              <input type="password" id="form2Example27" name="passwordVerify" class="form-control form-control-lg" />
+                              <input type="password" id="form2Example27" name="passwordVerify" class="form-control form-control-lg" required/>
                               <label class="form-label" for="form2Example27">Mot de passe (vérification)</label>
                             </div>
           

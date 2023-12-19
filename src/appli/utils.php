@@ -45,6 +45,29 @@ class Utils {
                 </div>
         ';
     }
+    public function echoWarning($needle){
+        echo '
+             <div class="errorWrapper">
+                <div class="alert alert-warning alert-dismissible d-flex align-items-center fade show">
+                    <i class="bi-exclamation-triangle-fill"></i>
+                    <strong class="mx-2">Attention!</strong>' . $needle . '
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+             </div>
+        ';
+    }
+
+    public function echoInfo($needle){
+        echo '
+             <div class="errorWrapper">
+                <div class="alert alert-info alert-dismissible d-flex align-items-center fade show">
+                    <i class="bi-info-circle-fill"></i>
+                    <strong class="mx-2">Info!</strong>' . $needle . '
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            </div>
+        ';
+    }
 
     public function clearAlert(){
         echo '
@@ -64,6 +87,15 @@ class Utils {
             });
         </script>
         ';
+    }
+
+    public function isSanitize($string){
+        $string = trim($string);
+        $string = stripslashes($string);
+        if($string == filter_var($string, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH | FILTER_FLAG_STRIP_BACKTICK)){
+            return true;
+        }
+        else return false;
     }
 
 
