@@ -1,17 +1,17 @@
 <?php
 class Place {
-    private string $name;
-    private int $numStreet;
-    private string $street;
-    private int $codePostal;
-    private string $city;
+    private ?string $name;
+    private ?int $numStreet;
+    private ?string $street;
+    private ?int $codePostal;
+    private ?string $city;
 
-    public function __construct(string $name, int $numStreet, string $street, int $codePostal, string $city){
-        $this->name = $name;
-        $this->numStreet = $numStreet;
-        $this->street = $street;
-        $this->codePostal = $codePostal;
-        $this->city = $city;
+    public function __construct(?string $name = null, ?int $numStreet = 0, ?string $street = null, ?int $codePostal = 0, ?string $city = null){
+        if($name != null) $this->name = $name;
+        if($numStreet != null) $this->numStreet = $numStreet;
+        if($street != null) $this->street = $street;
+        if($codePostal != null) $this->codePostal = $codePostal;
+        if($city != null) $this->city = $city;
     }
 
     public function getName(){

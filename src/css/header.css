@@ -58,7 +58,7 @@ html {
 }
 .errorWrapper{
     z-index: 2;
-    position:absolute;
+    position: absolute;
     bottom:0;
     right:20px;
 }

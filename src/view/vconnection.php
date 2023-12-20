@@ -52,8 +52,6 @@
               </div>
             </div>
           </div>
-
-          
         <div class="vh-100" id="secondForm" style="height: 100%;">
             <div class="container py-5 h-100">
               <div class="row d-flex justify-content-center align-items-center h-100">
@@ -129,7 +127,6 @@
               </div>
             </div>
           </div>
-          <?php require_once "alerts.php"; ?>
     </div>
 </div>
 </html>

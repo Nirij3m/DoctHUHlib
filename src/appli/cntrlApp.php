@@ -11,8 +11,10 @@ class cntrlApp {
     }
     public function getRendezVous() {
 
-
-        require PATH_VIEW . "vrendezvous.php";
+        if(isset($_SESSION["user"])){
+            require PATH_VIEW . "vrendezvous.php";
+        }
+        require PATH_VIEW . "vconnection.php";
     }
 
     public function getMedecin(){

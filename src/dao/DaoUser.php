@@ -79,25 +79,13 @@ class DaoUser {
         return $result;
     }
     public function getFullById($id){
-        $statement = $this->db->prepare("SELECT u.name, u.surname, u.phone, u.mail, u.id_speciality , s.type, p.name as name_p, p.num_street, p.street, c.city, c.code_postal  from users u
-                                                JOIN speciality s ON u.id_speciality = s.id
-                                                JOIN place p ON u.id = p.id
-                                                JOIN city c ON p.code_insee = c.code_insee WHERE u.id = :id"
+        $statement = $this->db->prepare("SELECT u.name, u.surname, u.phone, u.mail, u.id_speciality, s.type, p.name as name_p, p.num_street, p.street, c.city, c.code_postal  from users u
+                                                LEFT JOIN speciality s ON u.id_speciality = s.id
+                                                LEFT JOIN place p ON u.id = p.id
+                                                LEFT JOIN city c ON p.code_insee = c.code_insee WHERE u.id = :id"
         );
         $statement->bindParam(":id", $id);
         $statement->execute();
         return $statement->fetch(PDO::FETCH_ASSOC);
-    }
-    public function constructSession($id){
-        $DaoUser = new DaoUser(DBHOST, DBNAME, PORT, USER, PASS);
-        $result = $DaoUser->getFullById($id);
-        $place = new Place($result["name_p"], (int)$result["num_street"], $result["street"], (int)$result["code_postal"], $result["city"]);
-        $speciality = new Speciality($result["id_speciality"], $result["type"]);
-        $user = new User($id, $result["name"], $result["surname"], $result["phone"], $result["mail"], " ", $place, $speciality);
-        session_start();
-        if(!isset($_SESSION["user"])){
-            $_SESSION["user"] = $user;
-        }
-
     }
 }
