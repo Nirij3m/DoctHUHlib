@@ -1,5 +1,6 @@
 <?php
 require_once "Speciality.php";
+require_once "Place.php";
 
 class User {
     private int $id;
@@ -8,9 +9,10 @@ class User {
     private string $phone;
     private string $mail;
     private string $password;
-    private ?Speciality $speciality;
+    private Place $place;
+    private Speciality $speciality;
 
-    public function __construct(int $id, string $name, string $surname, string $phone, string $mail, string $password, Speciality $speciality) {
+    public function __construct(int $id, string $name, string $surname, string $phone, string $mail, string $password, Place $place, Speciality $speciality) {
         $this->id           = $id;
         $this->name         = $name;
         $this->surname      = $surname;
@@ -18,8 +20,8 @@ class User {
         $this->mail         = $mail;
         $this->password     = $password;
         if ($speciality != null) $this->speciality   = $speciality;
+        if ($place != NULL) $this->place = $place;
     }
-
 
     public function get_id() : int {
         return $this->id;

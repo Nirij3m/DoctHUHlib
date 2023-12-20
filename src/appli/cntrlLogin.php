@@ -8,7 +8,6 @@ class cntrlLogin {
     */
     public function getConnectionForm() {
         $alerts = [];
-
         require PATH_VIEW . "vconnection.php";
     }
 
@@ -27,7 +26,10 @@ class cntrlLogin {
         }
         else {
             $needle = "Vous êtes connecté";
+            session_start();
             $utils->echoSuccess($needle);
+            //$daoUser->constructSession($id);
+            //var_dump($_SESSION["user"]);
             require PATH_VIEW . "vrendezvous.php";
         }
     }

@@ -1,4 +1,6 @@
 <?php
+require_once "src/metier/Place.php";
+require_once "src/metier/Speciality.php";
 class DaoUser {
     private string $host;
     private string $dbname;
@@ -23,10 +25,8 @@ class DaoUser {
     public function selectAll() {
         $statement = $this->db->query("SELECT * FROM users");
         $array = $statement->fetchAll(PDO::FETCH_ASSOC);
-    
         return $array;
     }
-
     public function connectUser(string $mail, string $password) {
         $id = NULL;
 
@@ -66,7 +66,6 @@ class DaoUser {
             return $errString = $utils->pdoErrors($err->getCode(), $needle);
         }
     }
-
     public function getByUserSpe(string $surname, string $name, string $spe){
         $surname = strtolower($surname);
         $name = strtolower($surname);
@@ -78,5 +77,27 @@ class DaoUser {
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         return $result;
+    }
+    public function getFullById($id){
+        $statement = $this->db->prepare("SELECT u.name, u.surname, u.phone, u.mail, u.id_speciality , s.type, p.name as name_p, p.num_street, p.street, c.city, c.code_postal  from users u
+                                                JOIN speciality s ON u.id_speciality = s.id
+                                                JOIN place p ON u.id = p.id
+                                                JOIN city c ON p.code_insee = c.code_insee WHERE u.id = :id"
+        );
+        $statement->bindParam(":id", $id);
+        $statement->execute();
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+    public function constructSession($id){
+        $DaoUser = new DaoUser(DBHOST, DBNAME, PORT, USER, PASS);
+        $result = $DaoUser->getFullById($id);
+        $place = new Place($result["name_p"], (int)$result["num_street"], $result["street"], (int)$result["code_postal"], $result["city"]);
+        $speciality = new Speciality($result["id_speciality"], $result["type"]);
+        $user = new User($id, $result["name"], $result["surname"], $result["phone"], $result["mail"], " ", $place, $speciality);
+        session_start();
+        if(!isset($_SESSION["user"])){
+            $_SESSION["user"] = $user;
+        }
+
     }
 }
