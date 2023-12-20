@@ -9,17 +9,17 @@ class User {
     private string $phone;
     private string $mail;
     private string $password;
-    private Place $place;
-    private Speciality $speciality;
+    private ?Place $place;
+    private ?Speciality $speciality;
 
-    public function __construct(int $id, string $name, string $surname, string $phone, string $mail, string $password, Place $place, Speciality $speciality) {
+    public function __construct(int $id, string $name, string $surname, string $phone, string $mail, string $password, ?Place $place = NULL, ?Speciality $speciality = NULL) {
         $this->id           = $id;
         $this->name         = $name;
         $this->surname      = $surname;
         $this->phone        = $phone;
         $this->mail         = $mail;
         $this->password     = $password;
-        if ($speciality != null) $this->speciality   = $speciality;
+        if ($speciality != NULL) $this->speciality   = $speciality;
         if ($place != NULL) $this->place = $place;
     }
 

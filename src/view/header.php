@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/src/js/ajax.js"></script>
 </head>
 <body>
 <div class="container-fluid">
@@ -38,11 +40,8 @@
                 <?php 
                     session_start();
                     if (!isset($_SESSION["user"])) // User is not connected
-                    {
-                        // TODO: c'est de meilleure pratique de ne pas mettre de echo et, à la place,
-                        // couper le php avec un ? >, mettre l'HTML, puis reprendre le php avec < php ! (:
-                        echo '
-                                                <div class="dropdown pb-4">
+                    {?>
+                                  <div class="dropdown pb-4">
                                                 <a href="/login" class="d-flex align-items-center text-white text-decoration-none>
                                                     <i class="fa-solid fa-right-to-bracket"></i>
                                                     <span class="d-none d-sm-inline mx-1">Se connecter</span>
@@ -50,23 +49,24 @@
                                             </div>
                                         </div>
                                     </div>
-                        ';
+
+                    <?php
                     }
-                    else {
-                        echo '
+                    else { ?>
                                             <div class="dropdown pb-4">
                                             <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                                                 <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" class="rounded-circle">
-                                                <span class="d-none d-sm-inline mx-1">Hello</span>
+                                                <span class="d-none d-sm-inline mx-1"><?= "  ". ucfirst($_SESSION["user"]->get_name()) ." ". strtoupper($_SESSION["user"]->get_surname()) ?></span>
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                                                <li><a class="dropdown-item" href="#">Se déconnecter</a></li>
+                                                <li><a class="dropdown-item" onclick="delSession()" href="/disconnect">Se déconnecter</a></li>
                                             </ul>
                                         </div>
                                     </div>
-                                </div>';
-                    }
-                ?>
+                                </div>
+                    <?php
+                    }?>
+
 
 
 

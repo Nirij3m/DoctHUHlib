@@ -7,7 +7,7 @@ class cntrlLogin {
     la connexion.
     */
     public function getConnectionForm() {
-        $alerts = [];
+
         require PATH_VIEW . "vconnection.php";
     }
 
@@ -25,16 +25,17 @@ class cntrlLogin {
 
         }
         else {
-            $needle = "Vous êtes connecté";
             session_start();
+            $needle = "Vous êtes connecté";
             $utils->echoSuccess($needle);
-            //$daoUser->constructSession($id);
-            //var_dump($_SESSION["user"]);
+            $utils->constructSession($id);
+
             require PATH_VIEW . "vrendezvous.php";
         }
     }
 
     public function getRegisterResult() {
+        $DaoUser = new DaoUser(DBHOST, DBNAME, PORT, USER, PASS);
         $name = $surname = $phone = $mail = $mailVerify = $password = $passwordVerify = "";
         $utils = new Utils();
         $alerts = [];
@@ -70,6 +71,8 @@ class cntrlLogin {
         }
 
         if(empty($errString)){ //No errors, account created, start session and redirect on rendez-vous page
+            $id = $DaoUser->connectUser($mail, $password);
+            $utils->constructSession($id);
             require PATH_VIEW . "vrendezvous.php";
             $utils->echoSuccess("Votre compte a bien été créé.");
             $utils->clearAlert();

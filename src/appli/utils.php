@@ -1,4 +1,6 @@
 <?php
+require_once "src/dao/DaoUser.php";
+require_once "src/metier/User.php";
 const PATH_VIEW = "src/view/";
 
 const PATH_CSS = "src/css/";
@@ -98,7 +100,23 @@ class Utils {
         else return false;
     }
 
-
+    public function constructSession($id){
+        $DaoUser = new DaoUser(DBHOST, DBNAME, PORT, USER, PASS);
+        $result = $DaoUser->getFullById($id);
+        $place = new Place($result["name_p"], (int)$result["num_street"], $result["street"], (int)$result["code_postal"], $result["city"]);
+        $speciality = new Speciality($result["id_speciality"], $result["type"]);
+        $user = new User($id, $result["name"], $result["surname"], $result["phone"], $result["mail"], " ", $place, $speciality);
+        if(!isset($_SESSION["user"])){
+            $_SESSION["user"] = $user;
+        }
+    }
+    public function destructSession(){
+        while(isset($_SESSION["user"])){
+            unset($_SESSION["user"]);
+        }
+        require PATH_VIEW . "vaccueil.php";
+    }
 
 }
+
 

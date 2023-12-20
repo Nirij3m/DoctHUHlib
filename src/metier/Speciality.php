@@ -1,11 +1,11 @@
 <?php
 class Speciality {
-    private int $id;
-    private string $type;
+    private ?int $id;
+    private ?string $type;
 
-    public function __construct(int $id, string $type) {
-        $this->id = $id;
-        $this->type =  $type;
+    public function __construct(?int $id = 0, ?string $type = null) {
+        if($id != NULL) $this->id = $id;
+        if($type != NULL)$this->type =  $type;
     }
 
     public function get_id() : int {
