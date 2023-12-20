@@ -36,8 +36,8 @@
                 </ul>
                 <hr>
                 <?php 
-                    $session = session_id();
-                    if ($session == "") // User is not connected 
+                    session_start();
+                    if (!isset($_SESSION["user"])) // User is not connected
                     {
                         // TODO: c'est de meilleure pratique de ne pas mettre de echo et, à la place,
                         // couper le php avec un ? >, mettre l'HTML, puis reprendre le php avec < php ! (:

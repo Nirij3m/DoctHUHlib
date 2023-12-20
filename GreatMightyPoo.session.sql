@@ -1,4 +1,4 @@
-SELECT u.name, u.surname, s.type ,u.mail, u.phone, p.num_street, p.street, c.code_postal, c.city from users u JOIN place p ON p.id = u.id JOIN city c ON c.code_insee = p.code_insee JOIN speciality s ON u.id_speciality = s.id
-WHERE s.type='Orthopédiste' OR u.name = '' OR u.surname = '';
-
-DELETE from users WHERE name = 'MACON';
+SELECT u.name, u.surname, u.phone, u.mail, u.id_speciality, s.type, p.name as name_p, p.num_street, p.street, c.city, c.code_postal  from users u
+    JOIN speciality s ON u.id_speciality = s.id
+    JOIN place p ON u.id = p.id
+    JOIN city c ON p.code_insee = c.code_insee WHERE u.id = :id

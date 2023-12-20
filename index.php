@@ -21,6 +21,7 @@ if ($method == "GET") {
     if ($uri == "/")                        $cntrlApp->getAccueil();
     elseif ($uri == "/login")               $cntrlLogin->getConnectionForm();
     elseif ($uri == "/rendezvous")         $cntrlApp->getRendezVous();
+    elseif($uri == "/debug")                $cntrlLogin->constructSession(21);
     else $cntrlLogin->getConnectionForm();
 }
 elseif ($method == "POST") {
