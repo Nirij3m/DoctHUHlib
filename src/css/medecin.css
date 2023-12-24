@@ -1,0 +1,13 @@
+#subcontainer {
+    display: flex;
+    flex-direction: row;
+    gap: 2%;
+}
+
+.form-control {
+    width: 100%;
+}
+
+.btn {
+    height: 1%;
+}

@@ -2,6 +2,7 @@
 require_once "utils.php";
 require_once "src/dao/DaoUser.php";
 require_once "src/dao/DaoSpeciality.php";
+require_once "src/dao/DaoMeeting.php";
 
 class cntrlApp {
     public function getAccueil() {
@@ -15,6 +16,35 @@ class cntrlApp {
             require PATH_VIEW . "vrendezvous.php";
         }
         require PATH_VIEW . "vconnection.php";
+    }
+    public function getDocPage(){
+        $DaoTimeslot = new DaoTime(DBHOST, DBNAME, PORT, USER, PASS);
+        $weekArray = $DaoTimeslot->getFutureWeeks();
+        if(!isset($utils)){
+            $utils = new Utils();
+        }
+
+
+        require PATH_VIEW . "vmedecin.php";
+    }
+    public function createMeeting(){
+        if(!isset($_SESSION)){
+            session_start();
+        }
+        $DaoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
+        $utils = new Utils();
+        $date = $_POST["date"];
+        $ts = $_POST["timeStart"];
+        $te = $_POST["timeEnd"];
+
+        $beg = DateTime::createFromFormat('D. d/m/Y H:i', $date. " ".$ts);
+        $end = DateTime::createFromFormat('D. d/m/Y H:i', $date. " ".$te);
+        if(!$beg || !$end){
+            $utils->echoError("Erreur lors de la création du rendez-vous");
+        }
+        $DaoMeeting->insertMeeting($beg, $end, $_SESSION["user"]);
+        $utils->echoSuccess("Rendez-vous enregistré avec succès");
+        $this->getDocPage();
     }
 
     public function getMedecin(){
@@ -31,7 +61,7 @@ class cntrlApp {
         }
 
 
-        if(!empty($_POST["nom"])){
+        if(!empty($nom)){
             $nom = explode(" ", $_POST["nom"]); //Array that separates the name from the surname. [0] => surname, [1] => name
             if(isset($nom[1])){ //The user inputed a name and a surname
                 $users = $DaoUser->getByUserSpe($nom[0], $nom[1], $specialite);
@@ -46,11 +76,12 @@ class cntrlApp {
                     $users = $u2;
                 }
             }
-            $utils->echoInfo("Aucun practicien trouvé");
         }
         else if(empty($POST_["nom"])){
             $users = $DaoUser->getByUserSpe(" ", " ", $specialite);
         }
+        else if(empty($users)) {$utils->echoInfo("Aucun practicien trouvé");}
+
 
         require PATH_VIEW . "vrendezvous.php";
     }

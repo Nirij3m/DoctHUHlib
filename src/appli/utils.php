@@ -90,9 +90,15 @@ class Utils {
         </script>
         ';
     }
+    public function str_replace_first($search, $replace, $subject)
+    {
+        $search = '/'.preg_quote($search, '/').'/';
+        return preg_replace($search, $replace, $subject, 1);
+    }
 
     public function isSanitize($string){
-        $string = trim($string);
+        $string = $this->str_replace_first(" ", "-", $string);
+        $string = preg_replace('/\s+/', '', $string);
         $string = stripslashes($string);
         if($string == filter_var($string, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH | FILTER_FLAG_STRIP_BACKTICK)){
             return true;
@@ -105,14 +111,15 @@ class Utils {
         $result = $DaoUser->getFullById($id);
         $place = new Place($result["name_p"], (int)$result["num_street"], $result["street"], (int)$result["code_postal"], $result["city"]);
         $speciality = new Speciality($result["id_speciality"], $result["type"]);
-        $user = new User($id, $result["name"], $result["surname"], $result["phone"], $result["mail"], " ", $place, $speciality);
+        $user = new User($id, $result["name"], $result["surname"], $result["phone"], $result["mail"], " ", $result["id_place"] ,$place, $speciality);
         if(!isset($_SESSION["user"])){
             $_SESSION["user"] = $user;
         }
     }
+
     public function destructSession(){
-        while(isset($_SESSION["user"])){
-            unset($_SESSION["user"]);
+        while(isset($_SESSION)){
+            session_destroy();
         }
         require PATH_VIEW . "vaccueil.php";
     }
