@@ -1,48 +1,68 @@
 <?php
-class Place {
-    private ?string $name;
-    private ?int $numStreet;
-    private ?string $street;
-    private ?int $codePostal;
-    private ?string $city;
+require_once "City.php";
 
-    public function __construct(?string $name = null, ?int $numStreet = 0, ?string $street = null, ?int $codePostal = 0, ?string $city = null){
-        if($name != null) $this->name = $name;
-        if($numStreet != null) $this->numStreet = $numStreet;
-        if($street != null) $this->street = $street;
-        if($codePostal != null) $this->codePostal = $codePostal;
-        if($city != null) $this->city = $city;
+class Place {
+    private int $id;
+    private string $name;
+    private int $num_street;
+    private string $street;
+    private ?int $code_insee;
+    private ?City $city;
+
+    public function __construct(int $id, string $name, int $num_street, string $street, ?int $code_insee, ?City $city) {
+        $this->name = $name;
+        $this->num_street = $num_street;
+        $this->street = $street;
+        $this->code_insee = $code_insee;
+        $this->city = $city;
     }
 
-    public function getName(){
+    public function get_id() : int {
+        return $this->id;
+    }
+
+    public function get_name() : string {
         return $this->name;
     }
-    public function getNumStreet(){
-        return $this->numStreet;
+
+    public function get_num_street() : int {
+        return $this->num_street;
     }
-    public function getStreet(){
+
+    public function get_street() : string {
         return $this->street;
     }
-    public function getCodePostal(){
-        return $this->codePostal;
+
+    public function get_code_insee() : int {
+        return $this->code_insee;
     }
-    public function getCity(){
+
+    public function get_city() : ?City {
         return $this->city;
     }
-    public function setName($name){
+
+    public function set_id(int $id) {
+        $this->id = $id;
+    }
+
+    public function set_name(string $name){
         $this->name = $name;
     }
-    public function setNumStreet($ns){
-        $this->name = $ns;
+
+    public function set_num_street(int $num_street){
+        $this->num_street = $num_street;
     }
-    public function setStreet($street){
-        $this->name = $street;
+
+    public function set_street(string $street){
+        $this->street = $street;
     }
-    public function setCodePostal($cp){
-        $this->name = $cp;
+
+    public function set_code_insee(int $code_insee){
+        $this->code_insee = $code_insee;
     }
-    public function setCity($city){
-        $this->name = $city;
+
+    public function set_city(City $city){
+        $this->city = $city;
     }
 }
 

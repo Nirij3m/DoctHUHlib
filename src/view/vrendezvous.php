@@ -26,7 +26,7 @@ $speArray = $DaoSpeciality->getSpeciality();
                         if(isset($speArray)){
                             foreach ($speArray as $s){
                     ?>
-                     <option value="<?= $s["type"] ?>"> <?=$s["type"]?> </option>
+                     <option name="<?=$s["type"]?>" value="<?= $s["type"] ?>"> <?=$s["type"]?> </option>
                     <?php }
                         }?>
                 </select>
@@ -54,26 +54,26 @@ $speArray = $DaoSpeciality->getSpeciality();
                     <td>
                         <div class="d-flex align-items-center">
                             <img
-                                    src="https://mdbootstrap.com/img/new/avatars/8.jpg"
+                                    src="/assets/img/<?=$u->get_picture()?>"
                                     alt=""
                                     style="width: 45px; height: 45px"
                                     class="rounded-circle"
                             />
                             <div class="ms-3">
-                                <p class="fw-bold mb-1"><?= ucfirst($u["name"])." ". ucfirst($u["surname"])?></p>
-                                <p class="text-muted mb-0"><?= $u["mail"] ?> </p>
+                                <p class="fw-bold mb-1"><?=ucfirst($u->get_surname()) . " " . strtoupper($u->get_name())?></p>
+                                <p class="text-muted mb-0"><?=$u->get_mail()?> </p>
                             </div>
                         </div>
                     </td>
                     <td>
-                        <p class="fw-normal mb-1"><?= $u["type"]?></p>
+                        <p class="fw-normal mb-1"><?= $u->get_speciality()->get_type()?></p>
                     </td>
                     <td>
-                        <?= $u["phone"]?>
+                        <?= $u->get_phone()?>
                     </td>
                     <td>
-                        <p class="fw-normal mb-1"><?= $u["num_street"] . " " . ucfirst($u["street"])?></p>
-                        <p class="text-muted mb-0"><?= $u["code_postal"] . " " . ucfirst($u["city"])?></p>
+                        <p class="fw-normal mb-1"><?= $u->get_place()->get_num_street() . " " . ucfirst($u->get_place()->get_street())?></p>
+                        <p class="text-muted mb-0"><?= $u->get_place()->get_city()->get_code_postal() . " " . ucfirst($u->get_place()->get_city()->get_city())?></p>
                     </td>
                 </tr>
             <?php

@@ -38,7 +38,7 @@
                 </ul>
                 <hr>
                 <?php 
-                    session_start();
+                    // session_start();
                     if (!isset($_SESSION["user"])) // User is not connected
                     {?>
                                   <div class="dropdown pb-4">
@@ -55,7 +55,7 @@
                     else { ?>
                                             <div class="dropdown pb-4">
                                             <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" class="rounded-circle">
+                                                <img src="/assets/img/<?=$_SESSION['user']->get_picture()?>" alt="hugenerd" width="30" height="30" class="rounded-circle">
                                                 <span class="d-none d-sm-inline mx-1"><?= "  ". ucfirst($_SESSION["user"]->get_name()) ." ". strtoupper($_SESSION["user"]->get_surname()) ?></span>
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-dark text-small shadow">

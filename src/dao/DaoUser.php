@@ -1,6 +1,12 @@
 <?php
+require_once "src/metier/User.php";
 require_once "src/metier/Place.php";
 require_once "src/metier/Speciality.php";
+
+require_once "src/dao/DaoPlace.php";
+require_once "src/dao/DaoCity.php";
+require_once "src/dao/DaoWork.php";
+require_once "src/dao/DaoSpeciality.php";
 class DaoUser {
     private string $host;
     private string $dbname;
@@ -66,26 +72,50 @@ class DaoUser {
             return $errString = $utils->pdoErrors($err->getCode(), $needle);
         }
     }
-    public function getByUserSpe(string $surname, string $name, string $spe){
+    public function getByUserSpe(string $surname, string $name, string $spe) {
+        $daoPlace = new DaoPlace(DBHOST, DBNAME, PORT, USER, PASS);
+        $daoCity = new DaoCity(DBHOST, DBNAME, PORT, USER, PASS);
+        $daoSpeciality = new DaoSpeciality(DBHOST, DBNAME, PORT, USER, PASS);
+
         $surname = strtolower($surname);
         $name = strtolower($surname);
-        $statement = $this->db->prepare("SELECT u.name, u.surname, s.type ,u.mail, u.phone, p.num_street, p.street, c.code_postal, c.city from users u JOIN place p ON p.id = u.id JOIN city c ON c.code_insee = p.code_insee JOIN speciality s ON u.id_speciality = s.id
-        WHERE s.type=:type OR u.name = :name OR u.surname = :surname");
+        $statement = $this->db->prepare("SELECT u.id, u.name, u.surname, u.phone, u.mail, u.picture FROM users u
+        JOIN works w on u.id = w.id_user JOIN place p ON p.id = w.id JOIN city c ON c.code_insee = p.code_insee JOIN speciality s ON u.id_speciality = s.id
+        WHERE s.type = :type OR u.name = :name OR u.surname = :surname");
         $statement->bindParam(":type", $spe);
         $statement->bindParam(':name', $name);
         $statement->bindParam(":surname", $surname);
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+
+        $arr = [];
+
+        foreach ($result as $obj) {
+            $user = new User($obj['id'], $obj['name'], $obj['surname'], $obj['phone'], $obj['mail'], $obj['picture'], null, null);
+            $city = $daoCity->getCityOfUser($user);
+            $place = $daoPlace->getPlaceOfUser($user);
+            $place->set_city($city);
+            $speciality = $daoSpeciality->getSpecialityOfUser($user);
+            if ($place != null)         $user->set_place($place);
+            if ($speciality != null)    $user->set_speciality($speciality);
+            array_push($arr, $user);
+        }
+
+        return $arr;
     }
     public function getFullById($id){
-        $statement = $this->db->prepare("SELECT u.name, u.surname, u.phone, u.mail, u.id_speciality, s.type, p.name as name_p, p.num_street, p.street, c.city, c.code_postal  from users u
-                                                LEFT JOIN speciality s ON u.id_speciality = s.id
-                                                LEFT JOIN place p ON u.id = p.id
-                                                LEFT JOIN city c ON p.code_insee = c.code_insee WHERE u.id = :id"
-        );
+        $daoPlace = new DaoPlace(DBHOST, DBNAME, PORT, USER, PASS);
+
+        $statement = $this->db->prepare("SELECT * FROM users WHERE id = :id");
         $statement->bindParam(":id", $id);
         $statement->execute();
-        return $statement->fetch(PDO::FETCH_ASSOC);
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        $user = new User($result['id'], $result['name'], $result['surname'], $result['phone'], $result['mail'], $result['picture'], null, null);
+        
+        $place = $daoPlace->getPlaceOfUser($user);
+        if ($place != null) $user->set_place($place);
+
+        return $user;
     }
 }

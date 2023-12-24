@@ -48,7 +48,7 @@ class cntrlApp {
             }
             $utils->echoInfo("Aucun practicien trouvé");
         }
-        else if(empty($POST_["nom"])){
+        else if(empty($POST_["nom"])) {
             $users = $DaoUser->getByUserSpe(" ", " ", $specialite);
         }
 
