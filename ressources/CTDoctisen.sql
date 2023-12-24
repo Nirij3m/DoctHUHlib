@@ -68,7 +68,7 @@ CREATE TABLE Meeting(
 	ending                DATE  NOT NULL ,
 	id_Place           INT  NOT NULL ,
 	id_User            INT  NOT NULL ,
-	id_User_Asks_for   INT  NOT NULL  ,
+	id_User_Asks_for   INT   NULL  ,
 	CONSTRAINT Meeting_PK PRIMARY KEY (id)
 
 	,CONSTRAINT Meeting_Place_FK FOREIGN KEY (id_Place) REFERENCES Place(id)

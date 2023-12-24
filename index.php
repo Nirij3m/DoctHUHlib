@@ -10,6 +10,7 @@ error_reporting(E_ALL);*/
 // Controllers.
 require_once "src/appli/cntrlLogin.php";
 require_once "src/appli/cntrlApp.php";
+require_once "src/dao/DaoTime.php";
 
 // DAO.
 // Peut-être vérifier la session utilisateur ici au lieu du header :
@@ -19,20 +20,27 @@ require_once "src/appli/cntrlApp.php";
 $cntrlLogin = new cntrlLogin();
 $cntrlApp   = new cntrlApp();
 $utils = new Utils();
-session_start();
+if(!isset($_SESSION)){
+    session_start();
+}
 
 // Redirection selon l'URL
 // (oui, un switch case peut très bien fonctionner aussi si tu le souhaites ! :3)
+
 if ($method == "GET") {
     if ($uri == "/")                        $cntrlApp->getAccueil();
     elseif ($uri == "/login")               if(isset($_SESSION["user"])){$cntrlApp->getRendezVous();} else{$cntrlLogin->getConnectionForm();}
     elseif ($uri == "/rendezvous")         $cntrlApp->getRendezVous();
+    elseif($uri == "/espacedoc")            $cntrlApp->getDocPage();
+    elseif($uri == "/debug")                var_dump($_SESSION["user"]);
     else $cntrlLogin->getConnectionForm();
 }
 elseif ($method == "POST") {
     if ($uri == "/login/result")                $cntrlLogin->getLoginResult();
     elseif ($uri == "/register/result")         $cntrlLogin->getRegisterResult();
     elseif ($uri == "/rendezvous/result")       $cntrlApp->getMedecin();
-    elseif ($uri = "/disconnect")               $utils->destructSession();
+    elseif ($uri == "/disconnect")               $utils->destructSession();
+    elseif($uri == '/espacedoc')                $cntrlApp->getDocPage();
+    elseif($uri == '/espacedoc/result')         $cntrlApp->createMeeting();
     else $cntrlLogin->getConnectionForm();
 }

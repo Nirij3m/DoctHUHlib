@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="/src/js/ajax.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="/src/js/ajax.js" defer></script>
 </head>
 <body>
 <div class="container-fluid">
@@ -32,15 +32,24 @@
                     <li>
                         <a href="/login" class="link px-0 align-middle">
                             <i class="fa-solid fa-calendar-days"></i>
-                            <span class="ms-1 d-none d-sm-inline fsblock">Rendez-vous</span></a>
+                            <span class="ms-1 d-none d-sm-inline fsblock">Espace santé</span></a>
+                    </li>
+
+                    <li>
+                        <a href="/espacedoc" class="link px-0 align-middle">
+                            <i class="fa-solid fa-stethoscope"></i>
+                            <span class="ms-1 d-none d-sm-inline fsblock">Espace practicien</span></a>
                     </li>
 
                 </ul>
                 <hr>
-                <?php 
-                    session_start();
+                <?php
+                    if(!isset($_SESSION)){
+                        session_start();
+                    }
                     if (!isset($_SESSION["user"])) // User is not connected
-                    {?>
+                        {
+                            ?>
                                   <div class="dropdown pb-4">
                                                 <a href="/login" class="d-flex align-items-center text-white text-decoration-none>
                                                     <i class="fa-solid fa-right-to-bracket"></i>

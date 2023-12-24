@@ -25,7 +25,9 @@ class cntrlLogin {
 
         }
         else {
-            session_start();
+            if(!isset($_SESSION)){
+                session_start();
+            }
             $needle = "Vous êtes connecté";
             $utils->echoSuccess($needle);
             $utils->constructSession($id);

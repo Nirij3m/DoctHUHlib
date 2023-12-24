@@ -44,6 +44,7 @@ $speArray = $DaoSpeciality->getSpeciality();
                         <th>Titre</th>
                         <th>Téléphone</th>
                         <th>Adresse</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -74,6 +75,9 @@ $speArray = $DaoSpeciality->getSpeciality();
                     <td>
                         <p class="fw-normal mb-1"><?= $u["num_street"] . " " . ucfirst($u["street"])?></p>
                         <p class="text-muted mb-0"><?= $u["code_postal"] . " " . ucfirst($u["city"])?></p>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-info" onclick="location.href='/uwuttropbelle'">Prendre rendez-vous</button>
                     </td>
                 </tr>
             <?php

@@ -9,16 +9,18 @@ class User {
     private string $phone;
     private string $mail;
     private string $password;
+    private ?int $idPlace;
     private ?Place $place;
     private ?Speciality $speciality;
 
-    public function __construct(int $id, string $name, string $surname, string $phone, string $mail, string $password, ?Place $place = NULL, ?Speciality $speciality = NULL) {
+    public function __construct(int $id, string $name, string $surname, string $phone, string $mail, string $password, ?int $idPlace, ?Place $place = NULL, ?Speciality $speciality = NULL) {
         $this->id           = $id;
         $this->name         = $name;
         $this->surname      = $surname;
         $this->phone        = $phone;
         $this->mail         = $mail;
         $this->password     = $password;
+        $this->idPlace = $idPlace;
         if ($speciality != NULL) $this->speciality   = $speciality;
         if ($place != NULL) $this->place = $place;
     }
@@ -50,6 +52,9 @@ class User {
     public function get_speciality() : Speciality {
         return $this->speciality;
     }
+    public function get_id_place() : int {
+        return $this->idPlace;
+    }
 
     public function set_id($id) {
         $this->id = $id;
@@ -77,5 +82,8 @@ class User {
 
     public function set_speciality(Speciality $speciality) {
         $this->speciality = $speciality;
+    }
+    public function set_id_place(int $idPlace){
+        $this->idPlace = $idPlace;
     }
 }
