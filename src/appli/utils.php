@@ -108,10 +108,10 @@ class Utils {
 
     public function constructSession($id){
         $DaoUser = new DaoUser(DBHOST, DBNAME, PORT, USER, PASS);
-        $result = $DaoUser->getFullById($id);
-        $place = new Place($result["name_p"], (int)$result["num_street"], $result["street"], (int)$result["code_postal"], $result["city"]);
-        $speciality = new Speciality($result["id_speciality"], $result["type"]);
-        $user = new User($id, $result["name"], $result["surname"], $result["phone"], $result["mail"], " ", $result["id_place"] ,$place, $speciality);
+        $user = $DaoUser->getFullById($id);
+        // $place = new Place($result["name_p"], (int)$result["num_street"], $result["street"], (int)$result["code_postal"], $result["city"]);
+        // $speciality = new Speciality($result["id_speciality"], $result["type"]);
+        // $user = new User($id, $result["name"], $result["surname"], $result["phone"], $result["mail"], " ", $place, $speciality);
         if(!isset($_SESSION["user"])){
             $_SESSION["user"] = $user;
         }

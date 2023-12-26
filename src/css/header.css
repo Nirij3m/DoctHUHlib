@@ -2,7 +2,9 @@
 html {
     font-family: "Inter", sans-serif !important;
 }
-.corpse{
+
+div.corpse{
+    flex-shrink: 1;
     background-color: rgb(224, 224, 224);
     padding: 0 !important;
     padding-left: 0% !important;

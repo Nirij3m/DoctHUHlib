@@ -77,11 +77,52 @@ class cntrlApp {
                 }
             }
         }
-        else if(empty($POST_["nom"])){
+        else if(empty($POST_["nom"])) {
             $users = $DaoUser->getByUserSpe(" ", " ", $specialite);
         }
         else if(empty($users)) {$utils->echoInfo("Aucun practicien trouvé");}
 
+
+        require PATH_VIEW . "vrendezvous.php";
+    }
+
+    public function dispoMedecin() {
+        $alerts = [];
+        $daoUser = new DaoUser(DBHOST, DBNAME, PORT, USER, PASS);
+        $daoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
+
+        $idMedecin = $_POST['idMedecin'];
+
+        $medecin = $daoUser->getFullById($idMedecin);
+        $meetings = $daoMeeting->getMeetings($medecin);
+        $orderedMeetings = [];
+        foreach ($meetings as $meeting) {
+            $day = $meeting->get_beginning()->format('d/m/Y');
+            if (!isset($orderedMeetings[$day])) $orderedMeetings[$day] = [];
+            array_push($orderedMeetings[$day], $meeting);
+        }
+        $medecin->set_meetings($orderedMeetings);
+
+        require PATH_VIEW . "vhorairesMedecin.php";
+    }
+
+    public function userReservation() {
+        $alerts = [];
+        $user = $_SESSION['user'];
+        $idMeeting = $_POST['idMeeting'];
+
+        $daoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
+        $utils      = new Utils();
+
+        $meeting = $daoMeeting->getMeetingById($idMeeting);
+
+        if ($meeting->get_user() == null) {
+            $daoMeeting->setUserOfMeeting($meeting, $user);
+            $utils->echoSuccess("Votre rendez-vous a bien été ajouté");
+        }
+        else {
+            $utils->echoError("Votre rendez-vous n'a pas pu être réservé");
+        }
 
         require PATH_VIEW . "vrendezvous.php";
     }
