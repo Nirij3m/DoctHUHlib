@@ -21,6 +21,17 @@ class DaoPlace {
         }
     }
 
+    public function getPlaceById(int $id) {
+        $statement = $this->db->prepare("SELECT * FROM place WHERE id = :id");
+        $statement->bindParam(":id", $id);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        $place = new Place($result['id'], $result['name'], $result['num_street'], $result['street'], $result['code_insee'], null);
+
+        return $place;
+    }
+
     public function getPlaceOfUser(User $user) {
         $uId = $user->get_id();
         $statement = $this->db->prepare("SELECT place.id, name, num_street, street, code_insee FROM place

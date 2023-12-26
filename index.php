@@ -30,9 +30,10 @@ if ($method == "GET") {
     else $cntrlLogin->getConnectionForm();
 }
 elseif ($method == "POST") {
-    if ($uri == "/login/result")                $cntrlLogin->getLoginResult();
-    elseif ($uri == "/register/result")         $cntrlLogin->getRegisterResult();
-    elseif ($uri == "/rendezvous/result")       $cntrlApp->getMedecin();
-    elseif ($uri = "/disconnect")               $utils->destructSession();
+    if ($uri == "/login/result")                            $cntrlLogin->getLoginResult();
+    elseif ($uri == "/register/result")                     $cntrlLogin->getRegisterResult();
+    elseif ($uri == "/rendezvous/result")                   $cntrlApp->getMedecin();
+    elseif ($uri == "/disconnect")                          $utils->destructSession();
+    elseif ($uri == "/rendezvous/medecin/disponibilites")   $cntrlApp->dispoMedecin();
     else $cntrlLogin->getConnectionForm();
 }

@@ -118,4 +118,8 @@ class DaoUser {
 
         return $user;
     }
+
+    public function getPlanningMedecin(User $user) {
+        
+    }
 }

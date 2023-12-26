@@ -2,6 +2,7 @@
 require_once "utils.php";
 require_once "src/dao/DaoUser.php";
 require_once "src/dao/DaoSpeciality.php";
+require_once "src/dao/DaoMeeting.php";
 
 class cntrlApp {
     public function getAccueil() {
@@ -53,5 +54,18 @@ class cntrlApp {
         }
 
         require PATH_VIEW . "vrendezvous.php";
+    }
+
+    public function dispoMedecin() {
+        $alerts = [];
+        $daoUser = new DaoUser(DBHOST, DBNAME, PORT, USER, PASS);
+        $daoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
+
+        $idMedecin = $_POST['idMedecin'];
+
+        $medecin = $daoUser->getFullById($idMedecin);
+        $medecin->set_meetings($daoMeeting->getMeetings($medecin));
+
+        require PATH_VIEW . "vhorairesMedecin.php";
     }
 }

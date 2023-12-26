@@ -44,38 +44,45 @@ $speArray = $DaoSpeciality->getSpeciality();
                         <th>Titre</th>
                         <th>Téléphone</th>
                         <th>Adresse</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
             <?php
                     foreach ($users as $u){
             ?>
-                <tr>
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <img
-                                    src="/assets/img/<?=$u->get_picture()?>"
-                                    alt=""
-                                    style="width: 45px; height: 45px"
-                                    class="rounded-circle"
-                            />
-                            <div class="ms-3">
-                                <p class="fw-bold mb-1"><?=ucfirst($u->get_surname()) . " " . strtoupper($u->get_name())?></p>
-                                <p class="text-muted mb-0"><?=$u->get_mail()?> </p>
+                <form method="POST" action="/rendezvous/medecin/disponibilites">
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img
+                                        src="/assets/img/<?=$u->get_picture()?>"
+                                        alt=""
+                                        style="width: 45px; height: 45px"
+                                        class="rounded-circle"
+                                />
+                                <div class="ms-3">
+                                    <p class="fw-bold mb-1"><?=ucfirst($u->get_surname()) . " " . strtoupper($u->get_name())?></p>
+                                    <p class="text-muted mb-0"><?=$u->get_mail()?> </p>
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                    <td>
-                        <p class="fw-normal mb-1"><?= $u->get_speciality()->get_type()?></p>
-                    </td>
-                    <td>
-                        <?= $u->get_phone()?>
-                    </td>
-                    <td>
-                        <p class="fw-normal mb-1"><?= $u->get_place()->get_num_street() . " " . ucfirst($u->get_place()->get_street())?></p>
-                        <p class="text-muted mb-0"><?= $u->get_place()->get_city()->get_code_postal() . " " . ucfirst($u->get_place()->get_city()->get_city())?></p>
-                    </td>
-                </tr>
+                        </td>
+                        <td>
+                            <p class="fw-normal mb-1"><?= $u->get_speciality()->get_type()?></p>
+                        </td>
+                        <td>
+                            <?= $u->get_phone()?>
+                        </td>
+                        <td>
+                            <p class="fw-normal mb-1"><?= $u->get_place()->get_num_street() . " " . ucfirst($u->get_place()->get_street())?></p>
+                            <p class="text-muted mb-0"><?= $u->get_place()->get_city()->get_code_postal() . " " . ucfirst($u->get_place()->get_city()->get_city())?></p>
+                        </td>
+                        <td>
+                            <input type="text" name="idMedecin" value="<?=$u->get_id()?>" hidden>
+                            <button type="submit" class="btn btn-primary">Prendre rendez-vous</button>
+                        </td>
+                    </tr>
+                </form>
             <?php
                     }
                 }?>
