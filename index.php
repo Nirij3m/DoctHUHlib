@@ -35,5 +35,6 @@ elseif ($method == "POST") {
     elseif ($uri == "/rendezvous/result")                   $cntrlApp->getMedecin();
     elseif ($uri == "/disconnect")                          $utils->destructSession();
     elseif ($uri == "/rendezvous/medecin/disponibilites")   $cntrlApp->dispoMedecin();
+    elseif ($uri == "/rendezvous/medecin/result")           $cntrlApp->userReservation();
     else $cntrlLogin->getConnectionForm();
 }

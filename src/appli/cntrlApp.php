@@ -64,8 +64,36 @@ class cntrlApp {
         $idMedecin = $_POST['idMedecin'];
 
         $medecin = $daoUser->getFullById($idMedecin);
-        $medecin->set_meetings($daoMeeting->getMeetings($medecin));
+        $meetings = $daoMeeting->getMeetings($medecin);
+        $orderedMeetings = [];
+        foreach ($meetings as $meeting) {
+            $day = $meeting->get_beginning()->format('d/m/Y');
+            if (!isset($orderedMeetings[$day])) $orderedMeetings[$day] = [];
+            array_push($orderedMeetings[$day], $meeting);
+        }
+        $medecin->set_meetings($orderedMeetings);
 
         require PATH_VIEW . "vhorairesMedecin.php";
+    }
+
+    public function userReservation() {
+        $alerts = [];
+        $user = $_SESSION['user'];
+        $idMeeting = $_POST['idMeeting'];
+
+        $daoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
+        $utils      = new Utils();
+
+        $meeting = $daoMeeting->getMeetingById($idMeeting);
+
+        if ($meeting->get_user() == null) {
+            $daoMeeting->setUserOfMeeting($meeting, $user);
+            $utils->echoSuccess("Votre rendez-vous a bien été ajouté");
+        }
+        else {
+            $utils->echoError("Votre rendez-vous n'a pas pu être réservé");
+        }
+
+        require PATH_VIEW . "vrendezvous.php";
     }
 }
