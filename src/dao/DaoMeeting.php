@@ -1,5 +1,6 @@
 <?php
 require_once "src/metier/User.php";
+require_once "src/metier/Time.php";
 class DaoMeeting {
     private string $host;
     private string $dbname;
