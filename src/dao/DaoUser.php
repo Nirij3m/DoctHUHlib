@@ -79,9 +79,12 @@ class DaoUser {
 
         $surname = strtolower($surname);
         $name = strtolower($surname);
-        $statement = $this->db->prepare("SELECT u.id, u.name, u.surname, u.phone, u.mail, u.picture FROM users u
-        JOIN works w on u.id = w.id_user JOIN place p ON p.id = w.id JOIN city c ON c.code_insee = p.code_insee JOIN speciality s ON u.id_speciality = s.id
-        WHERE s.type = :type OR u.name = :name OR u.surname = :surname");
+        $statement = $this->db->prepare('SELECT u.id, u.name, u.surname, u.phone, u.mail, u.picture, s.type, p.num_street, p.street, c.code_postal, c.city FROM users u
+        JOIN works w ON u.id = w.id_user
+        JOIN speciality s ON u.id_speciality = s.id
+        JOIN place p ON w.id = p.id
+        JOIN city c ON p.code_insee = c.code_insee
+        WHERE s.type = :type OR u.name = :name OR u.surname = :surname');
         $statement->bindParam(":type", $spe);
         $statement->bindParam(':name', $name);
         $statement->bindParam(":surname", $surname);
@@ -89,7 +92,6 @@ class DaoUser {
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         $arr = [];
-
         foreach ($result as $obj) {
             $user = new User($obj['id'], $obj['name'], $obj['surname'], $obj['phone'], $obj['mail'], $obj['picture'], null, null);
             $city = $daoCity->getCityOfUser($user);
@@ -100,7 +102,6 @@ class DaoUser {
             if ($speciality != null)    $user->set_speciality($speciality);
             array_push($arr, $user);
         }
-
         return $arr;
     }
     public function getFullById($id){

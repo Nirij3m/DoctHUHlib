@@ -9,7 +9,7 @@ class User {
     private string $surname;
     private string $phone;
     private string $mail;
-    private string $picture;
+    private string $picture = " ";
     private ?Place $place;
     private ?Speciality $speciality;
     private array $meetings;

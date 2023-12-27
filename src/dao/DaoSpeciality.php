@@ -28,13 +28,12 @@ class DaoSpeciality {
 
     public function getSpecialityOfUser(User $user) {
         $uId = $user->get_id();
-        $statement = $this->db->query("SELECT speciality.id, speciality.type FROM speciality
+        $statement = $this->db->prepare("SELECT speciality.id, speciality.type FROM speciality
         INNER JOIN users ON users.id_speciality = speciality.id
-        WHERE speciality.id = 1");
-        // $statement->bindParam(":id", $uId);
+        WHERE users.id = :id");
+        $statement->bindParam(":id", $uId);
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
-
         $speciality = new Speciality($result['id'], $result['type']);
         return $speciality;
     }

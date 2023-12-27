@@ -3,9 +3,9 @@
 $method = $_SERVER["REQUEST_METHOD"];                   // Récupération de la méthode (GET/POST)
 $uri    = explode("?", $_SERVER["REQUEST_URI"])[0];     // Récupération du contexte (/...)
 
-/*ini_set('display_errors', 1);
+ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);*/
+error_reporting(E_ALL);
 
 // Controllers.
 require_once "src/appli/cntrlLogin.php";

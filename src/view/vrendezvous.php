@@ -50,7 +50,7 @@ $speArray = $DaoSpeciality->getSpeciality();
                     <tbody>
             <?php
                     foreach ($users as $u){
-            ?>
+                        ?>
                 <form method="POST" action="/rendezvous/medecin/disponibilites">
                     <tr>
                         <td>
@@ -62,7 +62,7 @@ $speArray = $DaoSpeciality->getSpeciality();
                                         class="rounded-circle"
                                 />
                                 <div class="ms-3">
-                                    <p class="fw-bold mb-1"><?=ucfirst($u->get_surname()) . " " . strtoupper($u->get_name())?></p>
+                                    <p class="fw-bold mb-1"><?=ucfirst($u->get_name()) . " " . strtoupper($u->get_surname())?></p>
                                     <p class="text-muted mb-0"><?=$u->get_mail()?> </p>
                                 </div>
                             </div>

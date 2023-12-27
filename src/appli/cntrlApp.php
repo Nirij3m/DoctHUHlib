@@ -50,16 +50,14 @@ class cntrlApp {
     public function getMedecin(){
         $DaoUser = new DaoUser(DBHOST, DBNAME, PORT, USER, PASS);
         $utils = new Utils();
-        $alerts = [];
         $specialite = $_POST["specialite"];
         $nom = $_POST["nom"];
 
-        if(!$utils->isSanitize($nom)){
+        if( !empty($nom) && !($utils->isSanitize($nom))){
             $utils->echoWarning("Le champ de recherche ne peut contenir ni caractères spéciaux ni accents");
             require PATH_VIEW . "vrendezvous.php";
             return;
         }
-
 
         if(!empty($nom)){
             $nom = explode(" ", $_POST["nom"]); //Array that separates the name from the surname. [0] => surname, [1] => name
@@ -77,11 +75,14 @@ class cntrlApp {
                 }
             }
         }
-        else if(empty($POST_["nom"])) {
+        else {
+            if(empty($nom)) {
             $users = $DaoUser->getByUserSpe(" ", " ", $specialite);
+            }
+            if(empty($users)) {
+                    $utils->echoInfo("Aucun practicien trouvé");
+            }
         }
-        else if(empty($users)) {$utils->echoInfo("Aucun practicien trouvé");}
-
 
         require PATH_VIEW . "vrendezvous.php";
     }
