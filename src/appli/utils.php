@@ -112,16 +112,17 @@ class Utils {
         // $place = new Place($result["name_p"], (int)$result["num_street"], $result["street"], (int)$result["code_postal"], $result["city"]);
         // $speciality = new Speciality($result["id_speciality"], $result["type"]);
         // $user = new User($id, $result["name"], $result["surname"], $result["phone"], $result["mail"], " ", $place, $speciality);
-        if(!isset($_SESSION["user"])){
-            $_SESSION["user"] = $user;
-        }
+        session_start();
+        $_SESSION["user"] = $user;
+        session_write_close();
     }
 
     public function destructSession(){
-        while(isset($_SESSION)){
-            session_destroy();
-        }
-        require PATH_VIEW . "vaccueil.php";
+        session_start();
+        unset($_SESSION['user']);
+        session_write_close();
+
+        $this->echoSuccess("Vous avez bien été déconnecté");
     }
 
 }

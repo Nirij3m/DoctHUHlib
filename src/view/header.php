@@ -30,7 +30,7 @@
                     </li>
 
                     <li>
-                        <a href="/login" class="link px-0 align-middle">
+                        <a href="/rendezvous" class="link px-0 align-middle">
                             <i class="fa-solid fa-calendar-days"></i>
                             <span class="ms-1 d-none d-sm-inline fsblock">Espace santé</span></a>
                     </li>
@@ -66,6 +66,7 @@
                                                 <span class="d-none d-sm-inline mx-1"><?= "  ". ucfirst($_SESSION["user"]->get_name()) ." ". strtoupper($_SESSION["user"]->get_surname()) ?></span>
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                                                <li><a class="dropdown-item" onclick="delSession()" href="/account">Compte</a></li>
                                                 <li><a class="dropdown-item" onclick="delSession()" href="/disconnect">Se déconnecter</a></li>
                                             </ul>
                                         </div>

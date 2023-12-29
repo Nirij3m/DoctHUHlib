@@ -7,8 +7,17 @@ class cntrlLogin {
     la connexion.
     */
     public function getConnectionForm() {
-
-        require PATH_VIEW . "vconnection.php";
+        session_start();
+        if (isset($_SESSION['user'])) {
+            session_write_close();
+            $utils = new Utils();
+            $utils->echoInfo("Vous êtes déjà connecté ! Redirection sur l'accueil");
+            require PATH_VIEW . "vaccueil.php";
+        }
+        else {
+            session_write_close();
+            require PATH_VIEW . "vconnection.php";
+        }
     }
 
     public function getLoginResult() {
@@ -25,12 +34,9 @@ class cntrlLogin {
 
         }
         else {
-            if(!isset($_SESSION)){
-                session_start();
-            }
+            $utils->constructSession($id);
             $needle = "Vous êtes connecté";
             $utils->echoSuccess($needle);
-            $utils->constructSession($id);
 
             require PATH_VIEW . "vrendezvous.php";
         }
@@ -85,5 +91,26 @@ class cntrlLogin {
             require  PATH_VIEW . "vconnection.php";
 
         }
+    }
+
+    public function getAccountEdit() {
+        $alerts = [];
+        $daoSpeciality = new DaoSpeciality(DBHOST, DBNAME, PORT, USER, PASS);
+
+        session_start();
+        $user = $_SESSION['user'];
+        session_write_close();
+
+        $specialities = $daoSpeciality->getSpecialities();
+
+        require PATH_VIEW . "vaccount.php";
+    }
+
+    public function getDisconnect() {
+        $utils = new Utils();
+
+        $utils->destructSession();
+
+        require PATH_VIEW . "vconnection.php";
     }
 }
