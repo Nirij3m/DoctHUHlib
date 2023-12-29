@@ -11,3 +11,8 @@
 .btn {
     height: 1%;
 }
+#calendar {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}

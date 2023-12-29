@@ -10,6 +10,7 @@ class Place {
     private ?City $city;
 
     public function __construct(int $id, string $name, int $num_street, string $street, ?int $code_insee, ?City $city) {
+        $this->id = $id;
         $this->name = $name;
         $this->num_street = $num_street;
         $this->street = $street;

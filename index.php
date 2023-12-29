@@ -32,7 +32,7 @@ if ($method == "GET") {
     elseif ($uri == "/login")               if(isset($_SESSION["user"])){$cntrlApp->getRendezVous();} else{$cntrlLogin->getConnectionForm();}
     elseif ($uri == "/rendezvous")         $cntrlApp->getRendezVous();
     elseif($uri == "/espacedoc")            $cntrlApp->getDocPage();
-    elseif($uri == "/debug")                var_dump($_SESSION["user"]);
+    elseif($uri == "/debug")                $utils->constructSession(12);
     else $cntrlLogin->getConnectionForm();
 }
 elseif ($method == "POST") {

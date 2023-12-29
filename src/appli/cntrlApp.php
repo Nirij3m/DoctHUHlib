@@ -19,12 +19,13 @@ class cntrlApp {
     }
     public function getDocPage(){
         $DaoTimeslot = new DaoTime(DBHOST, DBNAME, PORT, USER, PASS);
+        $DaoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
         $weekArray = $DaoTimeslot->getFutureWeeks();
+        $currentWeek = $weekArray[0];
+        $meetings = $DaoMeeting->getMeetings($_SESSION["user"]);
         if(!isset($utils)){
             $utils = new Utils();
         }
-
-
         require PATH_VIEW . "vmedecin.php";
     }
     public function createMeeting(){
@@ -42,9 +43,15 @@ class cntrlApp {
         if(!$beg || !$end){
             $utils->echoError("Erreur lors de la création du rendez-vous");
         }
-        $DaoMeeting->insertMeeting($beg, $end, $_SESSION["user"]);
-        $utils->echoSuccess("Rendez-vous enregistré avec succès");
+        $isSuccess = $DaoMeeting->insertMeeting($beg, $end, $_SESSION["user"]);
+        if($isSuccess){
+            $utils->echoSuccess("Rendez-vous enregistré avec succès");
+        }
+        else {
+            $utils->echoError("Cet horaire existe déjà");
+        }
         $this->getDocPage();
+
     }
 
     public function getMedecin(){

@@ -16,7 +16,6 @@ class DaoMeeting {
         try {
             $this->db = new PDO("pgsql:dbname=" . $dbname . ";host=" . $host . ";port=" . $port, $user, $pass);
         } catch (PDOException $e) {
-            $erreurs = [];
 	        echo $e->getMessage();
         }
     }
@@ -91,6 +90,7 @@ class DaoMeeting {
         $statement->bindParam(":end", $ending);
         $statement->bindParam(":id_place", $idPlace);
         $statement->bindParam(":id_user", $idUser);
-        $statement->execute();
+        return $statement->execute();
+
     }
 }

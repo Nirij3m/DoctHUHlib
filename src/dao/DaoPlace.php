@@ -41,9 +41,12 @@ class DaoPlace {
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
-        if ($result != null)    $place = new Place($result['id'], $result['name'], $result['num_street'], $result['street'], $result['code_insee'], null);
-        else                    $place = null;
-
+        if ($result != null){
+            $place = new Place($result['id'], $result['name'], $result['num_street'], $result['street'], $result['code_insee'], null);
+        }
+        else {
+            $place = null;
+        }
         return $place;
     }
 }
