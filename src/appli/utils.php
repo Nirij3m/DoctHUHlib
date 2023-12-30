@@ -109,28 +109,21 @@ class Utils {
 
     public function constructSession($id){
         $DaoUser = new DaoUser(DBHOST, DBNAME, PORT, USER, PASS);
-        $DaoCity = new DaoCity(DBHOST, DBNAME, PORT, USER, PASS);
-        $DaoPlace = new DaoPlace(DBHOST, DBNAME, PORT, USER, PASS);
-        $DaoSpeciality = new DaoSpeciality(DBHOST, DBNAME, PORT, USER, PASS);
-        $tempUser = $DaoUser->getFullById($id); // returns a temporary user
-
-        $city = $DaoCity->getCityOfUser($tempUser);
-        $place = $DaoPlace->getPlaceOfUser($tempUser);
-        $speciality = $DaoSpeciality->getSpecialityOfUser($tempUser);
-        $place->set_city($city);
-        $tempUser->set_place($place);
-        $tempUser->set_speciality($speciality);
-
-        if(!isset($_SESSION["user"])){
-            $_SESSION["user"] = $tempUser;
-        }
+        $user = $DaoUser->getFullById($id);
+        // $place = new Place($result["name_p"], (int)$result["num_street"], $result["street"], (int)$result["code_postal"], $result["city"]);
+        // $speciality = new Speciality($result["id_speciality"], $result["type"]);
+        // $user = new User($id, $result["name"], $result["surname"], $result["phone"], $result["mail"], " ", $place, $speciality);
+        session_start();
+        $_SESSION["user"] = $user;
+        session_write_close();
     }
 
     public function destructSession(){
-        while(isset($_SESSION)){
-            session_destroy();
-        }
-        require PATH_VIEW . "vaccueil.php";
+        session_start();
+        unset($_SESSION['user']);
+        session_write_close();
+
+        $this->echoSuccess("Vous avez bien été déconnecté");
     }
 
 }

@@ -7,6 +7,11 @@ require_once "src/dao/DaoMeeting.php";
 class cntrlApp {
     public function getAccueil() {
         $alerts = [];
+        if (isset($_SESSION['user'])) {
+            $user = $_SESSION['user'];
+            $daoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
+            $meeting = $daoMeeting->getNextMeeting($user);
+        }
 
         require PATH_VIEW . "vaccueil.php";
     }
@@ -103,7 +108,7 @@ class cntrlApp {
         $idMedecin = $_POST['idMedecin'];
 
         $medecin = $daoUser->getFullById($idMedecin);
-        $meetings = $daoMeeting->getMeetings($medecin);
+        $meetings = $daoMeeting->getMeetingsOfDoctor($medecin);
         $orderedMeetings = [];
         foreach ($meetings as $meeting) {
             $day = $meeting->get_beginning()->format('d/m/Y');
@@ -134,5 +139,35 @@ class cntrlApp {
         }
 
         require PATH_VIEW . "vrendezvous.php";
+    }
+
+    public function getPastMeetings() {
+        $alerts = [];
+        $user = $_SESSION['user'];
+
+        $daoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
+
+        $meetings = $daoMeeting->getMeetingsOfPatient($user);
+
+        require PATH_VIEW . "vpastmeetings.php";
+    }
+
+    public function getCancelMeeting() {
+        $alerts = [];
+        $user = $_SESSION['user'];
+        $meetingId = $_POST['idMeeting'];
+
+        $daoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
+        $utils = new Utils();
+
+        $meet = $daoMeeting->getMeetingById($meetingId);
+        $daoMeeting->cancelMeetingOfPatient($user, $meet);
+
+        $utils->echoSuccess("Votre rendez-vous a bien été annulé");
+
+
+        $meetings = $daoMeeting->getMeetingsOfPatient($user);
+
+        require PATH_VIEW . "vpastmeetings.php";
     }
 }

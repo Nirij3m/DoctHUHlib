@@ -20,6 +20,19 @@ class DaoSpeciality {
         }
     }
 
+    public function getSpecialities() {
+        $statement = $this->db->query("SELECT * FROM speciality");
+        $array = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $return = [];
+
+        foreach ($array as $elem) {
+            $speciality = new Speciality($elem['id'], $elem['type']);
+            array_push($return, $speciality);
+        }
+
+        return $return;
+    }
+
     public function getSpeciality(){
         $statement = $this->db->query("SELECT type from speciality");
         $array = $statement->fetchAll(PDO::FETCH_ASSOC);

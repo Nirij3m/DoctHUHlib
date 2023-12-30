@@ -45,7 +45,7 @@ class DaoMeeting {
         return $meeting;
     }
 
-    public function getMeetings(User $user) {
+    public function getMeetingsOfDoctor(User $user) {
         $idUser = $user->get_id();
         $statement = $this->db->prepare("SELECT * FROM meeting WHERE id_user = :id ORDER BY beginning");
         $statement->bindParam(":id", $idUser);
@@ -69,6 +69,40 @@ class DaoMeeting {
         return $return;
     }
 
+    public function getMeetingsOfPatient(User $user) {
+        $idUser = $user->get_id();
+        $statement = $this->db->prepare("SELECT * FROM meeting WHERE id_user_asks_for = :id ORDER BY beginning");
+        $statement->bindParam(":id", $idUser);
+        $statement->execute();
+        $array = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $return = [];
+
+        $daoPlace = new DaoPlace(DBHOST, DBNAME, PORT, USER, PASS);
+        $daoUser = new DaoUser(DBHOST, DBNAME, PORT, USER, PASS);
+
+        foreach($array as $elem) {
+            $place = $daoPlace->getPlaceById($elem['id_place']);
+            if ($elem['id_user_asks_for'] != null)  $medecin = $daoUser->getFullById($elem['id_user']);
+            else                                    $medecin = null;
+            $beginning = DateTime::createFromFormat('Y-m-d H:i:s', $elem['beginning']);
+            $ending = DateTime::createFromFormat('Y-m-d H:i:s', $elem['ending']);
+            $timeslot = new Meeting($elem['id'], $beginning, $ending, $place, $medecin, $user);
+            array_push($return, $timeslot);
+        }
+
+        return $return;
+    }
+
+    public function cancelMeetingOfPatient(User $user, Meeting $meeting) {
+        $idUser = $user->get_id();
+        $idMeeting = $meeting->get_id();
+
+        $statement = $this->db->prepare("UPDATE meeting SET id_user_asks_for = null WHERE id = :id AND id_user_asks_for = :idUser");
+        $statement->bindParam(":id", $idMeeting);
+        $statement->bindParam(":idUser", $idUser);
+        $statement->execute();
+    }
+
     public function setUserOfMeeting(Meeting $meeting, User $user) {
         $idMeeting  = $meeting->get_id();
         $idUser     = $user->get_id();
@@ -80,6 +114,31 @@ class DaoMeeting {
         $statement->bindParam(":id", $idMeeting);
         $statement->execute();
     }
+
+    public function getNextMeeting(User $user) {
+        $idUser = $user->get_id();
+
+        $statement = $this->db->prepare("SELECT * FROM meeting WHERE id_user_asks_for = :id AND beginning > NOW()");
+        $statement->bindParam(":id", $idUser);
+        $statement->execute();
+        $elem = $statement->fetch(PDO::FETCH_ASSOC);
+
+        $daoUser = new DaoUser(DBHOST, DBNAME, PORT, USER, PASS);
+        $daoPlace = new DaoPlace(DBHOST, DBNAME, PORT, USER, PASS);
+
+        if ($elem != false) {
+            $place = $daoPlace->getPlaceById($elem['id_place']);
+            if ($elem['id_user_asks_for'] != null)  $medecin = $daoUser->getFullById($elem['id_user']);
+            else                                    $medecin = null;
+            $beginning = DateTime::createFromFormat('Y-m-d H:i:s', $elem['beginning']);
+            $ending = DateTime::createFromFormat('Y-m-d H:i:s', $elem['ending']);
+            $meeting = new Meeting($elem['id'], $beginning, $ending, $place, $medecin, $user);
+        }
+        else $meeting = null;
+
+        return $meeting;
+    }
+
     public function insertMeeting($beg, $end, User $user){
         $beginning = $beg->format("Y-m-d H:i");
         $ending = $end->format("Y-m-d H:i");

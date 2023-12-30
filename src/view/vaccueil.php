@@ -30,12 +30,22 @@ require_once "header.php";
                 <div class="feature-icon bg-primary bg-gradient">
                     <svg class="bi" width="1em" height="1em"><use xlink:href="#toggles2"></use></svg>
                 </div>
-                <h2>Connectez-vous</h2>
-                <p>Afin de tirer le meilleur de Doct'HUH'lib et de consulter votre profil et services associés</p>
-                <a href="/login" class="icon-link">
-                    Se connecter
-                    <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"></use></svg>
-                </a>
+                <?php if (!isset($user)) { ?>
+                    <h2>Connectez-vous</h2>
+                    <p>Afin de tirer le meilleur de Doct'HUH'lib et de consulter votre profil et services associés</p>
+                    <a href="/login" class="icon-link">
+                        Se connecter
+                        <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"></use></svg>
+                    </a>
+                <?php } else { ?>
+                    <h2>Bienvenue, <?=ucfirst($user->get_surname())?>.</h2>
+                    <?php if ($meeting != null) { ?>
+                    <p>
+                        Votre prochain rendez-vous est le <?=$meeting->get_beginning()->format('d/m/y')?> à <?=$meeting->get_beginning()->format('H:i')?>h avec le <?=$meeting->get_medecin()->get_speciality()->get_type()?> <?=ucfirst($meeting->get_medecin()->get_surname())?> <?=strtoupper($meeting->get_medecin()->get_name())?>.<br>
+                        Et il s'effectuera à <?=$meeting->get_place()->get_street()?> (<?=$meeting->get_place()->get_num_street()?> <?=$meeting->get_place()->get_street()?>)
+                    </p>
+                    <?php } ?>
+                <?php } ?>
             </div>
         </div>
     </div>

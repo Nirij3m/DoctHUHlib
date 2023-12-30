@@ -106,6 +106,7 @@ class DaoUser {
     }
     public function getFullById($id){
         $daoPlace = new DaoPlace(DBHOST, DBNAME, PORT, USER, PASS);
+        $daoSpeciality = new DaoSpeciality(DBHOST, DBNAME, PORT, USER, PASS);
 
         $statement = $this->db->prepare("SELECT * FROM users WHERE id = :id");
         $statement->bindParam(":id", $id);
@@ -116,6 +117,8 @@ class DaoUser {
         
         $place = $daoPlace->getPlaceOfUser($user);
         if ($place != null) $user->set_place($place);
+        $speciality = $daoSpeciality->getSpecialityOfUser($user);
+        if ($speciality != null) $user->set_speciality($speciality);
 
         return $user;
     }
