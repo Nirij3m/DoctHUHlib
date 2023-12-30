@@ -11,6 +11,7 @@
                     <th scope="col">Date</th>
                     <th scope="col">Plage horaire</th>
                     <th scope="col">Médecin</th>
+                    <th scope="col">Spécialité</th>
                     <th scope="col" class="text-center">Actions</th>
                 </tr>
             </thead>
@@ -20,6 +21,7 @@
                         <td><?=$meeting->get_beginning()->format('d/m/Y')?></td>
                         <td><?=$meeting->get_beginning()->format('H:i') . " - " . $meeting->get_ending()->format('H:i')?></td>
                         <td><?=ucfirst($meeting->get_medecin()->get_surname()) . " " . strtoupper($meeting->get_medecin()->get_name())?></td>
+                        <td><?=$meeting->get_medecin()->get_speciality()->get_type()?></td>
                         <td class="d-flex flex-row justify-content-around">
                           <form method="POST" action="/rendezvous/medecin/disponibilites">
                             <input type="text" name="idMedecin" value="<?=$meeting->get_medecin()->get_id()?>" hidden />
