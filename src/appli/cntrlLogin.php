@@ -1,6 +1,8 @@
 <?php
 require_once "utils.php";
 require_once "src/dao/DaoUser.php";
+require_once "src/dao/DaoSpeciality.php";
+require_once "src/appli/cntrlApp.php";
 class cntrlLogin {
     /*
     Contrôleur possédant toutes les pages en lien avec l'enregistrement et
@@ -18,6 +20,11 @@ class cntrlLogin {
             session_write_close();
             require PATH_VIEW . "vconnection.php";
         }
+    }
+
+    public function getDocConnectionForm(){
+
+        require PATH_VIEW . "vmconnection.php";
     }
 
     public function getLoginResult() {
@@ -112,5 +119,54 @@ class cntrlLogin {
         $utils->destructSession();
 
         require PATH_VIEW . "vconnection.php";
+    public function getRegisterDocResult() {
+        $DaoUser = new DaoUser(DBHOST, DBNAME, PORT, USER, PASS);
+        $cntrlApp = new cntrlApp();
+        $name = $surname = $phone = $mail = $mailVerify = $password = $passwordVerify = "";
+        $utils = new Utils();
+        $name           = $_POST['name'];
+        $surname        = $_POST['surname'];
+        $phone          = $_POST['phone'];
+        $mail           = $_POST['mail'];
+        $password       = $_POST['password'];
+        $passwordVerify = $_POST['passwordVerify'];
+        $idPraticien = $_POST['id_p'];
+        $numStreet = $_POST['num'];
+        $street = $_POST['street'];
+        $namePlace = $_POST['name_e'];
+        $specialite = $_POST['specialite'];
+        $codeInsee = $_POST['city'];
+
+
+        if(!$utils->isSanitize($name) || !$utils->isSanitize($surname)){
+            $utils->echoWarning("Le nom et prénom ne peuvent contenir ni caractères spéciaux ni accents");
+            require PATH_VIEW . "vmconnection.php";
+            return;
+        }
+
+        if($password !== $passwordVerify){
+            $utils->echoWarning("Le deuxième mot de passe ne correspond pas au premier");
+            require PATH_VIEW . "vmconnection.php";
+            return;
+        }
+        else{
+            $daoUser = new DaoUser(DBHOST, DBNAME, PORT, USER, PASS);
+            $hashedPass = password_hash($password, PASSWORD_BCRYPT);
+            $errString = $daoUser->registerDoc($name, $surname, $phone, $mail, $hashedPass, $numStreet, $street, $codeInsee, $namePlace, $specialite); //returns a string containing the appropriate warning message if a PDOException is catched. Empty if sucess
+        }
+
+        if(empty($errString)){ //No errors, account created, start session and redirect on rendez-vous page
+            $id = $DaoUser->connectUser($mail, $password);
+            $utils->constructSession($id);
+            $cntrlApp->getDocPage();
+            $utils->echoSuccess("Votre compte a bien été créé.");
+            $utils->clearAlert();
+        }
+        else{ //error, appen error message and reload the page
+            $utils->echoError($errString);
+            $utils->clearAlert();
+            require  PATH_VIEW . "vmconnection.php";
+            return;
+        }
     }
 }

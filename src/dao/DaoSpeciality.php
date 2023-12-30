@@ -47,6 +47,9 @@ class DaoSpeciality {
         $statement->bindParam(":id", $uId);
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
+        if(empty($result)){ //User is not a doctor
+            return null;
+        }
         $speciality = new Speciality($result['id'], $result['type']);
         return $speciality;
     }

@@ -49,4 +49,14 @@ class DaoPlace {
         }
         return $place;
     }
+    public function insertPlace(string $name, int $numStreet, string $street, int $codeInsee){
+        $statement = $this->db->prepare('INSERT INTO place (name, num_street, street, code_insee) VALUES (:name, :num_street, :street, :code_insee) RETURNING id');
+        $statement->bindParam(":name", $name);
+        $statement->bindParam(":num_street", $numStreet);
+        $statement->bindParam(":street", $street);
+        $statement->bindParam(":code_insee", $codeInsee);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        return $result["id"];
+    }
 }

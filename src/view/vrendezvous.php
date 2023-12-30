@@ -3,6 +3,7 @@ $DaoSpeciality = new DaoSpeciality(DBHOST, DBNAME, PORT, USER, PASS);
 $speArray = $DaoSpeciality->getSpeciality();
 ?>
 <link rel="stylesheet" type="text/css" href="/src/css/rendezvous.css">
+<script src="/src/js/vrendezvous.js"></script>
 
 
 

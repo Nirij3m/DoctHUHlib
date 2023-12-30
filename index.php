@@ -11,6 +11,7 @@ error_reporting(E_ALL);
 require_once "src/appli/cntrlLogin.php";
 require_once "src/appli/cntrlApp.php";
 require_once "src/dao/DaoTime.php";
+require_once "src/metier/User.php";
 
 
 // Objets controllers
@@ -36,6 +37,7 @@ if ($method == "GET") {
     elseif ($uri == "/pastmeetings")        $cntrlApp->getPastMeetings();
     elseif ($uri == "/disconnect")          $cntrlLogin->getDisconnect();
     elseif($uri == "/debug")                $utils->constructSession(12);
+    elseif($uri == "/espacedoc/creation")   $cntrlLogin->getDocConnectionForm();
     else $cntrlLogin->getConnectionForm();
 }
 elseif ($method == "POST") {
@@ -45,8 +47,10 @@ elseif ($method == "POST") {
     elseif ($uri === "/disconnect")                          $utils->destructSession();
     elseif ($uri == "/rendezvous/medecin/disponibilites")   $cntrlApp->dispoMedecin();
     elseif ($uri == "/rendezvous/medecin/result")           $cntrlApp->userReservation();
-    elseif($uri == '/espacedoc')                            $cntrlApp->getDocPage();
-    elseif($uri == '/espacedoc/result')                     $cntrlApp->createMeeting();
     elseif ($uri == '/rendezvous/cancel')                   $cntrlApp->getCancelMeeting();
+    elseif($uri == '/espacedoc')                $cntrlApp->getDocPage();
+    elseif($uri == '/espacedoc/result')         $cntrlApp->createMeeting();
+    elseif($uri == '/espacedoc/creation/result') $cntrlLogin->getRegisterDocResult();
+    elseif($uri == '/espacedoc/delete')            $cntrlApp->deleteMeeting();
     else $cntrlLogin->getConnectionForm();
 }

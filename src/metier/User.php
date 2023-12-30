@@ -97,4 +97,10 @@ class User {
     public function set_meetings(array $meetings) {
         $this->meetings = $meetings;
     }
+    public function isSpeInit(){
+        if(isset($this->speciality)){
+            return true;
+        }
+        else return false;
+    }
 }

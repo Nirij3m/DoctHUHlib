@@ -1,6 +1,11 @@
 <?php require_once "header.php"; ?>
 <link rel="stylesheet" href="/src/css/medecin.css">
-<?php $i = 0;?>
+<?php $i = 0;
+if(isset($_POST["selectedWeek"]) && $_POST["selectedWeek"] != -1){
+    $days = $weekArray[$_POST["selectedWeek"]]->getDays();
+}
+else $days = $currentWeek->getDays();
+?>
 <div class="corpse"> <!-- Content area-->
     <div id="topHeader">
         <p id="namePage" class="fs-5 d-none d-sm-inline title">Espace practicien</p>
@@ -8,18 +13,35 @@
     <div id="container">
         <h3>Votre planning</h3>
         <hr>
+        <form action="/espacedoc" method="POST" style="display: flex; flex-direction: row; gap: 1%;">
+            <select id="selectWeek" class="form-select" aria-label="Default select example" style="width: 25%;" name="selectedWeek">
+                <option selected value="-1">Choisir une semaine...</option>
+                <?php
+                $j = 0;
+                foreach($weekArray as $w) {
+
+                    ?>
+                    <option value="<?= $j ?>"><?= $w->getBegin()->format('D. d/m/Y'). " - " . $w->getEnd()->format('D. d/m/Y')?></option>
+                    <?php
+                    $j+=1;
+                }?>
+            </select>
+            <button type="submit" class="btn btn-light">Charger</button>
+        </form>
+        <br>
+
         <div id="calendar">
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col"><?="Lundi". " ". $currentWeek->getDays()[0]->format("d/m")?></th>
+                    <th scope="col"><?="Lundi". " ". $days[0]->format("d/m")?></th>
                 </tr>
                 </thead>
                 <tbody class="table-group-divider table-divider-color">
                     <?php
 
                         foreach($meetings as $m){
-                            if($m->get_beginning()->format("N") == 1 && $m->get_user() != null) {
+                            if($m->get_beginning()->format("d-m-Y") == $days[0]->format("d-m-Y") && $m->get_user() != null) {
                                     $user = $m->get_user();
                                 ?>
                                 <tr>
@@ -41,11 +63,17 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
+                                                        <p>Horaire: <?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p>
                                                         <p>Patient: <?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p>
                                                         <p>Numéro de téléphone: <?= $user->get_phone()?></p>
                                                         <p>Adresse mail: <?= $user->get_mail()?></p>
                                                     </div>
+                                                    <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                        <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
+                                                        <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
+                                                    </form>
                                                     <div class="modal-footer">
+                                                        <button type="submit" form="<?= "Form".$i ?>" class="btn btn-danger" data-mdb-ripple-init>Supprimer l'horaire</button>
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                                                     </div>
                                                 </div>
@@ -55,13 +83,38 @@
                                 </tr>
 
                         <?php $i++; }
-                            elseif ($m->get_beginning()->format("N") == 1){?>
+                            elseif ($m->get_beginning()->format("d-m-Y") == $days[0]->format("d-m-Y")){?>
                                     <tr>
                                         <td>
-                                            <button type="button" class="btn btn-primary" data-toggle="modal">
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?='subModal'.$i?>">
                                                 <u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u>
                                                 <p>Libre</p>
                                             </button
+
+                                                    <!-- Modal -->
+                                            <div class="modal fade" id="<?='subModal'.$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Informations complémentaires</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>Aucun patient n'a réservé ce créneau</p>
+                                                        </div>
+                                                        <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                            <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
+                                                            <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
+                                                        </form>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" form="<?= "Form".$i ?>" class="btn btn-danger" data-mdb-ripple-init>Supprimer l'horaire</button>
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
                                         </td>
                                     </tr>
@@ -73,14 +126,14 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col"><?="Mardi". " ". $currentWeek->getDays()[1]->format("d/m")?></th>
+                    <th scope="col"><?="Mardi". " ". $days[1]->format("d/m")?></th>
                 </tr>
                 </thead>
                 <tbody class="table-group-divider table-divider-color">
                 <?php
 
                 foreach($meetings as $m){
-                    if($m->get_beginning()->format("N") == 2 && $m->get_user() != null) {
+                    if($m->get_beginning()->format("d-m-Y") == $days[1]->format("d-m-Y") && $m->get_user() != null) {
                         $user = $m->get_user();
                         ?>
                         <tr>
@@ -92,37 +145,68 @@
                                 </button
 
                                         <!-- Modal -->
-                                <div class="modal fade" id="<?='Modal'.$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Informations complémentaires</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Patient: <?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p>
-                                                <p>Numéro de téléphone: <?= $user->get_phone()?></p>
-                                                <p>Adresse mail: <?= $user->get_mail()?></p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <div class="modal fade" id="<?='Modal'.$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Informations complémentaires</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Horaire: <?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p>
+                                                        <p>Patient: <?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p>
+                                                        <p>Numéro de téléphone: <?= $user->get_phone()?></p>
+                                                        <p>Adresse mail: <?= $user->get_mail()?></p>
+                                                    </div>
+                                                    <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                        <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
+                                                        <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
+                                                    </form>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" form="<?= "Form".$i ?>" class="btn btn-danger" data-mdb-ripple-init>Supprimer l'horaire</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
                             </td>
                         </tr>
 
                     <?php $i++;}
-                    elseif($m->get_beginning()->format("N") == 2){?>
+                    elseif($m->get_beginning()->format("d-m-Y") == $days[1]->format("d-m-Y")){?>
                              <tr>
                                         <td>
-                                            <button type="button" class="btn btn-primary" data-toggle="modal">
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?='subModal'.$i?>">
                                                 <u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u>
                                                 <p>Libre</p>
                                             </button
+
+                                                    <!-- Modal -->
+                                            <div class="modal fade" id="<?='subModal'.$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Informations complémentaires</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>Aucun patient n'a réservé ce créneau</p>
+                                                        </div>
+                                                        <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                            <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
+                                                            <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
+                                                        </form>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" form="<?= "Form".$i ?>" class="btn btn-danger" data-mdb-ripple-init>Supprimer l'horaire</button>
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
                                         </td>
                                     </tr>
@@ -133,14 +217,14 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col"><?="Mercredi". " ". $currentWeek->getDays()[2]->format("d/m")?></th>
+                    <th scope="col"><?="Mercredi". " ". $days[2]->format("d/m")?></th>
                 </tr>
                 </thead>
                 <tbody class="table-group-divider table-divider-color">
                 <?php
 
                 foreach($meetings as $m){
-                    if($m->get_beginning()->format("N") == 3 && $m->get_user() != null) {
+                    if($m->get_beginning()->format("d-m-Y") == $days[2]->format("d-m-Y") && $m->get_user() != null) {
                         $user = $m->get_user();
                         ?>
                         <tr>
@@ -152,37 +236,68 @@
                                 </button
 
                                         <!-- Modal -->
-                                <div class="modal fade" id="<?='Modal'.$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Informations complémentaires</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Patient: <?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p>
-                                                <p>Numéro de téléphone: <?= $user->get_phone()?></p>
-                                                <p>Adresse mail: <?= $user->get_mail()?></p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <div class="modal fade" id="<?='Modal'.$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Informations complémentaires</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Horaire: <?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p>
+                                                        <p>Patient: <?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p>
+                                                        <p>Numéro de téléphone: <?= $user->get_phone()?></p>
+                                                        <p>Adresse mail: <?= $user->get_mail()?></p>
+                                                    </div>
+                                                    <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                        <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
+                                                        <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
+                                                    </form>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" form="<?= "Form".$i ?>" class="btn btn-danger" data-mdb-ripple-init>Supprimer l'horaire</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
                             </td>
                         </tr>
 
                     <?php $i++;}
-                    elseif($m->get_beginning()->format("N") == 3){?>
+                    elseif($m->get_beginning()->format("d-m-Y") == $days[2]->format("d-m-Y")){?>
                              <tr>
                                         <td>
-                                            <button type="button" class="btn btn-primary" data-toggle="modal">
+                                                           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?='subModal'.$i?>">
                                                 <u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u>
                                                 <p>Libre</p>
                                             </button
+
+                                                    <!-- Modal -->
+                                            <div class="modal fade" id="<?='subModal'.$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Informations complémentaires</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>Aucun patient n'a réservé ce créneau</p>
+                                                        </div>
+                                                        <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                            <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
+                                                            <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
+                                                        </form>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" form="<?= "Form".$i ?>" class="btn btn-danger" data-mdb-ripple-init>Supprimer l'horaire</button>
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
                                         </td>
                                     </tr>
@@ -193,14 +308,14 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col"><?="Jeudi". " ". $currentWeek->getDays()[3]->format("d/m")?></th>
+                    <th scope="col"><?="Jeudi". " ". $days[3]->format("d/m")?></th>
                 </tr>
                 </thead>
                 <tbody class="table-group-divider table-divider-color">
                 <?php
 
                 foreach($meetings as $m){
-                    if($m->get_beginning()->format("N") == 4 && $m->get_user() != null) {
+                    if($m->get_beginning()->format("d-m-Y") == $days[3]->format("d-m-Y") && $m->get_user() != null) {
                         $user = $m->get_user();
                         ?>
                         <tr>
@@ -212,36 +327,67 @@
                                 </button
 
                                         <!-- Modal -->
-                                <div class="modal fade" id="<?='Modal'.$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Informations complémentaires</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Patient: <?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p>
-                                                <p>Numéro de téléphone: <?= $user->get_phone()?></p>
-                                                <p>Adresse mail: <?= $user->get_mail()?></p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <div class="modal fade" id="<?='Modal'.$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Informations complémentaires</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Horaire: <?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p>
+                                                        <p>Patient: <?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p>
+                                                        <p>Numéro de téléphone: <?= $user->get_phone()?></p>
+                                                        <p>Adresse mail: <?= $user->get_mail()?></p>
+                                                    </div>
+                                                    <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                        <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
+                                                        <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
+                                                    </form>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" form="<?= "Form".$i ?>" class="btn btn-danger" data-mdb-ripple-init>Supprimer l'horaire</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
                             </td>
                         </tr>
                     <?php $i++;}
-                    elseif($m->get_beginning()->format("N") == 4){?>
+                    elseif($m->get_beginning()->format("d-m-Y") == $days[3]->format("d-m-Y")){?>
                              <tr>
                                         <td>
-                                            <button type="button" class="btn btn-primary" data-toggle="modal">
+                                                           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?='subModal'.$i?>">
                                                 <u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u>
                                                 <p>Libre</p>
                                             </button
+
+                                                    <!-- Modal -->
+                                            <div class="modal fade" id="<?='subModal'.$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Informations complémentaires</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>Aucun patient n'a réservé ce créneau</p>
+                                                        </div>
+                                                        <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                            <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
+                                                            <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
+                                                        </form>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" form="<?= "Form".$i ?>" class="btn btn-danger" data-mdb-ripple-init>Supprimer l'horaire</button>
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
                                         </td>
                                     </tr>
@@ -252,14 +398,14 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col"><?="Vendredi". " ". $currentWeek->getDays()[4]->format("d/m")?></th>
+                    <th scope="col"><?="Vendredi". " ". $days[4]->format("d/m")?></th>
                 </tr>
                 </thead>
                 <tbody class="table-group-divider table-divider-color">
                 <?php
 
                 foreach($meetings as $m){
-                    if($m->get_beginning()->format("N") == 5 && $m->get_user() != null) {
+                    if($m->get_beginning()->format("d-m-Y") == $days[4]->format("d-m-Y") && $m->get_user() != null) {
                         $user = $m->get_user();
                         ?>
                         <tr>
@@ -271,36 +417,67 @@
                                 </button
 
                                         <!-- Modal -->
-                                <div class="modal fade" id="<?='Modal'.$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Informations complémentaires</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Patient: <?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p>
-                                                <p>Numéro de téléphone: <?= $user->get_phone()?></p>
-                                                <p>Adresse mail: <?= $user->get_mail()?></p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <div class="modal fade" id="<?='Modal'.$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Informations complémentaires</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Horaire: <?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p>
+                                                        <p>Patient: <?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p>
+                                                        <p>Numéro de téléphone: <?= $user->get_phone()?></p>
+                                                        <p>Adresse mail: <?= $user->get_mail()?></p>
+                                                    </div>
+                                                    <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                        <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
+                                                        <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
+                                                    </form>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" form="<?= "Form".$i ?>" class="btn btn-danger" data-mdb-ripple-init>Supprimer l'horaire</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
                             </td>
                         </tr>
                     <?php $i++;}
-                    elseif($m->get_beginning()->format("N") == 5){?>
+                    elseif($m->get_beginning()->format("d-m-Y") == $days[4]->format("d-m-Y")){?>
                              <tr>
                                         <td>
-                                            <button type="button" class="btn btn-primary" data-toggle="modal">
+                                                           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?='subModal'.$i?>">
                                                 <u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u>
                                                 <p>Libre</p>
                                             </button
+
+                                                    <!-- Modal -->
+                                            <div class="modal fade" id="<?='subModal'.$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Informations complémentaires</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>Aucun patient n'a réservé ce créneau</p>
+                                                        </div>
+                                                        <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                            <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
+                                                            <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
+                                                        </form>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" form="<?= "Form".$i ?>" class="btn btn-danger" data-mdb-ripple-init>Supprimer l'horaire</button>
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
                                         </td>
                                     </tr>
@@ -311,14 +488,14 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col"><?="Samedi". " ". $currentWeek->getDays()[5]->format("d/m")?></th>
+                    <th scope="col"><?="Samedi". " ". $days[5]->format("d/m")?></th>
                 </tr>
                 </thead>
                 <tbody class="table-group-divider table-divider-color">
                 <?php
 
                 foreach($meetings as $m){
-                    if($m->get_beginning()->format("N") == 6 && $m->get_user() != null) {
+                    if($m->get_beginning()->format("d-m-Y") == $days[5]->format("d-m-Y") && $m->get_user() != null) {
                         $user = $m->get_user();
                         ?>
                         <tr>
@@ -330,37 +507,68 @@
                                 </button
 
                                         <!-- Modal -->
-                                <div class="modal fade" id="<?='Modal'.$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Informations complémentaires</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Patient: <?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p>
-                                                <p>Numéro de téléphone: <?= $user->get_phone()?></p>
-                                                <p>Adresse mail: <?= $user->get_mail()?></p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <div class="modal fade" id="<?='Modal'.$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Informations complémentaires</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Horaire: <?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p>
+                                                        <p>Patient: <?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p>
+                                                        <p>Numéro de téléphone: <?= $user->get_phone()?></p>
+                                                        <p>Adresse mail: <?= $user->get_mail()?></p>
+                                                    </div>
+                                                    <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                        <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
+                                                        <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
+                                                    </form>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" form="<?= "Form".$i ?>" class="btn btn-danger" data-mdb-ripple-init>Supprimer l'horaire</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
                             </td>
                         </tr>
 
                     <?php $i++;}
-                    elseif($m->get_beginning()->format("N") == 6){?>
+                    elseif($m->get_beginning()->format("d-m-Y") == $days[5]->format("d-m-Y")){?>
                              <tr>
                                         <td>
-                                            <button type="button" class="btn btn-primary" data-toggle="modal">
+                                                           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?='subModal'.$i?>">
                                                 <u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u>
                                                 <p>Libre</p>
                                             </button
+
+                                                    <!-- Modal -->
+                                            <div class="modal fade" id="<?='subModal'.$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Informations complémentaires</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>Aucun patient n'a réservé ce créneau</p>
+                                                        </div>
+                                                        <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                            <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
+                                                            <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
+                                                        </form>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" form="<?= "Form".$i ?>" class="btn btn-danger" data-mdb-ripple-init>Supprimer l'horaire</button>
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
                                         </td>
                                     </tr>
@@ -371,14 +579,14 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col"><?="Dimanche". " ". $currentWeek->getDays()[6]->format("d/m")?></th>
+                    <th scope="col"><?="Dimanche". " ". $days[6]->format("d/m")?></th>
                 </tr>
                 </thead>
                 <tbody class="table-group-divider table-divider-color">
                 <?php
 
                 foreach($meetings as $m){
-                    if($m->get_beginning()->format("N") == 7 && $m->get_user() != null) {
+                    if($m->get_beginning()->format("d-m-Y") == $days[6]->format("d-m-Y") && $m->get_user() != null) {
                         $user = $m->get_user();
                         ?>
                         <tr>
@@ -390,37 +598,68 @@
                                 </button
 
                                         <!-- Modal -->
-                                <div class="modal fade" id="<?='Modal'.$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Informations complémentaires</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Patient: <?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p>
-                                                <p>Numéro de téléphone: <?= $user->get_phone()?></p>
-                                                <p>Adresse mail: <?= $user->get_mail()?></p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <div class="modal fade" id="<?='Modal'.$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Informations complémentaires</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Horaire: <?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p>
+                                                        <p>Patient: <?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p>
+                                                        <p>Numéro de téléphone: <?= $user->get_phone()?></p>
+                                                        <p>Adresse mail: <?= $user->get_mail()?></p>
+                                                    </div>
+                                                    <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                        <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
+                                                        <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
+                                                    </form>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" form="<?= "Form".$i ?>" class="btn btn-danger" data-mdb-ripple-init>Supprimer l'horaire</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
                             </td>
                         </tr>
 
                     <?php $i++;}
-                    elseif($m->get_beginning()->format("N") == 7){?>
+                    elseif($m->get_beginning()->format("d-m-Y") == $days[6]->format("d-m-Y")){?>
                              <tr>
                                         <td>
-                                            <button type="button" class="btn btn-primary" data-toggle="modal">
+                                                           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?='subModal'.$i?>">
                                                 <u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u>
                                                 <p>Libre</p>
                                             </button
+
+                                                    <!-- Modal -->
+                                            <div class="modal fade" id="<?='subModal'.$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Informations complémentaires</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>Aucun patient n'a réservé ce créneau</p>
+                                                        </div>
+                                                        <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                            <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
+                                                            <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
+                                                        </form>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" form="<?= "Form".$i ?>" class="btn btn-danger" data-mdb-ripple-init>Supprimer l'horaire</button>
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
                                         </td>
                                     </tr>
@@ -434,21 +673,6 @@
 
         <h3>Saisir vos disponibilités</h3>
         <hr>
-        <form action="/espacedoc" method="POST">
-            <select id="selectWeek" class="form-select" aria-label="Default select example" style="width: 25%;" name="selectedWeek">
-                <option selected value="-1">Choisir une semaine...</option>
-                <?php
-
-                    foreach($weekArray as $w) {
-
-                    ?>
-                    <option value="<?= $i ?>"><?= $w->getBegin()->format('D. d/m/Y'). " - " . $w->getEnd()->format('D. d/m/Y')?></option>
-                <?php
-                        $i+=1;
-                    }?>
-            </select>
-            <button type="submit">Charger</button>
-        </form>
         <br>
 
 
@@ -458,6 +682,10 @@
                 foreach($weekArray[$_POST["selectedWeek"]]->getDays() as $d) {?>
                         <form action="/espacedoc/result" method="POST">
                             <div id="subcontainer">
+                                <div class="d-none">
+                                    <input type="text" value="<?= $_POST["selectedWeek"] ?>" name="persistWeek">
+                                </div>
+
                                 <div class="form-outline mb-4">
                                     <input type="text" id="form2Example17" value="<?= $d->format('D. d/m/Y')?>" class="form-control form-control-sm" name="date" readonly/>
                                 </div>
