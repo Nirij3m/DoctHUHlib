@@ -80,7 +80,7 @@ class DaoMeeting {
         $statement->bindParam(":id", $idMeeting);
         $statement->execute();
     }
-    public function insertMeeting($beg, $end, User $user){
+    public function insertMeeting(DateTime $beg, DateTime $end, User $user){
         $beginning = $beg->format("Y-m-d H:i");
         $ending = $end->format("Y-m-d H:i");
         $idPlace = $user->get_place()->get_id();
@@ -91,6 +91,18 @@ class DaoMeeting {
         $statement->bindParam(":id_place", $idPlace);
         $statement->bindParam(":id_user", $idUser);
         return $statement->execute();
-
+    }
+    public function deleteMeeting(string $tbeg, int $idDoc){
+        $utils = new Utils();
+        $statement = $this->db->prepare("DELETE from meeting WHERE id_user = :idDoc AND beginning = :tbeg");
+        $statement->bindParam(":idDoc", $idDoc );
+        $statement->bindParam(":tbeg", $tbeg);
+        try {
+            $statement->execute();
+            $utils->echoSuccess("Horaire supprimé");
+        }
+        catch (PDOException $e){
+            $utils->echoError("Erreur lors de la suppression de la plage");
+        }
     }
 }

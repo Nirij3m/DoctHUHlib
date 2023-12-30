@@ -21,7 +21,15 @@ class cntrlApp {
         $DaoTimeslot = new DaoTime(DBHOST, DBNAME, PORT, USER, PASS);
         $DaoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
         $weekArray = $DaoTimeslot->getFutureWeeks();
-        $currentWeek = $weekArray[0];
+        if(isset($_POST["selectedWeek"]) && $_POST["selectedWeek"] != 1){
+            $currentWeek = $weekArray[$_POST["selectedWeek"]];
+        }
+        elseif(isset($_POST["persistWeek"]) && $_POST["persistWeek"] != 1){
+            $currentWeek = $weekArray[$_POST["persistWeek"]];
+            $_POST["selectedWeek"] = $_POST["persistWeek"];
+        }
+        else $currentWeek = $weekArray[0];
+
         $meetings = $DaoMeeting->getMeetings($_SESSION["user"]);
         if(!isset($utils)){
             $utils = new Utils();
@@ -37,6 +45,11 @@ class cntrlApp {
         $date = $_POST["date"];
         $ts = $_POST["timeStart"];
         $te = $_POST["timeEnd"];
+        if(empty($ts) || empty($te)){
+            $utils->echoWarning("Vous devez spécifier un horaire");
+            $this->getDocPage();
+            return;
+        }
 
         $beg = DateTime::createFromFormat('D. d/m/Y H:i', $date. " ".$ts);
         $end = DateTime::createFromFormat('D. d/m/Y H:i', $date. " ".$te);
@@ -52,6 +65,13 @@ class cntrlApp {
         }
         $this->getDocPage();
 
+    }
+    public function deleteMeeting(){
+        $DaoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
+        $idDoc = $_POST["idDoc"];
+        $tbeg = $_POST["tbeg"];
+        $DaoMeeting->deleteMeeting($tbeg, $idDoc);
+        $this->getDocPage();
     }
 
     public function getMedecin(){

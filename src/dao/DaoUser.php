@@ -7,6 +7,7 @@ require_once "src/dao/DaoPlace.php";
 require_once "src/dao/DaoCity.php";
 require_once "src/dao/DaoWork.php";
 require_once "src/dao/DaoSpeciality.php";
+
 class DaoUser {
     private string $host;
     private string $dbname;
@@ -72,6 +73,61 @@ class DaoUser {
             return $errString = $utils->pdoErrors($err->getCode(), $needle);
         }
     }
+    public function registerDoc(string $name, string $surname, string $phone, string $mail, string $password,
+    int $numStreet, string $street, int $codeInsee, string $namePlace, string $specialite){
+
+        $DaoPlace = new DaoPlace(DBHOST, DBNAME, PORT, USER, PASS);
+        $DaoWorks = new DaoWorks(DBHOST, DBNAME, PORT, USER, PASS);
+        $utils = new Utils();
+        $name = strtolower($name);
+        $surname = strtolower($surname);
+        $phone = str_replace(' ', '', $phone);
+
+        //Retrive the spe ID
+        $statementSpeId = $this->db->prepare('SELECT id from speciality WHERE type = :type');
+        $statementSpeId->bindParam(":type", $specialite);
+        try{
+            $statementSpeId->execute();
+        }
+        catch (PDOException $e){
+            $utils->echoError("Cette spécialité n'existe pas");
+            return "";
+        }
+        $resultSpeId = $statementSpeId->fetch(PDO::FETCH_ASSOC);
+        $speId = $resultSpeId["id"];
+
+        //Insert the user and retrive the user's id
+        $tempPicture = "/pct/test";
+        $statementUser = $this->db->prepare("INSERT INTO users (name, surname, phone, mail, password, id_speciality, picture) VALUES (:name, :surname, :phone, :mail, :password, :id_speciality, :picture) RETURNING id");
+        $statementUser->bindParam(":name", $name);
+        $statementUser->bindParam(":surname", $surname);
+        $statementUser->bindParam(":phone", $phone);
+        $statementUser->bindParam(":mail", $mail);
+        $statementUser->bindParam(":password", $password);
+        $statementUser->bindParam(":id_speciality", $speId);
+        $statementUser->bindParam(":picture", $tempPicture);
+        try{
+            $statementUser->execute();
+        }
+        catch (PDOException $err){
+            $errMessage = $err->getMessage();
+            if(str_contains($errMessage, "phone")){
+                $needle = "Ce numéro de téléphone";
+            }
+            else $needle = "Cette adresse email";
+            return $errString = $utils->pdoErrors($err->getCode(), $needle);
+        }
+        $resultUserId = $statementUser->fetch(PDO::FETCH_ASSOC);
+        $idUser = $resultUserId["id"];
+
+        //Insert the place via the code_insee
+        $idPlace = $DaoPlace->insertPlace($namePlace, $numStreet, $street, $codeInsee);
+
+        //Insert the place and user in the works table
+        $DaoWorks->insertWork($idPlace, $idUser);
+        return "";
+
+    }
     public function getByUserSpe(string $surname, string $name, string $spe) {
         $daoPlace = new DaoPlace(DBHOST, DBNAME, PORT, USER, PASS);
         $daoCity = new DaoCity(DBHOST, DBNAME, PORT, USER, PASS);
@@ -112,7 +168,7 @@ class DaoUser {
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
-        $user = new User($result['id'], $result['name'], $result['surname'], $result['phone'], $result['mail'], $result['picture'], null, null);
+        $user = new User($result['id'], $result['name'], $result['surname'], $result['phone'], $result['mail'], $result['picture'], null, null, []);
         
         $place = $daoPlace->getPlaceOfUser($user);
         if ($place != null) $user->set_place($place);

@@ -29,4 +29,10 @@ class DaoWork {
 
         return $result['id'];
     }
+    public function insertWork(int $idPlace, int $idUser){
+        $statement = $this->db->prepare('INSERT INTO works (id, id_user) VALUES (:id_place, :id_user)');
+        $statement->bindParam(":id_place", $idPlace);
+        $statement->bindParam(":id_user", $idUser);
+        $statement->execute();
+    }
 }

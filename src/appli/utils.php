@@ -117,9 +117,10 @@ class Utils {
         $city = $DaoCity->getCityOfUser($tempUser);
         $place = $DaoPlace->getPlaceOfUser($tempUser);
         $speciality = $DaoSpeciality->getSpecialityOfUser($tempUser);
-        $place->set_city($city);
-        $tempUser->set_place($place);
-        $tempUser->set_speciality($speciality);
+        if(!empty($place)) $place->set_city($city);
+        if(!empty($place)) $tempUser->set_place($place);
+        if(!empty($speciality))   $tempUser->set_speciality($speciality);
+
 
         if(!isset($_SESSION["user"])){
             $_SESSION["user"] = $tempUser;

@@ -11,6 +11,7 @@ error_reporting(E_ALL);
 require_once "src/appli/cntrlLogin.php";
 require_once "src/appli/cntrlApp.php";
 require_once "src/dao/DaoTime.php";
+require_once "src/metier/User.php";
 
 // DAO.
 // Peut-être vérifier la session utilisateur ici au lieu du header :
@@ -32,7 +33,7 @@ if ($method == "GET") {
     elseif ($uri == "/login")               if(isset($_SESSION["user"])){$cntrlApp->getRendezVous();} else{$cntrlLogin->getConnectionForm();}
     elseif ($uri == "/rendezvous")         $cntrlApp->getRendezVous();
     elseif($uri == "/espacedoc")            $cntrlApp->getDocPage();
-    elseif($uri == "/debug")                $utils->constructSession(12);
+    elseif($uri == "/espacedoc/creation")   $cntrlLogin->getDocConnectionForm();
     else $cntrlLogin->getConnectionForm();
 }
 elseif ($method == "POST") {
@@ -44,5 +45,7 @@ elseif ($method == "POST") {
     elseif ($uri == "/rendezvous/medecin/result")           $cntrlApp->userReservation();
     elseif($uri == '/espacedoc')                $cntrlApp->getDocPage();
     elseif($uri == '/espacedoc/result')         $cntrlApp->createMeeting();
+    elseif($uri == '/espacedoc/creation/result') $cntrlLogin->getRegisterDocResult();
+    elseif($uri == '/espacedoc/delete')            $cntrlApp->deleteMeeting();
     else $cntrlLogin->getConnectionForm();
 }

@@ -19,6 +19,10 @@ class DaoCity {
 	        echo $e->getMessage();
         }
     }
+    public function getAllCities(){
+        $statement = $this->db->query("SELECT code_insee, city.city from city");
+         return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public function getCityOfUser(User $user) {
         $uId = $user->get_id();

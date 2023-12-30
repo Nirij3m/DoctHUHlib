@@ -41,7 +41,9 @@
                               <button class="btn btn-dark btn-lg btn-block" type="submit">Connexion</button>
                             </div>
 
-                            <p class="mb-5 pb-lg-2" style="color: #393f81;">Pas encore membre ? <a href="/login/result" style="color: #393f81;">Créez-vous un compte</a></p>
+                            <p class="mb-5 pb-lg-2" style="color: #393f81;">Pas encore membre ? <a href="#seConnecter" style="color: #393f81;">Créez-vous un compte</a></p>
+                              <p class="mb-5 pb-lg-2" style="color: #393f81;">Vous êtes praticien ? <a href="/espacedoc/creation" style="color: #393f81;">Créez-vous votre espace médical</a></p>
+
                           </form>
           
                         </div>
@@ -65,10 +67,10 @@
           
                             <div class="d-flex align-items-center mb-3 pb-1">
                               <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
-                              <span class="h1 fw-bold mb-0">Doctisen</span>
+                              <span id="seConnecter" class="h1 fw-bold mb-0">Doctisen</span>
                             </div>
           
-                            <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Créez-votre compte en moins de 5 minutes</h5>
+                            <h5  class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Créez-votre compte en moins de 5 minutes</h5>
           
                             <div class="form-outline mb-4">
                               <input type="text" id="form2Example18" name="name" class="form-control form-control-lg" value="<?=$name?>"  required/>

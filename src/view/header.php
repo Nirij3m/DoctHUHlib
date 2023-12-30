@@ -34,12 +34,14 @@
                             <i class="fa-solid fa-calendar-days"></i>
                             <span class="ms-1 d-none d-sm-inline fsblock">Espace santé</span></a>
                     </li>
-
+                    <?php
+                    if(isset($_SESSION["user"]) && $_SESSION["user"]->isSpeInit() ){ ?>
                     <li>
                         <a href="/espacedoc" class="link px-0 align-middle">
                             <i class="fa-solid fa-stethoscope"></i>
                             <span class="ms-1 d-none d-sm-inline fsblock">Espace practicien</span></a>
                     </li>
+                    <?php } ?>
 
                 </ul>
                 <hr>
