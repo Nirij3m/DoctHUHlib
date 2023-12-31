@@ -22,7 +22,7 @@ class DaoWork {
 
     public function getWorkPlaceOfUser(User $user) {
         $uId = $user->get_id();
-        $statement = $this->db->prepare("SELECT * FROM work WHERE id_user = :id");
+        $statement = $this->db->prepare("SELECT * FROM works WHERE id_user = :id");
         $statement->bindParam(":id", $uId);
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);

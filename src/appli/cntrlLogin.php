@@ -113,12 +113,14 @@ class cntrlLogin {
         require PATH_VIEW . "vaccount.php";
     }
 
-    public function getDisconnect() {
+    public function getDisconnect()
+    {
         $utils = new Utils();
 
         $utils->destructSession();
 
         require PATH_VIEW . "vconnection.php";
+    }
     public function getRegisterDocResult() {
         $DaoUser = new DaoUser(DBHOST, DBNAME, PORT, USER, PASS);
         $cntrlApp = new cntrlApp();

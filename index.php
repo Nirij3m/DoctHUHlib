@@ -22,7 +22,6 @@ $utils      = new Utils();
 session_start();
 if (isset($_SESSION['user']))   $user = $_SESSION['user'];
 else                            $user = null;
-session_write_close();
 
 
 // Redirection selon l'URL

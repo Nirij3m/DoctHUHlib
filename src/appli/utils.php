@@ -109,8 +109,6 @@ class Utils {
 
     public function constructSession($id){
         $DaoUser = new DaoUser(DBHOST, DBNAME, PORT, USER, PASS);
-        $tempUser = $DaoUser->getFullById($id);
-      
         $DaoCity = new DaoCity(DBHOST, DBNAME, PORT, USER, PASS);
         $DaoPlace = new DaoPlace(DBHOST, DBNAME, PORT, USER, PASS);
         $DaoSpeciality = new DaoSpeciality(DBHOST, DBNAME, PORT, USER, PASS);
@@ -123,17 +121,15 @@ class Utils {
         if(!empty($place)) $tempUser->set_place($place);
         if(!empty($speciality))   $tempUser->set_speciality($speciality);
 
-
         if(!isset($_SESSION["user"])){
             $_SESSION["user"] = $tempUser;
         }
     }
 
     public function destructSession(){
-        session_start();
-        unset($_SESSION['user']);
-        session_write_close();
-
+        if(isset($_SESSION['user'])){
+            session_destroy();
+        }
         $this->echoSuccess("Vous avez bien été déconnecté");
     }
 

@@ -6,13 +6,11 @@ require_once "src/dao/DaoMeeting.php";
 
 class cntrlApp {
     public function getAccueil() {
-        $alerts = [];
         if (isset($_SESSION['user'])) {
             $user = $_SESSION['user'];
             $daoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
             $meeting = $daoMeeting->getNextMeeting($user);
         }
-
         require PATH_VIEW . "vaccueil.php";
     }
     public function getRendezVous() {
@@ -35,7 +33,7 @@ class cntrlApp {
         }
         else $currentWeek = $weekArray[0];
 
-        $meetings = $DaoMeeting->getMeetings($_SESSION["user"]);
+        $meetings = $DaoMeeting->getMeetingsOfDoctor($_SESSION["user"]);
         if(!isset($utils)){
             $utils = new Utils();
         }
