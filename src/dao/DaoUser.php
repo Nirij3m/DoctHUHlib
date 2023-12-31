@@ -77,7 +77,7 @@ class DaoUser {
     int $numStreet, string $street, int $codeInsee, string $namePlace, string $specialite){
 
         $DaoPlace = new DaoPlace(DBHOST, DBNAME, PORT, USER, PASS);
-        $DaoWorks = new DaoWorks(DBHOST, DBNAME, PORT, USER, PASS);
+        $DaoWorks = new DaoWork(DBHOST, DBNAME, PORT, USER, PASS);
         $utils = new Utils();
         $name = strtolower($name);
         $surname = strtolower($surname);
