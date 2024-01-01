@@ -23,21 +23,21 @@
                 </a>
                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                     <li class="nav-item">
-                        <a href="/" class="link align-middle px-0">
+                        <a href="/" class="colorIndex link align-middle px-0">
                             <i class="fa-solid fa-house"></i>
-                            <span class="ms-1 d-none d-sm-inline fsblock">Accueil</span>
+                            <span class=" ms-1 d-none d-sm-inline fsblock">Accueil</span>
                         </a>
                     </li>
 
                     <li>
-                        <a href="/login" class="link px-0 align-middle">
+                        <a href="/" class="colorIndex link align-middle px-0">
                             <i class="fa-solid fa-calendar-days"></i>
                             <span class="ms-1 d-none d-sm-inline fsblock">Espace santé</span></a>
                     </li>
                     <?php
                     if(isset($_SESSION["user"]) && $_SESSION["user"]->isSpeInit() ){ ?>
                     <li>
-                        <a href="/espacedoc" class="link px-0 align-middle">
+                        <a href="/espacedoc" class="colorIndex link px-0 align-middle">
                             <i class="fa-solid fa-stethoscope"></i>
                             <span class="ms-1 d-none d-sm-inline fsblock">Espace practicien</span></a>
                     </li>

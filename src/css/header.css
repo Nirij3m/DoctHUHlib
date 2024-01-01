@@ -1,3 +1,9 @@
+.colorIndex {
+    color: #FDFBF6
+}
+.colorIndex:hover {
+    color: #5D4A66;
+}
 
 html {
     font-family: "Inter", sans-serif !important;
@@ -26,7 +32,7 @@ div.corpse{
 
 
 .link {
-    color: black;
+    color: #FDFBF6;
     text-decoration: none;
 }
 .linkTitle {

@@ -47,9 +47,9 @@ else $days = $currentWeek->getDays();
                                 <tr>
                                     <td>
                                         <!-- Button trigger modal -->
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?='Modal'.$i?>">
-                                            <u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u>
-                                            <p><?=ucfirst(ucfirst($user->get_name())). " ". strtoupper($user->get_surname()) ?></p>
+                                        <button type="button" class="colorPatient btn btn-primary" data-toggle="modal" data-target="#<?='Modal'.$i?>">
+                                            <b><u><p style="color: #FDFBF6"><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u></b>
+                                            <b><p><?=ucfirst(ucfirst($user->get_name())). " ". strtoupper($user->get_surname()) ?></p></b>
                                         </button
 
                                         <!-- Modal -->
@@ -63,12 +63,15 @@ else $days = $currentWeek->getDays();
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <p>Horaire: <?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p>
-                                                        <p>Patient: <?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p>
-                                                        <p>Numéro de téléphone: <?= $user->get_phone()?></p>
-                                                        <p>Adresse mail: <?= $user->get_mail()?></p>
+                                                        <span class="fbContainer"><p class="frontText"> Horaire:</p> <p class="backText"><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></span>
+                                                        <span class="fbContainer"><p class="frontText"> Patient:</p> <p class="backText"><?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p></span>
+                                                        <span class="fbContainer"><p class="frontText"> Numéro de téléphone:</p> <p class="backText"><?= $user->get_phone()?></p></span>
+                                                        <span class="fbContainer"><p class="frontText"> Adresse mail:</p> <p class="backText"><?= $user->get_mail()?></p></span>
                                                     </div>
                                                     <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                        <div class="d-none">
+                                                            <input type="text" value="<?= $_POST["selectedWeek"] ?>" name="persistWeek">
+                                                        </div>
                                                         <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
                                                         <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
                                                     </form>
@@ -86,9 +89,9 @@ else $days = $currentWeek->getDays();
                             elseif ($m->get_beginning()->format("d-m-Y") == $days[0]->format("d-m-Y")){?>
                                     <tr>
                                         <td>
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?='subModal'.$i?>">
-                                                <u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u>
-                                                <p>Libre</p>
+                                            <button type="button" class="colorFree btn btn-primary" data-toggle="modal" data-target="#<?='subModal'.$i?>">
+                                                <b><u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u></b>
+                                                <b><p>Libre</p></b>
                                             </button
 
                                                     <!-- Modal -->
@@ -105,6 +108,9 @@ else $days = $currentWeek->getDays();
                                                             <p>Aucun patient n'a réservé ce créneau</p>
                                                         </div>
                                                         <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                            <div class="d-none">
+                                                                <input type="text" value="<?= $_POST["selectedWeek"] ?>" name="persistWeek">
+                                                            </div>
                                                             <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
                                                             <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
                                                         </form>
@@ -139,8 +145,8 @@ else $days = $currentWeek->getDays();
                         <tr>
                             <td>
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?='Modal'.$i?>">
-                                    <u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u>
+                                        <button type="button" class="colorPatient btn btn-primary" data-toggle="modal" data-target="#<?='Modal'.$i?>">
+                                    <b><u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u></b>
                                     <p><?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname()) ?></p>
                                 </button
 
@@ -155,12 +161,15 @@ else $days = $currentWeek->getDays();
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <p>Horaire: <?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p>
-                                                        <p>Patient: <?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p>
-                                                        <p>Numéro de téléphone: <?= $user->get_phone()?></p>
-                                                        <p>Adresse mail: <?= $user->get_mail()?></p>
+                                                        <span class="fbContainer"><p class="frontText"> Horaire:</p> <p class="backText"><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></span>
+                                                        <span class="fbContainer"><p class="frontText"> Patient:</p> <p class="backText"><?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p></span>
+                                                        <span class="fbContainer"><p class="frontText"> Numéro de téléphone:</p> <p class="backText"><?= $user->get_phone()?></p></span>
+                                                        <span class="fbContainer"><p class="frontText"> Adresse mail:</p> <p class="backText"><?= $user->get_mail()?></p></span>
                                                     </div>
                                                     <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                        <div class="d-none">
+                                                            <input type="text" value="<?= $_POST["selectedWeek"] ?>" name="persistWeek">
+                                                        </div>
                                                         <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
                                                         <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
                                                     </form>
@@ -178,9 +187,9 @@ else $days = $currentWeek->getDays();
                     elseif($m->get_beginning()->format("d-m-Y") == $days[1]->format("d-m-Y")){?>
                              <tr>
                                         <td>
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?='subModal'.$i?>">
-                                                <u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u>
-                                                <p>Libre</p>
+                                            <button type="button" class="colorFree btn btn-primary" data-toggle="modal" data-target="#<?='subModal'.$i?>">
+                                                <b><u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u></b>
+                                                <b><p>Libre</p></b>
                                             </button
 
                                                     <!-- Modal -->
@@ -197,6 +206,9 @@ else $days = $currentWeek->getDays();
                                                             <p>Aucun patient n'a réservé ce créneau</p>
                                                         </div>
                                                         <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                            <div class="d-none">
+                                                                <input type="text" value="<?= $_POST["selectedWeek"] ?>" name="persistWeek">
+                                                            </div>
                                                             <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
                                                             <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
                                                         </form>
@@ -230,8 +242,8 @@ else $days = $currentWeek->getDays();
                         <tr>
                             <td>
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?='Modal'.$i?>">
-                                    <u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u>
+                                        <button type="button" class="colorPatient btn btn-primary" data-toggle="modal" data-target="#<?='Modal'.$i?>">
+                                    <b><u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u></b>
                                     <p><?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname()) ?></p>
                                 </button
 
@@ -246,12 +258,15 @@ else $days = $currentWeek->getDays();
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <p>Horaire: <?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p>
-                                                        <p>Patient: <?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p>
-                                                        <p>Numéro de téléphone: <?= $user->get_phone()?></p>
-                                                        <p>Adresse mail: <?= $user->get_mail()?></p>
+                                                        <span class="fbContainer"><p class="frontText"> Horaire:</p> <p class="backText"><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></span>
+                                                        <span class="fbContainer"><p class="frontText"> Patient:</p> <p class="backText"><?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p></span>
+                                                        <span class="fbContainer"><p class="frontText"> Numéro de téléphone:</p> <p class="backText"><?= $user->get_phone()?></p></span>
+                                                        <span class="fbContainer"><p class="frontText"> Adresse mail:</p> <p class="backText"><?= $user->get_mail()?></p></span>
                                                     </div>
                                                     <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                        <div class="d-none">
+                                                            <input type="text" value="<?= $_POST["selectedWeek"] ?>" name="persistWeek">
+                                                        </div>
                                                         <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
                                                         <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
                                                     </form>
@@ -269,9 +284,9 @@ else $days = $currentWeek->getDays();
                     elseif($m->get_beginning()->format("d-m-Y") == $days[2]->format("d-m-Y")){?>
                              <tr>
                                         <td>
-                                                           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?='subModal'.$i?>">
-                                                <u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u>
-                                                <p>Libre</p>
+                                                           <button type="button" class="colorFree btn btn-primary" data-toggle="modal" data-target="#<?='subModal'.$i?>">
+                                                <b><u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u></b>
+                                                <b><p>Libre</p></b>
                                             </button
 
                                                     <!-- Modal -->
@@ -288,6 +303,9 @@ else $days = $currentWeek->getDays();
                                                             <p>Aucun patient n'a réservé ce créneau</p>
                                                         </div>
                                                         <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                            <div class="d-none">
+                                                                <input type="text" value="<?= $_POST["selectedWeek"] ?>" name="persistWeek">
+                                                            </div>
                                                             <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
                                                             <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
                                                         </form>
@@ -321,8 +339,8 @@ else $days = $currentWeek->getDays();
                         <tr>
                             <td>
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?='Modal'.$i?>">
-                                    <u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u>
+                                        <button type="button" class="colorPatient btn btn-primary" data-toggle="modal" data-target="#<?='Modal'.$i?>">
+                                    <b><u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u></b>
                                     <p><?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname()) ?></p>
                                 </button
 
@@ -337,12 +355,15 @@ else $days = $currentWeek->getDays();
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <p>Horaire: <?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p>
-                                                        <p>Patient: <?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p>
-                                                        <p>Numéro de téléphone: <?= $user->get_phone()?></p>
-                                                        <p>Adresse mail: <?= $user->get_mail()?></p>
+                                                        <span class="fbContainer"><p class="frontText"> Horaire:</p> <p class="backText"><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></span>
+                                                        <span class="fbContainer"><p class="frontText"> Patient:</p> <p class="backText"><?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p></span>
+                                                        <span class="fbContainer"><p class="frontText"> Numéro de téléphone:</p> <p class="backText"><?= $user->get_phone()?></p></span>
+                                                        <span class="fbContainer"><p class="frontText"> Adresse mail:</p> <p class="backText"><?= $user->get_mail()?></p></span>
                                                     </div>
                                                     <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                        <div class="d-none">
+                                                            <input type="text" value="<?= $_POST["selectedWeek"] ?>" name="persistWeek">
+                                                        </div>
                                                         <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
                                                         <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
                                                     </form>
@@ -359,9 +380,9 @@ else $days = $currentWeek->getDays();
                     elseif($m->get_beginning()->format("d-m-Y") == $days[3]->format("d-m-Y")){?>
                              <tr>
                                         <td>
-                                                           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?='subModal'.$i?>">
-                                                <u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u>
-                                                <p>Libre</p>
+                                                           <button type="button" class="colorFree btn btn-primary" data-toggle="modal" data-target="#<?='subModal'.$i?>">
+                                                <b><u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u></b>
+                                                <b><p>Libre</p></b>
                                             </button
 
                                                     <!-- Modal -->
@@ -378,6 +399,9 @@ else $days = $currentWeek->getDays();
                                                             <p>Aucun patient n'a réservé ce créneau</p>
                                                         </div>
                                                         <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                            <div class="d-none">
+                                                                <input type="text" value="<?= $_POST["selectedWeek"] ?>" name="persistWeek">
+                                                            </div>
                                                             <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
                                                             <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
                                                         </form>
@@ -411,8 +435,8 @@ else $days = $currentWeek->getDays();
                         <tr>
                             <td>
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?='Modal'.$i?>">
-                                    <u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u>
+                                        <button type="button" class="colorPatient btn btn-primary" data-toggle="modal" data-target="#<?='Modal'.$i?>">
+                                    <b><u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u></b>
                                     <p><?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname()) ?></p>
                                 </button
 
@@ -427,12 +451,15 @@ else $days = $currentWeek->getDays();
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <p>Horaire: <?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p>
-                                                        <p>Patient: <?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p>
-                                                        <p>Numéro de téléphone: <?= $user->get_phone()?></p>
-                                                        <p>Adresse mail: <?= $user->get_mail()?></p>
+                                                        <span class="fbContainer"><p class="frontText"> Horaire:</p> <p class="backText"><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></span>
+                                                        <span class="fbContainer"><p class="frontText"> Patient:</p> <p class="backText"><?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p></span>
+                                                        <span class="fbContainer"><p class="frontText"> Numéro de téléphone:</p> <p class="backText"><?= $user->get_phone()?></p></span>
+                                                        <span class="fbContainer"><p class="frontText"> Adresse mail:</p> <p class="backText"><?= $user->get_mail()?></p></span>
                                                     </div>
                                                     <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                        <div class="d-none">
+                                                            <input type="text" value="<?= $_POST["selectedWeek"] ?>" name="persistWeek">
+                                                        </div>
                                                         <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
                                                         <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
                                                     </form>
@@ -449,9 +476,9 @@ else $days = $currentWeek->getDays();
                     elseif($m->get_beginning()->format("d-m-Y") == $days[4]->format("d-m-Y")){?>
                              <tr>
                                         <td>
-                                                           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?='subModal'.$i?>">
-                                                <u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u>
-                                                <p>Libre</p>
+                                                           <button type="button" class="colorFree btn btn-primary" data-toggle="modal" data-target="#<?='subModal'.$i?>">
+                                                <b><u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u></b>
+                                                <b><p>Libre</p></b>
                                             </button
 
                                                     <!-- Modal -->
@@ -468,6 +495,9 @@ else $days = $currentWeek->getDays();
                                                             <p>Aucun patient n'a réservé ce créneau</p>
                                                         </div>
                                                         <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                            <div class="d-none">
+                                                                <input type="text" value="<?= $_POST["selectedWeek"] ?>" name="persistWeek">
+                                                            </div>
                                                             <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
                                                             <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
                                                         </form>
@@ -501,8 +531,8 @@ else $days = $currentWeek->getDays();
                         <tr>
                             <td>
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?='Modal'.$i?>">
-                                    <u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u>
+                                        <button type="button" class="colorPatient btn btn-primary" data-toggle="modal" data-target="#<?='Modal'.$i?>">
+                                    <b><u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u></b>
                                     <p><?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname()) ?></p>
                                 </button
 
@@ -517,12 +547,15 @@ else $days = $currentWeek->getDays();
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <p>Horaire: <?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p>
-                                                        <p>Patient: <?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p>
-                                                        <p>Numéro de téléphone: <?= $user->get_phone()?></p>
-                                                        <p>Adresse mail: <?= $user->get_mail()?></p>
+                                                        <span class="fbContainer"><p class="frontText"> Horaire:</p> <p class="backText"><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></span>
+                                                        <span class="fbContainer"><p class="frontText"> Patient:</p> <p class="backText"><?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p></span>
+                                                        <span class="fbContainer"><p class="frontText"> Numéro de téléphone:</p> <p class="backText"><?= $user->get_phone()?></p></span>
+                                                        <span class="fbContainer"><p class="frontText"> Adresse mail:</p> <p class="backText"><?= $user->get_mail()?></p></span>
                                                     </div>
                                                     <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                        <div class="d-none">
+                                                            <input type="text" value="<?= $_POST["selectedWeek"] ?>" name="persistWeek">
+                                                        </div>
                                                         <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
                                                         <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
                                                     </form>
@@ -540,9 +573,9 @@ else $days = $currentWeek->getDays();
                     elseif($m->get_beginning()->format("d-m-Y") == $days[5]->format("d-m-Y")){?>
                              <tr>
                                         <td>
-                                                           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?='subModal'.$i?>">
-                                                <u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u>
-                                                <p>Libre</p>
+                                                           <button type="button" class="colorFree btn btn-primary" data-toggle="modal" data-target="#<?='subModal'.$i?>">
+                                                <b><u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u></b>
+                                                <b><p>Libre</p></b>
                                             </button
 
                                                     <!-- Modal -->
@@ -559,6 +592,9 @@ else $days = $currentWeek->getDays();
                                                             <p>Aucun patient n'a réservé ce créneau</p>
                                                         </div>
                                                         <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                            <div class="d-none">
+                                                                <input type="text" value="<?= $_POST["selectedWeek"] ?>" name="persistWeek">
+                                                            </div>
                                                             <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
                                                             <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
                                                         </form>
@@ -592,8 +628,8 @@ else $days = $currentWeek->getDays();
                         <tr>
                             <td>
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?='Modal'.$i?>">
-                                    <u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u>
+                                        <button type="button" class="colorPatient btn btn-primary" data-toggle="modal" data-target="#<?='Modal'.$i?>">
+                                    <b><u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u></b>
                                     <p><?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname()) ?></p>
                                 </button
 
@@ -608,12 +644,15 @@ else $days = $currentWeek->getDays();
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <p>Horaire: <?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p>
-                                                        <p>Patient: <?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p>
-                                                        <p>Numéro de téléphone: <?= $user->get_phone()?></p>
-                                                        <p>Adresse mail: <?= $user->get_mail()?></p>
+                                                        <span class="fbContainer"><p class="frontText"> Horaire:</p> <p class="backText"><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></span>
+                                                        <span class="fbContainer"><p class="frontText"> Patient:</p> <p class="backText"><?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p></span>
+                                                        <span class="fbContainer"><p class="frontText"> Numéro de téléphone:</p> <p class="backText"><?= $user->get_phone()?></p></span>
+                                                        <span class="fbContainer"><p class="frontText"> Adresse mail:</p> <p class="backText"><?= $user->get_mail()?></p></span>
                                                     </div>
                                                     <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                        <div class="d-none">
+                                                            <input type="text" value="<?= $_POST["selectedWeek"] ?>" name="persistWeek">
+                                                        </div>
                                                         <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
                                                         <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
                                                     </form>
@@ -631,9 +670,9 @@ else $days = $currentWeek->getDays();
                     elseif($m->get_beginning()->format("d-m-Y") == $days[6]->format("d-m-Y")){?>
                              <tr>
                                         <td>
-                                                           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?='subModal'.$i?>">
-                                                <u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u>
-                                                <p>Libre</p>
+                                                           <button type="button" class="colorFree btn btn-primary" data-toggle="modal" data-target="#<?='subModal'.$i?>">
+                                                <b><u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u></b>
+                                                <b><p>Libre</p></b>
                                             </button
 
                                                     <!-- Modal -->
@@ -650,6 +689,9 @@ else $days = $currentWeek->getDays();
                                                             <p>Aucun patient n'a réservé ce créneau</p>
                                                         </div>
                                                         <form id="<?= "Form".$i ?>" method="POST" action="/espacedoc/delete" style="display: none;">
+                                                            <div class="d-none">
+                                                                <input type="text" value="<?= $_POST["selectedWeek"] ?>" name="persistWeek">
+                                                            </div>
                                                             <input value="<?= $m->get_medecin()->get_id()?>" name="idDoc">
                                                             <input value="<?= $m->get_beginning()->format("Y-m-d H:i:s")?>" name="tbeg">
                                                         </form>

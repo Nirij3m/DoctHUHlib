@@ -31,7 +31,7 @@ $speArray = $DaoSpeciality->getSpeciality();
                     <?php }
                         }?>
                 </select>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btnSubmit btn btn-primary">Submit</button>
             </form>
         </div>
 
