@@ -15,3 +15,13 @@
 .form-override {
     width: 15%;
 }
+.btnSubmit {
+    background: #5D4A66;
+    border-color: #5D4A66
+}
+.btnSubmit:hover{
+    background-color: #FDFBF6;
+    border: #FDFBF6;
+    color: #5D4A66;
+    font-weight: 500;
+}

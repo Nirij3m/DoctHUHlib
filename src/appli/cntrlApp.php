@@ -24,10 +24,10 @@ class cntrlApp {
         $DaoTimeslot = new DaoTime(DBHOST, DBNAME, PORT, USER, PASS);
         $DaoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
         $weekArray = $DaoTimeslot->getFutureWeeks();
-        if(isset($_POST["selectedWeek"]) && $_POST["selectedWeek"] != 1){
+        if(isset($_POST["selectedWeek"]) && $_POST["selectedWeek"] != -1){
             $currentWeek = $weekArray[$_POST["selectedWeek"]];
         }
-        elseif(isset($_POST["persistWeek"]) && $_POST["persistWeek"] != 1){
+        elseif(isset($_POST["persistWeek"]) && $_POST["persistWeek"] != -1){
             $currentWeek = $weekArray[$_POST["persistWeek"]];
             $_POST["selectedWeek"] = $_POST["persistWeek"];
         }

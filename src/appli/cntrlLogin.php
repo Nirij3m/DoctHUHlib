@@ -3,7 +3,7 @@ require_once "utils.php";
 require_once "src/dao/DaoUser.php";
 require_once "src/dao/DaoSpeciality.php";
 require_once "src/appli/cntrlApp.php";
-class cntrlLogin {
+class  cntrlLogin {
     /*
     Contrôleur possédant toutes les pages en lien avec l'enregistrement et
     la connexion.
@@ -63,12 +63,17 @@ class cntrlLogin {
         $password       = $_POST['password'];
         $passwordVerify = $_POST['passwordVerify'];
 
+        $phone = str_replace(' ', '', $phone);
+        if(strlen($phone) > 10){
+            $utils->echoWarning("Veuillez saisir un numéro de téléphone français");
+            require PATH_VIEW . "vconnection.php";
+            return;
+        }
         if(!$utils->isSanitize($name) || !$utils->isSanitize($surname)){
             $utils->echoWarning("Le nom et prénom ne peuvent contenir ni caractères spéciaux ni accents");
             require PATH_VIEW . "vconnection.php";
             return;
         }
-
         if($mail !== $mailVerify){
             $utils->echoWarning("La deuxième adresse mail ne correspond pas à la première");
             require PATH_VIEW . "vconnection.php";
@@ -139,7 +144,12 @@ class cntrlLogin {
         $specialite = $_POST['specialite'];
         $codeInsee = $_POST['city'];
 
-
+        $phone = str_replace(' ', '', $phone);
+        if(strlen($phone) > 10){
+            $utils->echoWarning("Veuillez saisir un numéro de téléphone français");
+            require PATH_VIEW . "vconnection.php";
+            return;
+        }
         if(!$utils->isSanitize($name) || !$utils->isSanitize($surname)){
             $utils->echoWarning("Le nom et prénom ne peuvent contenir ni caractères spéciaux ni accents");
             require PATH_VIEW . "vmconnection.php";

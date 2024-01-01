@@ -50,9 +50,9 @@ class DaoUser {
 
     public function registerUser(string $name, string $surname, string $phone, string $mail, string $password) {
         $utils = new Utils();
+
         $name = strtolower($name);
         $surname = strtolower($surname);
-        $phone = str_replace(' ', '', $phone);
 
         $statement = $this->db->prepare("INSERT INTO users (name, surname, phone, mail, password) VALUES (:name, :surname, :phone, :mail, :password)");
         $statement->bindParam(":name", $name);
@@ -74,7 +74,10 @@ class DaoUser {
         }
     }
     public function registerDoc(string $name, string $surname, string $phone, string $mail, string $password,
-    int $numStreet, string $street, int $codeInsee, string $namePlace, string $specialite){
+        int $numStreet, string $street, int $codeInsee, string $namePlace, string $specialite){
+
+        $name = strtolower($name);
+        $surname = strtolower($surname);
 
         $DaoPlace = new DaoPlace(DBHOST, DBNAME, PORT, USER, PASS);
         $DaoWorks = new DaoWork(DBHOST, DBNAME, PORT, USER, PASS);
