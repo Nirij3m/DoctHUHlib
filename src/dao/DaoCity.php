@@ -35,7 +35,8 @@ class DaoCity {
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
-        $city = new City($result['code_insee'], $result['city'], $result['code_postal']);
+        if ($result == false) $city = null;
+        else $city = new City($result['code_insee'], $result['city'], $result['code_postal']);
 
         return $city;
     }

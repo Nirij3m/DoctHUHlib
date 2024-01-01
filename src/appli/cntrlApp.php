@@ -20,7 +20,8 @@ class cntrlApp {
         }
         require PATH_VIEW . "vconnection.php";
     }
-    public function getDocPage(){
+    public function getDocPage() {
+
         $DaoTimeslot = new DaoTime(DBHOST, DBNAME, PORT, USER, PASS);
         $DaoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
         $weekArray = $DaoTimeslot->getFutureWeeks();
@@ -40,6 +41,9 @@ class cntrlApp {
         require PATH_VIEW . "vmedecin.php";
     }
     public function createMeeting(){
+        $user = $_SESSION['user'];
+        if ($user->get_speciality() == null) header("Location: /");
+
         if(!isset($_SESSION)){
             session_start();
         }
@@ -165,6 +169,8 @@ class cntrlApp {
 
         $daoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
 
+        $yesterday = new DateTime();
+        $yesterday = $yesterday->modify('-1 day');
         $meetings = $daoMeeting->getMeetingsOfPatient($user);
 
         require PATH_VIEW . "vpastmeetings.php";
@@ -180,6 +186,9 @@ class cntrlApp {
 
         $meet = $daoMeeting->getMeetingById($meetingId);
         $daoMeeting->cancelMeetingOfPatient($user, $meet);
+        
+        $yesterday = new DateTime();
+        $yesterday = $yesterday->modify('-1 day');
 
         $utils->echoSuccess("Votre rendez-vous a bien été annulé");
 

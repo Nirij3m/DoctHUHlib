@@ -54,7 +54,7 @@ class User {
         return $this->place;
     }
 
-    public function get_speciality() : Speciality {
+    public function get_speciality() : ?Speciality {
         return $this->speciality;
     }
 
@@ -90,7 +90,7 @@ class User {
         $this->place = $place;
     }
 
-    public function set_speciality(Speciality $speciality) {
+    public function set_speciality(?Speciality $speciality) {
         $this->speciality = $speciality;
     }
 
