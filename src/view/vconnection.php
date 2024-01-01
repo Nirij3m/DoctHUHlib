@@ -73,7 +73,7 @@
                             <h5  class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Créez-votre compte en moins de 5 minutes</h5>
           
                             <div class="form-outline mb-4">
-                              <input type="text" id="form2Example18" name="name" class="form-control form-control-lg" value="<?=$name?>"  required/>
+                              <input type="text" id="form2Example18" name="name" class="form-control form-control-lg" required/>
                               <label class="form-label" for="form2Example18">Nom</label>
                                 <div class="invalid-feedback">
                                     Please choose a username.
@@ -81,7 +81,7 @@
                             </div>
                             
                             <div class="form-outline mb-4">
-                              <input type="text" id="form2Example17" name="surname" class="form-control form-control-lg" value="<?=$surname?>" required/>
+                              <input type="text" id="form2Example17" name="surname" class="form-control form-control-lg" required/>
                               <label class="form-label" for="form2Example17">Prénom</label>
                                 <div class="invalid-feedback">
                                     Please choose a username.
@@ -89,12 +89,12 @@
                             </div>
                             
                             <div class="form-outline mb-4">
-                              <input type="tel" id="form2Example17" name="phone" class="form-control form-control-lg" value="<?=$phone?>"required/>
+                              <input type="tel" id="form2Example17" name="phone" class="form-control form-control-lg"required/>
                               <label class="form-label" for="form2Example17">Téléphone</label>
                             </div>
                             
                             <div class="form-outline mb-4">
-                              <input type="email" id="form2Example17" name="mail" class="form-control form-control-lg" value="<?=$mail?>" required/>
+                              <input type="email" id="form2Example17" name="mail" class="form-control form-control-lg" required/>
                               <label class="form-label" for="form2Example17">Adresse Mail</label>
                             </div>
                             
@@ -104,7 +104,7 @@
                             </div>
                             
                             <div class="form-outline mb-4">
-                              <input type="password" id="form2Example17" name="password" class="form-control form-control-lg" value="<?=$password?>" required/>
+                              <input type="password" id="form2Example17" name="password" class="form-control form-control-lg" required/>
                               <label class="form-label" for="form2Example17">Mot de passe</label>
                             </div>
           

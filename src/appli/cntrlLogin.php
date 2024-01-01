@@ -45,7 +45,7 @@ class cntrlLogin {
             $needle = "Vous êtes connecté";
             $utils->echoSuccess($needle);
 
-            require PATH_VIEW . "vrendezvous.php";
+            require PATH_VIEW . "vaccueil.php";
         }
     }
 
@@ -102,15 +102,50 @@ class cntrlLogin {
 
     public function getAccountEdit() {
         $alerts = [];
-        $daoSpeciality = new DaoSpeciality(DBHOST, DBNAME, PORT, USER, PASS);
+        $daoUser        = new DaoUser(DBHOST, DBNAME, PORT, USER, PASS);
+        $daoSpeciality  = new DaoSpeciality(DBHOST, DBNAME, PORT, USER, PASS);
 
         session_start();
         $user = $_SESSION['user'];
+        unset($_SESSION['user']);
+        $user = $daoUser->getFullById($user->get_id());
+        $_SESSION['user'] = $user;
         session_write_close();
 
+
+
         $specialities = $daoSpeciality->getSpecialities();
+        $img_account = "/assets/img/";
 
         require PATH_VIEW . "vaccount.php";
+    }
+
+    public function getAccountEditResult() {
+        $phone = $_POST['phone'];
+        $newPass = $_POST['pass'];
+        $newPassConf = $_POST['passVerify'];
+        $oldPass = trim($_POST['oldPass']);
+        $user = $_SESSION['user'];
+        $email = $_POST['email'];
+        
+        $utils      = new Utils();
+        $daoUser    = new DaoUser(DBHOST, DBNAME, PORT, USER, PASS);
+
+        if ($newPass != $newPassConf) {
+            $utils->echoError("Les nouveaux mots de passe ne correspondent pas");
+        }
+        else {
+            $photo = null;
+            $pfpResult = $utils->savePicture($user->get_id(), "img", "assets/img/");
+            if ($pfpResult[1] == true)  $photo = $pfpResult[0];
+            $result = $daoUser->getEditUser($user, $email, $phone, $photo, $oldPass, $newPass);
+        }
+
+        if ($result == null) {
+            $utils->echoError("Votre ancien mot de passe est incorrect");
+        }
+
+        $this->getAccountEdit();
     }
 
     public function getDisconnect()

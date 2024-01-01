@@ -53,13 +53,16 @@ class DaoUser {
         $name = strtolower($name);
         $surname = strtolower($surname);
         $phone = str_replace(' ', '', $phone);
+        $tempPicture = "unknown.png";
 
-        $statement = $this->db->prepare("INSERT INTO users (name, surname, phone, mail, password) VALUES (:name, :surname, :phone, :mail, :password)");
+
+        $statement = $this->db->prepare("INSERT INTO users (name, surname, phone, mail, password, picture) VALUES (:name, :surname, :phone, :mail, :password, :picture)");
         $statement->bindParam(":name", $name);
         $statement->bindParam(":surname", $surname);
         $statement->bindParam(":phone", $phone);
         $statement->bindParam(":mail", $mail);
         $statement->bindParam(":password", $password);
+        $statement->bindParam(":picture", $tempPicture);
         try{
             $statement->execute();
             return "";
@@ -97,7 +100,7 @@ class DaoUser {
         $speId = $resultSpeId["id"];
 
         //Insert the user and retrive the user's id
-        $tempPicture = "/pct/test";
+        $tempPicture = "unknown.png";
         $statementUser = $this->db->prepare("INSERT INTO users (name, surname, phone, mail, password, id_speciality, picture) VALUES (:name, :surname, :phone, :mail, :password, :id_speciality, :picture) RETURNING id");
         $statementUser->bindParam(":name", $name);
         $statementUser->bindParam(":surname", $surname);
@@ -128,6 +131,36 @@ class DaoUser {
         return "";
 
     }
+
+    public function getEditUser(User $user, $email = null, $phone = null, $pfp = null, $oldPass = null, $newPass = null) {
+        $idUser = $user->get_id();
+        $statement = $this->db->prepare("SELECT password FROM users WHERE id = :id");
+        $statement->bindParam(":id", $idUser);
+        $statement->execute();
+        $pass = $statement->fetch(PDO::FETCH_ASSOC)['password'];
+
+        if (!password_verify($oldPass, $pass)) {
+            return null;
+        }
+        else {
+            if ($phone == null)     $phone = $user->get_phone();
+            if ($newPass == null)   $newPass = $oldPass;
+            if ($pfp == null)       $pfp = $user->get_picture();
+
+            $newPass = password_hash($newPass, PASSWORD_BCRYPT);
+
+            $statement = $this->db->prepare("UPDATE users SET mail = :email, phone = :phone, password = :password, picture = :picture WHERE id = :id");
+            $statement->bindParam(":email", $email);
+            $statement->bindParam(":phone", $phone);
+            $statement->bindParam(":password", $newPass);
+            $statement->bindParam(":picture", $pfp);
+            $statement->bindParam(":id", $idUser);
+            $statement->execute();
+
+            return true;
+        }
+    }
+
     public function getByUserSpe(string $surname, string $name, string $spe) {
         $daoPlace = new DaoPlace(DBHOST, DBNAME, PORT, USER, PASS);
         $daoCity = new DaoCity(DBHOST, DBNAME, PORT, USER, PASS);

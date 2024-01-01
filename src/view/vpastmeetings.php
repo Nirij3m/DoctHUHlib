@@ -27,7 +27,7 @@
                             <input type="text" name="idMedecin" value="<?=$meeting->get_medecin()->get_id()?>" hidden />
                             <button type="submit" class="btn btn-info">Réserver un autre RDV</button>
                           </form>
-                            <?php if (date('d/m/Y H:i:s', strtotime("-1 days")) < $meeting->get_beginning()->format('d/m/Y H:i:s')) { ?>
+                            <?php if ($yesterday < $meeting->get_beginning()) { ?>
                                 <form method="POST" action="/rendezvous/cancel">
                                     <input type="text" name="idMeeting" value="<?=$meeting->get_id()?>" hidden>
                                     <button type="submit" class="btn btn-danger">Annuler</button>

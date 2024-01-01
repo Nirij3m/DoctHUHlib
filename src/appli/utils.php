@@ -119,7 +119,7 @@ class Utils {
         $speciality = $DaoSpeciality->getSpecialityOfUser($tempUser);
         if(!empty($place)) $place->set_city($city);
         if(!empty($place)) $tempUser->set_place($place);
-        if(!empty($speciality))   $tempUser->set_speciality($speciality);
+        $tempUser->set_speciality($speciality);
 
         if(!isset($_SESSION["user"])){
             $_SESSION["user"] = $tempUser;
@@ -133,6 +133,68 @@ class Utils {
         $this->echoSuccess("Vous avez bien été déconnecté");
     }
 
+    public function savePicture($pictureName, $inputName, $targetDir) {
+        $bilan      = [];
+        $erreurs    = [];
+        $warnings   = [];
+        $image      = "";
+
+        if ($_FILES[$inputName]["name"] != "") {
+            $target_no_extension    = $targetDir . $pictureName;
+            $target_file            = $targetDir . $pictureName . "." . pathinfo($_FILES[$inputName]["name"], PATHINFO_EXTENSION);
+            $boolUpload             = true;
+
+            if (file_exists($target_no_extension . ".png")) {
+                if (!unlink($target_no_extension . ".png")) {
+                    $boolUpload = false;
+                    array_push($erreurs, "L'ancienne photo n'a pas pu être supprimée");
+                }
+            }
+            
+            if (file_exists($target_no_extension . ".jpg")) {
+                if (!unlink($target_no_extension . ".jpg")) {
+                    $boolUpload = false;
+                    array_push($erreurs, "L'ancienne photo n'a pas pu être supprimée");
+                }
+            }
+            
+            if (file_exists($target_no_extension . ".jpeg")) {
+                if (!unlink($target_no_extension . ".jpeg")) {
+                    $boolUpload = false;
+                    array_push($erreurs, "L'ancienne photo n'a pas pu être supprimée");
+                }
+            }
+
+            $check = getimagesize($_FILES[$inputName]["tmp_name"]);
+            if ($check === false) {
+                array_push($erreurs, "Photo incorrecte");
+                $boolUpload = false;
+            }
+
+            if ($_FILES[$inputName]["size"] > 500000) {
+                array_push($erreurs, "Photo trop lourde");
+                $boolUpload = false;
+            }
+
+            if ($boolUpload) {
+                if (move_uploaded_file($_FILES[$inputName]["tmp_name"], $target_file)) {
+                    $image = $pictureName . "." . pathinfo($_FILES[$inputName]["name"], PATHINFO_EXTENSION);
+                }
+                else {
+                    array_push($warnings, "Photo non upload");
+                }
+            }
+        }
+        else    $boolUpload = false;
+
+
+        array_push($bilan, $image);         // Contient le nom de l'image et l'extension
+        array_push($bilan, $boolUpload);    // True si upload, sinon false.
+        array_push($bilan, $erreurs);       // Contient l'entièreté des erreurs.
+        array_push($bilan, $warnings);      // Contient l'entièreté des warnings.
+
+        return $bilan;
+    }
 }
 
 
