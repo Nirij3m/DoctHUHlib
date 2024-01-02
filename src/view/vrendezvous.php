@@ -88,81 +88,85 @@ $speArray = $DaoSpeciality->getSpeciality();
             </div>
 
 
-            <div class="mt-4">
-                <h3>Vos prochains rendez-vous</h3>
-                <hr>
-                <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Date</th>
-                        <th scope="col">Plage horaire</th>
-                        <th scope="col">Médecin</th>
-                        <th scope="col">Spécialité</th>
-                        <th scope="col" class="text-center">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($futureMeetings as $meeting) { ?>
+            <?php if(sizeof($futureMeetings) != 0) { ?>
+                <div class="mt-4">
+                    <h3>Vos prochains rendez-vous</h3>
+                    <hr>
+                    <table class="table">
+                    <thead>
                         <tr>
-                            <td><?=$meeting->get_beginning()->format('d/m/Y')?></td>
-                            <td><?=$meeting->get_beginning()->format('H:i') . " - " . $meeting->get_ending()->format('H:i')?></td>
-                            <td><?=ucfirst($meeting->get_medecin()->get_surname()) . " " . strtoupper($meeting->get_medecin()->get_name())?></td>
-                            <td><?=$meeting->get_medecin()->get_speciality()->get_type()?></td>
-                            <td class="d-flex flex-row justify-content-around">
+                            <th scope="col">Date</th>
+                            <th scope="col">Plage horaire</th>
+                            <th scope="col">Médecin</th>
+                            <th scope="col">Spécialité</th>
+                            <th scope="col" class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($futureMeetings as $meeting) { ?>
+                            <tr>
+                                <td><?=$meeting->get_beginning()->format('d/m/Y')?></td>
+                                <td><?=$meeting->get_beginning()->format('H:i') . " - " . $meeting->get_ending()->format('H:i')?></td>
+                                <td><?=ucfirst($meeting->get_medecin()->get_surname()) . " " . strtoupper($meeting->get_medecin()->get_name())?></td>
+                                <td><?=$meeting->get_medecin()->get_speciality()->get_type()?></td>
+                                <td class="d-flex flex-row justify-content-around">
+                                    <form method="POST" action="/rendezvous/medecin/disponibilites">
+                                        <input type="text" name="idMedecin" value="<?=$meeting->get_medecin()->get_id()?>" hidden />
+                                        <button type="submit" class="btn btn-info">Réserver un autre RDV</button>
+                                    </form>
+                                    <?php if ($tomorrow < $meeting->get_beginning()) { ?>
+                                        <form method="POST" action="/rendezvous/cancel">
+                                            <input type="text" name="idMeeting" value="<?=$meeting->get_id()?>" hidden>
+                                            <button type="submit" class="btn btn-danger">Annuler</button>
+                                        </form>
+                                    <?php } else { ?>
+                                        <form>
+                                            <button type="submit" class="btn btn-danger" title="Vous ne pouvez annuler un rendez-vous que 24h en avance" disabled>Annuler</button>
+                                        </form>
+                                    <?php } ?>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php } ?>
+
+
+        <?php if (sizeof($pastMeetings) != 0) { ?>
+            <div class="mt-4">
+                <h3>Vos anciens rendez-vous</h3>
+                <hr>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Plage horaire</th>
+                            <th scope="col">Médecin</th>
+                            <th scope="col">Spécialité</th>
+                            <th scope="col" class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($pastMeetings as $meeting) { ?>
+                            <tr>
+                                <td><?=$meeting->get_beginning()->format('d/m/Y')?></td>
+                                <td><?=$meeting->get_beginning()->format('H:i') . " - " . $meeting->get_ending()->format('H:i')?></td>
+                                <td><?=ucfirst($meeting->get_medecin()->get_surname()) . " " . strtoupper($meeting->get_medecin()->get_name())?></td>
+                                <td><?=$meeting->get_medecin()->get_speciality()->get_type()?></td>
+                                <td class="d-flex flex-row justify-content-around">
                                 <form method="POST" action="/rendezvous/medecin/disponibilites">
                                     <input type="text" name="idMedecin" value="<?=$meeting->get_medecin()->get_id()?>" hidden />
                                     <button type="submit" class="btn btn-info">Réserver un autre RDV</button>
                                 </form>
-                                <?php if ($tomorrow < $meeting->get_beginning()) { ?>
-                                    <form method="POST" action="/rendezvous/cancel">
-                                        <input type="text" name="idMeeting" value="<?=$meeting->get_id()?>" hidden>
-                                        <button type="submit" class="btn btn-danger">Annuler</button>
-                                    </form>
-                                <?php } else { ?>
-                                    <form>
-                                        <button type="submit" class="btn btn-danger" title="Vous ne pouvez annuler un rendez-vous que 24h en avance" disabled>Annuler</button>
-                                    </form>
-                                <?php } ?>
-                            </td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
-        </div>
-
-
-        <div class="mt-4">
-            <h3>Vos anciens rendez-vous</h3>
-            <hr>
-
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Date</th>
-                        <th scope="col">Plage horaire</th>
-                        <th scope="col">Médecin</th>
-                        <th scope="col">Spécialité</th>
-                        <th scope="col" class="text-center">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($pastMeetings as $meeting) { ?>
-                        <tr>
-                            <td><?=$meeting->get_beginning()->format('d/m/Y')?></td>
-                            <td><?=$meeting->get_beginning()->format('H:i') . " - " . $meeting->get_ending()->format('H:i')?></td>
-                            <td><?=ucfirst($meeting->get_medecin()->get_surname()) . " " . strtoupper($meeting->get_medecin()->get_name())?></td>
-                            <td><?=$meeting->get_medecin()->get_speciality()->get_type()?></td>
-                            <td class="d-flex flex-row justify-content-around">
-                            <form method="POST" action="/rendezvous/medecin/disponibilites">
-                                <input type="text" name="idMedecin" value="<?=$meeting->get_medecin()->get_id()?>" hidden />
-                                <button type="submit" class="btn btn-info">Réserver un autre RDV</button>
-                            </form>
-                            </td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
-        </div>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php } ?>
     </div>
 
 

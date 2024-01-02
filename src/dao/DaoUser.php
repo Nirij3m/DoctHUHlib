@@ -57,7 +57,6 @@ class DaoUser {
         $surname = strtolower($surname);
         $phone = str_replace(' ', '', $phone);
         $tempPicture = "unknown.png";
-        echo $mail;
 
 
         $statement = $this->db->prepare("INSERT INTO users (name, surname, phone, mail, password, picture) VALUES (:name, :surname, :phone, :mail, :password, :picture)");
