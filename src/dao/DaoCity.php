@@ -42,7 +42,6 @@ class DaoCity {
 
         return $city;
     }
-<<<<<<< Updated upstream
 
     public function getCityOfPlace(Place $place) {
         $pInsee = $place->get_code_insee();
@@ -55,7 +54,8 @@ class DaoCity {
         else $city = new City($result['code_insee'], $result['city'], $result['code_postal']);
 
         return $city;
-=======
+    }
+
     public function getCodeInsee($cityName){
         $statement = $this->db->prepare("SELECT code_insee from city WHERE city = :cityName");
         $statement->bindParam("cityName", $cityName);
@@ -67,6 +67,5 @@ class DaoCity {
             echo $err->getMessage();
             return -1;
         }
->>>>>>> Stashed changes
     }
 }
