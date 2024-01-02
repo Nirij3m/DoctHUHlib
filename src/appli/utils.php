@@ -113,7 +113,6 @@ class Utils {
         $DaoPlace = new DaoPlace(DBHOST, DBNAME, PORT, USER, PASS);
         $DaoSpeciality = new DaoSpeciality(DBHOST, DBNAME, PORT, USER, PASS);
         $tempUser = $DaoUser->getFullById($id); // returns a temporary user
-        var_dump($tempUser);
 
         $city = $DaoCity->getCityOfUser($tempUser);
         $place = $DaoPlace->getPlaceOfUser($tempUser);
