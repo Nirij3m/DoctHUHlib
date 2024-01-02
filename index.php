@@ -2,10 +2,10 @@
 // Organize server path requested
 $method = $_SERVER["REQUEST_METHOD"];                   // Récupération de la méthode (GET/POST)
 $uri    = explode("?", $_SERVER["REQUEST_URI"])[0];     // Récupération du contexte (/...)
-/*
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);*/
+error_reporting(E_ALL);
 
 // Controllers.
 require_once "src/appli/cntrlLogin.php";
@@ -13,13 +13,11 @@ require_once "src/appli/cntrlApp.php";
 require_once "src/dao/DaoTime.php";
 require_once "src/metier/User.php";
 
-
 // Objets controllers
 $cntrlLogin = new cntrlLogin();
 $cntrlApp   = new cntrlApp();
 $utils      = new Utils();
 
-session_start();
 if (isset($_SESSION['user']))   $user = $_SESSION['user'];
 else                            $user = null;
 

@@ -11,13 +11,11 @@ class  cntrlLogin {
     public function getConnectionForm() {
         session_start();
         if (isset($_SESSION['user'])) {
-            session_write_close();
             $utils = new Utils();
             $utils->echoInfo("Vous êtes déjà connecté ! Redirection sur l'accueil");
             require PATH_VIEW . "vaccueil.php";
         }
         else {
-            session_write_close();
             require PATH_VIEW . "vconnection.php";
         }
     }
@@ -115,14 +113,10 @@ class  cntrlLogin {
         unset($_SESSION['user']);
         $user = $daoUser->getFullById($user->get_id());
         $_SESSION['user'] = $user;
-        session_write_close();
-
-
 
         $specialities = $daoSpeciality->getSpecialities();
         $img_account = "/assets/img/";
-
-        require PATH_VIEW . "vaccount.php";
+        require_once PATH_VIEW . "vaccount.php";
     }
 
     public function getAccountEditResult() {

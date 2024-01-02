@@ -27,6 +27,8 @@ class DaoUser {
             $erreurs = [];
 	        echo $e->getMessage();
         }
+        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
     }
 
     public function selectAll() {
@@ -55,6 +57,7 @@ class DaoUser {
         $surname = strtolower($surname);
         $phone = str_replace(' ', '', $phone);
         $tempPicture = "unknown.png";
+        echo $mail;
 
 
         $statement = $this->db->prepare("INSERT INTO users (name, surname, phone, mail, password, picture) VALUES (:name, :surname, :phone, :mail, :password, :picture)");
@@ -66,14 +69,14 @@ class DaoUser {
         $statement->bindParam(":picture", $tempPicture);
         try{
             $statement->execute();
-            return "";
         }
         catch (PDOException $err){
             $errMessage = $err->getMessage();
-            if(str_contains($errMessage, "phone")){
+            if(strpos($errMessage, "phone") !== false){
                 $needle = "Ce numéro de téléphone";
             }
             else $needle = "Cette adresse email";
+            echo $needle;
             return $errString = $utils->pdoErrors($err->getCode(), $needle);
         }
     }
@@ -118,10 +121,11 @@ class DaoUser {
         }
         catch (PDOException $err){
             $errMessage = $err->getMessage();
-            if(str_contains($errMessage, "phone")){
+            if(strpos($errMessage, "phone") !== false){
                 $needle = "Ce numéro de téléphone";
             }
             else $needle = "Cette adresse email";
+            echo $needle;
             return $errString = $utils->pdoErrors($err->getCode(), $needle);
         }
         $resultUserId = $statementUser->fetch(PDO::FETCH_ASSOC);
