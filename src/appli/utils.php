@@ -123,7 +123,6 @@ class Utils {
 
         if(!isset($_SESSION["user"])){
             $_SESSION["user"] = $tempUser;
-            var_dump($_SESSION["user"]);
         }
     }
 

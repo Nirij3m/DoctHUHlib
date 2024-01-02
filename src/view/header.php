@@ -47,7 +47,9 @@
                 </ul>
                 <hr>
                 <?php 
-                    // session_start();
+                     if(session_status() !== PHP_SESSION_ACTIVE){
+                            session_start();
+                     }
                     if (!isset($_SESSION["user"])) // User is not connected
                         {
                             ?>

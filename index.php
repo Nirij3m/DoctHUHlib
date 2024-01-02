@@ -17,6 +17,10 @@ require_once "src/metier/User.php";
 $cntrlLogin = new cntrlLogin();
 $cntrlApp   = new cntrlApp();
 $utils      = new Utils();
+if(session_status() !== PHP_SESSION_ACTIVE){
+    session_start();
+}
+
 
 if (isset($_SESSION['user']))   $user = $_SESSION['user'];
 else                            $user = null;

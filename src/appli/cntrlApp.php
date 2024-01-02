@@ -45,7 +45,9 @@ class cntrlApp {
         if ($user->get_speciality() == null) header("Location: /");
 
         if(!isset($_SESSION)){
-            session_start();
+            if(session_status() !== PHP_SESSION_ACTIVE){
+    session_start();
+}
         }
         $DaoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
         $utils = new Utils();

@@ -9,7 +9,9 @@ class  cntrlLogin {
     la connexion.
     */
     public function getConnectionForm() {
-        session_start();
+        if(session_status() !== PHP_SESSION_ACTIVE){
+    session_start();
+}
         if (isset($_SESSION['user'])) {
             $utils = new Utils();
             $utils->echoInfo("Vous êtes déjà connecté ! Redirection sur l'accueil");
@@ -108,7 +110,9 @@ class  cntrlLogin {
         $daoUser        = new DaoUser(DBHOST, DBNAME, PORT, USER, PASS);
         $daoSpeciality  = new DaoSpeciality(DBHOST, DBNAME, PORT, USER, PASS);
 
-        session_start();
+        if(session_status() !== PHP_SESSION_ACTIVE){
+    session_start();
+}
         $user = $_SESSION['user'];
         unset($_SESSION['user']);
         $user = $daoUser->getFullById($user->get_id());

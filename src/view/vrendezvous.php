@@ -89,6 +89,11 @@ $speArray = $DaoSpeciality->getSpeciality();
                 }?>
             </tbody>
         </table>
+
+        <h3>Vos prochains rendez-vous</h3>
+        <hr>
+
+        <h3></h3>
     </div>
 
 
