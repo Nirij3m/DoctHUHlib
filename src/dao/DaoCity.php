@@ -18,6 +18,8 @@ class DaoCity {
             $erreurs = [];
 	        echo $e->getMessage();
         }
+        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
     }
     public function getAllCities(){
         $statement = $this->db->query("SELECT code_insee, city.city from city");
@@ -40,6 +42,7 @@ class DaoCity {
 
         return $city;
     }
+<<<<<<< Updated upstream
 
     public function getCityOfPlace(Place $place) {
         $pInsee = $place->get_code_insee();
@@ -52,5 +55,18 @@ class DaoCity {
         else $city = new City($result['code_insee'], $result['city'], $result['code_postal']);
 
         return $city;
+=======
+    public function getCodeInsee($cityName){
+        $statement = $this->db->prepare("SELECT code_insee from city WHERE city = :cityName");
+        $statement->bindParam("cityName", $cityName);
+        try {
+            $statement->execute();
+            return $statement->fetch(PDO::FETCH_ASSOC);
+        }
+        catch (PDOException $err){
+            echo $err->getMessage();
+            return -1;
+        }
+>>>>>>> Stashed changes
     }
 }

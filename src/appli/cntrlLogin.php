@@ -161,6 +161,7 @@ class  cntrlLogin {
     }
     public function getRegisterDocResult() {
         $DaoUser = new DaoUser(DBHOST, DBNAME, PORT, USER, PASS);
+        $DaoCity = new DaoCity(DBHOST, DBNAME, PORT, USER, PASS);
         $cntrlApp = new cntrlApp();
         $name = $surname = $phone = $mail = $mailVerify = $password = $passwordVerify = "";
         $utils = new Utils();
@@ -175,12 +176,22 @@ class  cntrlLogin {
         $street = $_POST['street'];
         $namePlace = $_POST['name_e'];
         $specialite = $_POST['specialite'];
-        $codeInsee = $_POST['city'];
 
+        $city =  strtolower($_POST['city']);
+        print_r($city);
+        $codeInseeResult = $DaoCity->getCodeInsee($city);
+        $codeInsee = $codeInseeResult["code_insee"];
+        print_r($codeInsee);
+
+        if($codeInsee == -1){
+            $utils->echoWarning("Cette ville n'existe pas");
+            require PATH_VIEW . "vmconnection.php";
+            return;
+        }
         $phone = str_replace(' ', '', $phone);
         if(strlen($phone) > 10){
             $utils->echoWarning("Veuillez saisir un numéro de téléphone français");
-            require PATH_VIEW . "vconnection.php";
+            require PATH_VIEW . "vmconnection.php";
             return;
         }
         if(!$utils->isSanitize($name) || !$utils->isSanitize($surname)){

@@ -15,21 +15,21 @@ CREATE TABLE Speciality(
 	CONSTRAINT Speciality_PK PRIMARY KEY (id)
 );
 
-
 ------------------------------------------------------------
 -- Table: User
 ------------------------------------------------------------
 CREATE TABLE Users(
-	id              SERIAL NOT NULL ,
-	name            VARCHAR (128) NOT NULL ,
-	surname         VARCHAR (128) NOT NULL ,
-	phone           CHAR (10)  NOT NULL ,
-	mail            VARCHAR (128) NOT NULL ,
-	password        VARCHAR (60) NOT NULL ,
-	id_Speciality   INT    ,
-	CONSTRAINT User_PK PRIMARY KEY (id)
+                      id              SERIAL NOT NULL ,
+                      name            VARCHAR (128) NOT NULL ,
+                      surname         VARCHAR (128) NOT NULL ,
+                      phone           CHAR (10)  NOT NULL UNIQUE,
+                      mail            VARCHAR (128) NOT NULL UNIQUE,
+                      password        VARCHAR (60) NOT NULL ,
+                      id_Speciality   INT    ,
+                        picture     VARCHAR (15),
+                      CONSTRAINT User_PK PRIMARY KEY (id)
 
-	,CONSTRAINT User_Speciality_FK FOREIGN KEY (id_Speciality) REFERENCES Speciality(id)
+    ,CONSTRAINT User_Speciality_FK FOREIGN KEY (id_Speciality) REFERENCES Speciality(id)
 );
 
 
@@ -37,7 +37,7 @@ CREATE TABLE Users(
 -- Table: City
 ------------------------------------------------------------
 CREATE TABLE City(
-	code_insee    INT  NOT NULL ,
+	code_insee    varchar (5)  NOT NULL ,
 	city          VARCHAR (128) NOT NULL ,
 	code_postal   INT  NOT NULL  ,
 	CONSTRAINT City_PK PRIMARY KEY (code_insee)
@@ -52,7 +52,7 @@ CREATE TABLE Place(
 	name         VARCHAR (128) NOT NULL ,
 	num_street   INT  NOT NULL ,
 	street       VARCHAR (128) NOT NULL ,
-	code_insee   INT  NOT NULL  ,
+	code_insee   varchar(5)  NOT NULL  ,
 	CONSTRAINT Place_PK PRIMARY KEY (id)
 
 	,CONSTRAINT Place_City_FK FOREIGN KEY (code_insee) REFERENCES City(code_insee)
@@ -75,21 +75,6 @@ CREATE TABLE Meeting(
 	,CONSTRAINT Meeting_User0_FK FOREIGN KEY (id_User) REFERENCES Users(id)
 	,CONSTRAINT Meeting_User1_FK FOREIGN KEY (id_User_Asks_for) REFERENCES Users(id)
 );
-
-
-------------------------------------------------------------
--- Table: Timeslot
-------------------------------------------------------------
-CREATE TABLE Timeslot(
-	id          SERIAL NOT NULL ,
-	beginning   DATE  NOT NULL ,
-	ending         DATE  NOT NULL ,
-	id_User     INT  NOT NULL  ,
-	CONSTRAINT Timeslot_PK PRIMARY KEY (id)
-
-	,CONSTRAINT Timeslot_User_FK FOREIGN KEY (id_User) REFERENCES Users(id)
-);
-
 
 ------------------------------------------------------------
 -- Table: works

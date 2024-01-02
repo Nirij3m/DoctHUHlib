@@ -72,6 +72,7 @@ class DaoUser {
         }
         catch (PDOException $err){
             $errMessage = $err->getMessage();
+            echo $errMessage;
             if(strpos($errMessage, "phone") !== false){
                 $needle = "Ce numéro de téléphone";
             }
@@ -106,6 +107,7 @@ class DaoUser {
         $resultSpeId = $statementSpeId->fetch(PDO::FETCH_ASSOC);
         $speId = $resultSpeId["id"];
 
+
         //Insert the user and retrive the user's id
         $tempPicture = "unknown.png";
         $statementUser = $this->db->prepare("INSERT INTO users (name, surname, phone, mail, password, id_speciality, picture) VALUES (:name, :surname, :phone, :mail, :password, :id_speciality, :picture) RETURNING id");
@@ -120,7 +122,9 @@ class DaoUser {
             $statementUser->execute();
         }
         catch (PDOException $err){
+            echo "ERROR WHILE INSERT USER";
             $errMessage = $err->getMessage();
+            echo $errMessage;
             if(strpos($errMessage, "phone") !== false){
                 $needle = "Ce numéro de téléphone";
             }

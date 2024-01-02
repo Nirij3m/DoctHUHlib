@@ -111,14 +111,14 @@ $cityArray = $DaoCity->getAllCities();
                 aria-label="Server"
                 name="street"
             />
-            <select class="form-select form-override" aria-label="Default select example" name="city">
-                <?php
-                if(isset($cityArray)){
-                    foreach ($cityArray as $c){ ?>
-                    <option name="<?=$c["city"]?>" value="<?= $c["code_insee"] ?>"> <?=$c["city"]?> </option>
-                <?php }
-                }?>
-            </select>
+            <span class="input-group-text">Ville</span>
+            <input
+                    type="text"
+                    class="form-control"
+                    placeholder="ex: Nantes"
+                    aria-label="Server"
+                    name="city"
+            />
         </div>
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon2">Nom de votre établissement</span>
