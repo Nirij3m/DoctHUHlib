@@ -40,4 +40,17 @@ class DaoCity {
 
         return $city;
     }
+
+    public function getCityOfPlace(Place $place) {
+        $pInsee = $place->get_code_insee();
+        $statement = $this->db->prepare("SELECT * FROM city WHERE code_insee = :insee");
+        $statement->bindParam(":insee", $pInsee);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        if ($result == false)   $city = null;
+        else $city = new City($result['code_insee'], $result['city'], $result['code_postal']);
+
+        return $city;
+    }
 }

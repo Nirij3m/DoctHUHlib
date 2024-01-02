@@ -45,7 +45,8 @@ class  cntrlLogin {
             $needle = "Vous êtes connecté";
             $utils->echoSuccess($needle);
 
-            require PATH_VIEW . "vaccueil.php";
+            $cntrlApp = new CntrlApp();
+            $cntrlApp->getAccueil();
         }
     }
 
@@ -151,13 +152,12 @@ class  cntrlLogin {
         $this->getAccountEdit();
     }
 
-    public function getDisconnect()
-    {
+    public function getDisconnect() {
+        $cntrlApp = new cntrlApp();
         $utils = new Utils();
-
         $utils->destructSession();
 
-        require PATH_VIEW . "vconnection.php";
+        $this->getConnectionForm();
     }
     public function getRegisterDocResult() {
         $DaoUser = new DaoUser(DBHOST, DBNAME, PORT, USER, PASS);
