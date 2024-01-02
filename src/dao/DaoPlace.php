@@ -27,7 +27,10 @@ class DaoPlace {
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
+        $daoCity = new DaoCity(DBHOST, DBNAME, PORT, USER, PASS);
         $place = new Place($result['id'], $result['name'], $result['num_street'], $result['street'], $result['code_insee'], null);
+        $city = $daoCity->getCityOfPlace($place);
+        $place->set_city($city);
 
         return $place;
     }

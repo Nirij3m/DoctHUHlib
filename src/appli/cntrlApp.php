@@ -14,11 +14,24 @@ class cntrlApp {
         require PATH_VIEW . "vaccueil.php";
     }
     public function getRendezVous() {
-
         if(isset($_SESSION["user"])){
+            $user       = $_SESSION['user'];
+            $daoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
+            $meetings   = $daoMeeting->getMeetingsOfPatient($user);
+            $today      = new DateTime();
+            $yesterday  = $today->modify('-1 day');
+
+            $pastMeetings   = [];
+            $futureMeetings = [];
+
+            foreach ($meetings as $meeting) {
+                if ($meeting->get_beginning() < $today) array_push($pastMeetings, $meeting);
+                else                                    array_push($futureMeetings, $meeting);
+            }
+
             require PATH_VIEW . "vrendezvous.php";
         }
-        require PATH_VIEW . "vconnection.php";
+        else require PATH_VIEW . "vconnection.php";
     }
     public function getDocPage() {
 
@@ -116,6 +129,20 @@ class cntrlApp {
             if(empty($users)) {
                     $utils->echoInfo("Aucun practicien trouvé");
             }
+        }
+        
+        $user = $_SESSION['user'];
+        $daoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
+        $meetings   = $daoMeeting->getMeetingsOfPatient($user);
+        $today      = new DateTime();
+        $yesterday  = $today->modify('-1 day');
+
+        $pastMeetings   = [];
+        $futureMeetings = [];
+
+        foreach ($meetings as $meeting) {
+            if ($meeting->get_beginning() < $today) array_push($pastMeetings, $meeting);
+            else                                    array_push($futureMeetings, $meeting);
         }
 
         require PATH_VIEW . "vrendezvous.php";

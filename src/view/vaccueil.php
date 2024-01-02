@@ -42,7 +42,7 @@ require_once "header.php";
                     <?php if ($meeting != null) { ?>
                     <p>
                         Votre prochain rendez-vous est le <?=$meeting->get_beginning()->format('d/m/y')?> à <?=$meeting->get_beginning()->format('H:i')?>h avec le <?=$meeting->get_medecin()->get_speciality()->get_type()?> <?=ucfirst($meeting->get_medecin()->get_surname())?> <?=strtoupper($meeting->get_medecin()->get_name())?>.<br>
-                        Et il s'effectuera à <?=$meeting->get_place()->get_street()?> (<?=$meeting->get_place()->get_num_street()?> <?=$meeting->get_place()->get_street()?>)
+                        Et il s'effectuera à <?=$meeting->get_place()->get_street()?> (<?=$meeting->get_place()->get_num_street()?> <?=$meeting->get_place()->get_city()->get_city()?>)
                     </p>
                     <?php } ?>
                 <?php } ?>
