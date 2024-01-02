@@ -60,8 +60,8 @@ class cntrlApp {
 
         if(!isset($_SESSION)){
             if(session_status() !== PHP_SESSION_ACTIVE){
-    session_start();
-}
+                session_start();
+            }
         }
         $DaoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
         $utils = new Utils();
@@ -166,7 +166,7 @@ class cntrlApp {
         $today = new DateTime();
 
         foreach ($meetings as $meeting) {
-            $day = $meeting->get_beginning()->format('d/m/Y');
+            $day = $meeting->get_beginning()->format('D d/m Y');
             if ($meeting->get_beginning() > $today) {
                 if (!isset($orderedMeetings[$day])) $orderedMeetings[$day] = [];
                 array_push($orderedMeetings[$day], $meeting);

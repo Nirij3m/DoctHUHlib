@@ -124,7 +124,7 @@ else $days = $currentWeek->getDays();
 
                                         </td>
                                     </tr>
-                            <?php }
+                            <?php $i++;}
                          }
                         ?>
                 </tbody>
@@ -147,7 +147,7 @@ else $days = $currentWeek->getDays();
                                 <!-- Button trigger modal -->
                                         <button type="button" class="colorPatient btn btn-primary" data-toggle="modal" data-target="#<?='Modal'.$i?>">
                                     <b><u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u></b>
-                                    <p><?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname()) ?></p>
+                                            <b><p><?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname()) ?></p></b>
                                 </button
 
                                         <!-- Modal -->
@@ -222,7 +222,7 @@ else $days = $currentWeek->getDays();
 
                                         </td>
                                     </tr>
-                    <?php }
+                    <?php $i++;}
                 }?>
                 </tbody>
             </table>
@@ -244,7 +244,7 @@ else $days = $currentWeek->getDays();
                                 <!-- Button trigger modal -->
                                         <button type="button" class="colorPatient btn btn-primary" data-toggle="modal" data-target="#<?='Modal'.$i?>">
                                     <b><u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u></b>
-                                    <p><?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname()) ?></p>
+                                   <b><p><?=ucfirst(ucfirst($user->get_name())). " ". strtoupper($user->get_surname()) ?></p></b>
                                 </button
 
                                         <!-- Modal -->
@@ -319,7 +319,7 @@ else $days = $currentWeek->getDays();
 
                                         </td>
                                     </tr>
-                    <?php }
+                    <?php $i++;}
                 }?>
                 </tbody>
             </table>
@@ -341,7 +341,7 @@ else $days = $currentWeek->getDays();
                                 <!-- Button trigger modal -->
                                         <button type="button" class="colorPatient btn btn-primary" data-toggle="modal" data-target="#<?='Modal'.$i?>">
                                     <b><u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u></b>
-                                    <p><?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname()) ?></p>
+                                   <b><p><?=ucfirst(ucfirst($user->get_name())). " ". strtoupper($user->get_surname()) ?></p></b>
                                 </button
 
                                         <!-- Modal -->
@@ -415,7 +415,7 @@ else $days = $currentWeek->getDays();
 
                                         </td>
                                     </tr>
-                    <?php }
+                    <?php $i++;}
                 }?>
                 </tbody>
             </table>
@@ -437,7 +437,7 @@ else $days = $currentWeek->getDays();
                                 <!-- Button trigger modal -->
                                         <button type="button" class="colorPatient btn btn-primary" data-toggle="modal" data-target="#<?='Modal'.$i?>">
                                     <b><u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u></b>
-                                    <p><?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname()) ?></p>
+                                   <b><p><?=ucfirst(ucfirst($user->get_name())). " ". strtoupper($user->get_surname()) ?></p></b>
                                 </button
 
                                         <!-- Modal -->
@@ -511,7 +511,7 @@ else $days = $currentWeek->getDays();
 
                                         </td>
                                     </tr>
-                    <?php }
+                    <?php $i++;}
                 }?>
                 </tbody>
             </table>
@@ -533,7 +533,7 @@ else $days = $currentWeek->getDays();
                                 <!-- Button trigger modal -->
                                         <button type="button" class="colorPatient btn btn-primary" data-toggle="modal" data-target="#<?='Modal'.$i?>">
                                     <b><u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u></b>
-                                    <p><?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname()) ?></p>
+                                   <b><p><?=ucfirst(ucfirst($user->get_name())). " ". strtoupper($user->get_surname()) ?></p></b>
                                 </button
 
                                         <!-- Modal -->
@@ -608,7 +608,7 @@ else $days = $currentWeek->getDays();
 
                                         </td>
                                     </tr>
-                    <?php }
+                    <?php $i++;}
                 }?>
                 </tbody>
             </table>
@@ -630,7 +630,7 @@ else $days = $currentWeek->getDays();
                                 <!-- Button trigger modal -->
                                         <button type="button" class="colorPatient btn btn-primary" data-toggle="modal" data-target="#<?='Modal'.$i?>">
                                     <b><u><p><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></u></b>
-                                    <p><?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname()) ?></p>
+                                   <b><p><?=ucfirst(ucfirst($user->get_name())). " ". strtoupper($user->get_surname()) ?></p></b>
                                 </button
 
                                         <!-- Modal -->
@@ -705,7 +705,7 @@ else $days = $currentWeek->getDays();
 
                                         </td>
                                     </tr>
-                    <?php }
+                    <?php $i++;}
                 }?>
                 </tbody>
             </table>

@@ -24,8 +24,8 @@ $speArray = $DaoSpeciality->getSpeciality();
                 <tbody>
                     <?php foreach ($meetings as $meeting) { ?>
                         <tr>
-                            <td><?=$meeting->get_beginning()->format('H:i:s')?></td>
-                            <td><?=$meeting->get_ending()->format('H:i:s')?></td>
+                            <td><?=$meeting->get_beginning()->format('H\hi')?></td>
+                            <td><?=$meeting->get_ending()->format('H\hi')?></td>
                             <td>
                                 <?php if ($meeting->get_user() == null) { ?>
                                     <form method="POST" action="/rendezvous/medecin/result">

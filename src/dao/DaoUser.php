@@ -71,12 +71,10 @@ class DaoUser {
         }
         catch (PDOException $err){
             $errMessage = $err->getMessage();
-            echo $errMessage;
             if(strpos($errMessage, "phone") !== false){
                 $needle = "Ce numéro de téléphone";
             }
             else $needle = "Cette adresse email";
-            echo $needle;
             return $errString = $utils->pdoErrors($err->getCode(), $needle);
         }
     }
@@ -121,9 +119,7 @@ class DaoUser {
             $statementUser->execute();
         }
         catch (PDOException $err){
-            echo "ERROR WHILE INSERT USER";
             $errMessage = $err->getMessage();
-            echo $errMessage;
             if(strpos($errMessage, "phone") !== false){
                 $needle = "Ce numéro de téléphone";
             }

@@ -69,7 +69,6 @@ class DaoCity
             $statement->execute();
             return $statement->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $err) {
-            echo $err->getMessage();
             return -1;
         }
 
