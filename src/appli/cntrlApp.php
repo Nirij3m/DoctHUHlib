@@ -19,14 +19,15 @@ class cntrlApp {
             $daoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
             $meetings   = $daoMeeting->getMeetingsOfPatient($user);
             $today      = new DateTime();
-            $yesterday  = $today->modify('-1 day');
+            $tomorrow   = new DateTime();
+            $tomorrow  = $tomorrow->modify('+1 day');
 
             $pastMeetings   = [];
             $futureMeetings = [];
 
             foreach ($meetings as $meeting) {
                 if ($meeting->get_beginning() < $today) array_push($pastMeetings, $meeting);
-                else                                    array_push($futureMeetings, $meeting);
+                else                                    array_unshift($futureMeetings, $meeting);
             }
 
             require PATH_VIEW . "vrendezvous.php";
@@ -137,7 +138,8 @@ class cntrlApp {
         $daoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
         $meetings   = $daoMeeting->getMeetingsOfPatient($user);
         $today      = new DateTime();
-        $yesterday  = $today->modify('-1 day');
+        $tomorrow   = new DateTime();
+        $tomorrow  = $tomorrow->modify('+1 day');
 
         $pastMeetings   = [];
         $futureMeetings = [];
@@ -161,10 +163,14 @@ class cntrlApp {
         $medecin = $daoUser->getFullById($idMedecin);
         $meetings = $daoMeeting->getMeetingsOfDoctor($medecin);
         $orderedMeetings = [];
+        $today = new DateTime();
+
         foreach ($meetings as $meeting) {
             $day = $meeting->get_beginning()->format('d/m/Y');
-            if (!isset($orderedMeetings[$day])) $orderedMeetings[$day] = [];
-            array_push($orderedMeetings[$day], $meeting);
+            if ($meeting->get_beginning() > $today) {
+                if (!isset($orderedMeetings[$day])) $orderedMeetings[$day] = [];
+                array_push($orderedMeetings[$day], $meeting);
+            }
         }
         $medecin->set_meetings($orderedMeetings);
 
@@ -187,6 +193,20 @@ class cntrlApp {
         }
         else {
             $utils->echoError("Votre rendez-vous n'a pas pu être réservé");
+        }
+
+        $daoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
+        $meetings   = $daoMeeting->getMeetingsOfPatient($user);
+        $today      = new DateTime();
+        $tomorrow   = new DateTime();
+        $tomorrow  = $tomorrow->modify('+1 day');
+
+        $pastMeetings   = [];
+        $futureMeetings = [];
+
+        foreach ($meetings as $meeting) {
+            if ($meeting->get_beginning() < $today) array_push($pastMeetings, $meeting);
+            else                                    array_push($futureMeetings, $meeting);
         }
 
         require PATH_VIEW . "vrendezvous.php";
@@ -224,6 +244,20 @@ class cntrlApp {
 
         $meetings = $daoMeeting->getMeetingsOfPatient($user);
 
-        require PATH_VIEW . "vpastmeetings.php";
+        $daoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
+        $meetings   = $daoMeeting->getMeetingsOfPatient($user);
+        $today      = new DateTime();
+        $tomorrow   = new DateTime();
+        $tomorrow  = $tomorrow->modify('+1 day');
+
+        $pastMeetings   = [];
+        $futureMeetings = [];
+
+        foreach ($meetings as $meeting) {
+            if ($meeting->get_beginning() < $today) array_push($pastMeetings, $meeting);
+            else                                    array_push($futureMeetings, $meeting);
+        }
+
+        require PATH_VIEW . "vrendezvous.php";
     }
 }

@@ -113,10 +113,14 @@ $speArray = $DaoSpeciality->getSpeciality();
                                     <input type="text" name="idMedecin" value="<?=$meeting->get_medecin()->get_id()?>" hidden />
                                     <button type="submit" class="btn btn-info">Réserver un autre RDV</button>
                                 </form>
-                                <?php if ($yesterday < $meeting->get_beginning()) { ?>
+                                <?php if ($tomorrow < $meeting->get_beginning()) { ?>
                                     <form method="POST" action="/rendezvous/cancel">
                                         <input type="text" name="idMeeting" value="<?=$meeting->get_id()?>" hidden>
                                         <button type="submit" class="btn btn-danger">Annuler</button>
+                                    </form>
+                                <?php } else { ?>
+                                    <form>
+                                        <button type="submit" class="btn btn-danger" title="Vous ne pouvez annuler un rendez-vous que 24h en avance" disabled>Annuler</button>
                                     </form>
                                 <?php } ?>
                             </td>
