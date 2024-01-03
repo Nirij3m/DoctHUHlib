@@ -103,7 +103,7 @@ class cntrlApp {
         $specialite = $_POST["specialite"];
         $nom = $_POST["nom"];
 
-        if( !empty($nom) && !($utils->isSanitize($nom))){
+        if(!empty($nom) && !($utils->isSanitize($nom))){
             $utils->echoWarning("Le champ de recherche ne peut contenir ni caractères spéciaux ni accents");
             require PATH_VIEW . "vrendezvous.php";
             return;
@@ -123,11 +123,12 @@ class cntrlApp {
                 else if (!empty($u2)){
                     $users = $u2;
                 }
+                elseif($specialite == "Sélectionner la spécialité") $utils->echoInfo("Aucun praticien trouvé");
             }
         }
         else {
             if(empty($nom)) {
-            $users = $DaoUser->getByUserSpe(" ", " ", $specialite);
+                $users = $DaoUser->getByUserSpe(" ", " ", $specialite);
             }
             if(empty($users)) {
                     $utils->echoInfo("Aucun practicien trouvé");
@@ -240,7 +241,6 @@ class cntrlApp {
         $yesterday = $yesterday->modify('-1 day');
 
         $utils->echoSuccess("Votre rendez-vous a bien été annulé");
-
 
         $meetings = $daoMeeting->getMeetingsOfPatient($user);
 

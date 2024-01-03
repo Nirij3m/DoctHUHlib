@@ -74,7 +74,7 @@
                             <h5  class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Créez-votre compte en moins de 5 minutes</h5>
           
                             <div class="form-outline mb-4">
-                              <input type="text" id="form2Example18" name="name" class="form-control form-control-lg" required/>
+                              <input value="<?php if(isset($name)){echo $name;} ?>" type="text" id="form2Example18" name="name" class="form-control form-control-lg" required/>
                               <label class="form-label" for="form2Example18">Nom</label>
                                 <div class="invalid-feedback">
                                     Please choose a username.
@@ -82,7 +82,7 @@
                             </div>
                             
                             <div class="form-outline mb-4">
-                              <input type="text" id="form2Example17" name="surname" class="form-control form-control-lg" required/>
+                              <input value="<?php if(isset($surname)){echo $surname;} ?>" type="text" id="form2Example17" name="surname" class="form-control form-control-lg" required/>
                               <label class="form-label" for="form2Example17">Prénom</label>
                                 <div class="invalid-feedback">
                                     Please choose a username.
@@ -90,12 +90,12 @@
                             </div>
                             
                             <div class="form-outline mb-4">
-                              <input type="tel" id="form2Example17" name="phone" class="form-control form-control-lg"required/>
+                              <input value="<?php if(isset($phone)){echo $phone;} ?>" type="tel" id="form2Example17" name="phone" class="form-control form-control-lg"required/>
                               <label class="form-label" for="form2Example17">Téléphone</label>
                             </div>
                             
                             <div class="form-outline mb-4">
-                              <input type="email" id="form2Example17" name="mail" class="form-control form-control-lg" required/>
+                              <input value="<?php if(isset($mail)){echo $mail;} ?>" type="email" id="form2Example17" name="mail" class="form-control form-control-lg" required/>
                               <label class="form-label" for="form2Example17">Adresse Mail</label>
                             </div>
                             

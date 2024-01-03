@@ -101,7 +101,13 @@ class Utils {
         $string = $this->str_replace_first(" ", "-", $string);
         $string = preg_replace('/\s+/', '', $string);
         $string = stripslashes($string);
-        if($string == filter_var($string, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH | FILTER_FLAG_STRIP_BACKTICK)){
+        if($string == filter_var($string, FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH | FILTER_FLAG_STRIP_BACKTICK)){
+            return true;
+        }
+        else return false;
+    }
+    public function hasLetters($string){
+        if(preg_match("/[a-z]/i", $string)){
             return true;
         }
         else return false;

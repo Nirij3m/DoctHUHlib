@@ -65,7 +65,12 @@ class  cntrlLogin {
         $passwordVerify = $_POST['passwordVerify'];
 
         $phone = str_replace(' ', '', $phone);
-        if(strlen($phone) > 10){
+        if($utils->hasLetters($phone)){
+            $utils->echoWarning("Un numéro de téléphone ne peut contenir de lettres");
+            require PATH_VIEW . "vconnection.php";
+            return;
+        }
+        if(strlen($phone) != 10){
             $utils->echoWarning("Veuillez saisir un numéro de téléphone français");
             require PATH_VIEW . "vconnection.php";
             return;
@@ -94,9 +99,9 @@ class  cntrlLogin {
         if(empty($errString)){ //No errors, account created, start session and redirect on rendez-vous page
             $id = $DaoUser->connectUser($mail, $password);
             $utils->constructSession($id);
-            require PATH_VIEW . "vrendezvous.php";
             $utils->echoSuccess("Votre compte a bien été créé.");
             $utils->clearAlert();
+            require PATH_VIEW . "vrendezvous.php";
         }
         else{ //error, appen error message and reload the page
             $utils->echoError($errString);
@@ -112,8 +117,8 @@ class  cntrlLogin {
         $daoSpeciality  = new DaoSpeciality(DBHOST, DBNAME, PORT, USER, PASS);
 
         if(session_status() !== PHP_SESSION_ACTIVE){
-    session_start();
-}
+            session_start();
+        }
         $user = $_SESSION['user'];
         unset($_SESSION['user']);
         $user = $daoUser->getFullById($user->get_id());
@@ -126,6 +131,7 @@ class  cntrlLogin {
 
     public function getAccountEditResult() {
         $phone = $_POST['phone'];
+        $phone = str_replace(' ', '', $phone);
         $newPass = $_POST['pass'];
         $newPassConf = $_POST['passVerify'];
         $oldPass = trim($_POST['oldPass']);
@@ -135,6 +141,16 @@ class  cntrlLogin {
         $utils      = new Utils();
         $daoUser    = new DaoUser(DBHOST, DBNAME, PORT, USER, PASS);
 
+        if($utils->hasLetters($phone)){
+            $utils->echoWarning("Un numéro de téléphone ne peut contenir de lettres");
+            $this->getAccountEdit();
+            return;
+        }
+        if(strlen($phone) != 10){
+            $utils->echoInfo("Veuillez saisir un numéro de téléphone français");
+            $this->getAccountEdit();
+            return;
+        }
         if ($newPass != $newPassConf) {
             $utils->echoError("Les nouveaux mots de passe ne correspondent pas");
         }
@@ -144,11 +160,10 @@ class  cntrlLogin {
             if ($pfpResult[1] == true)  $photo = $pfpResult[0];
             $result = $daoUser->getEditUser($user, $email, $phone, $photo, $oldPass, $newPass);
         }
-
         if ($result == null) {
             $utils->echoError("Votre ancien mot de passe est incorrect");
         }
-
+        $utils->echoSuccess("Vos informations ont été mises à jour");
         $this->getAccountEdit();
     }
 
@@ -178,10 +193,11 @@ class  cntrlLogin {
         $specialite = $_POST['specialite'];
 
         $city =  strtolower($_POST['city']);
-        print_r($city);
+        $city = str_replace("\'", " ", $city);
+        $city = str_replace("-", " ", $city);
+        $city = str_replace("saint", "st", $city);
         $codeInseeResult = $DaoCity->getCodeInsee($city);
         $codeInsee = $codeInseeResult["code_insee"];
-        print_r($codeInsee);
 
         if($codeInsee == -1){
             $utils->echoWarning("Cette ville n'existe pas");
@@ -189,7 +205,11 @@ class  cntrlLogin {
             return;
         }
         $phone = str_replace(' ', '', $phone);
-        if(strlen($phone) > 10){
+        if($utils->hasLetters($phone)){
+            $utils->echoWarning("Un numéro de téléphone ne peut contenir de lettres");
+            require PATH_VIEW . "vmconnection.php";
+        }
+        if(strlen($phone) != 10){
             $utils->echoWarning("Veuillez saisir un numéro de téléphone français");
             require PATH_VIEW . "vmconnection.php";
             return;
@@ -198,6 +218,12 @@ class  cntrlLogin {
             $utils->echoWarning("Le nom et prénom ne peuvent contenir ni caractères spéciaux ni accents");
             require PATH_VIEW . "vmconnection.php";
             return;
+        }
+        if(!$utils->isSanitize($street)){
+            $utils->echoWarning("Le nom de rue ne peut contenir de caractères spéciaux");
+        }
+        if(!$utils->isSanitize($namePlace)){
+            $utils->echoWarning("Le nom d'établissement ne peut contenir de caractères spéciaux");
         }
 
         if($password !== $passwordVerify){

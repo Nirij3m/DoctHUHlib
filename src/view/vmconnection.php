@@ -29,6 +29,7 @@ $cityArray = $DaoCity->getAllCities();
                 aria-label="Username"
                 aria-describedby="basic-addon1"
                 name="surname"
+                value="<?php if(isset($surname)){echo $surname;}?>"
             />
         </div>
         <div class="input-group mb-3">
@@ -40,6 +41,8 @@ $cityArray = $DaoCity->getAllCities();
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
                 name="name"
+                value="<?php if(isset($name)){echo $name;}?>"
+
             />
         </div>
         <div class="input-group mb-3">
@@ -51,6 +54,8 @@ $cityArray = $DaoCity->getAllCities();
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
                 name="phone"
+                value="<?php if(isset($phone)){echo $phone;}?>"
+
             />
         </div>
         <div class="input-group mb-3">
@@ -61,6 +66,8 @@ $cityArray = $DaoCity->getAllCities();
                 placeholder="cedric.df@gmail.com"
                 aria-label="Amount (to the nearest dollar)"
                 name="mail"
+                value="<?php if(isset($mail)){echo $mail;}?>"
+
             />
         </div>
         <div class="input-group mb-3">
@@ -89,6 +96,8 @@ $cityArray = $DaoCity->getAllCities();
                     aria-label="Recipient's username"
                     aria-describedby="basic-addon2"
                     name="id_p"
+                    value="<?php if(isset($idPraticien)){echo $idPraticien;}?>"
+
             />
         </div>
 
@@ -102,6 +111,8 @@ $cityArray = $DaoCity->getAllCities();
                 placeholder="ex: 48"
                 aria-label="Username"
                 name="num"
+                value="<?php if(isset($numStreet)){echo $numStreet;}?>"
+
             />
             <span class="input-group-text">Adresse postale</span>
             <input
@@ -110,6 +121,8 @@ $cityArray = $DaoCity->getAllCities();
                 placeholder="ex: Rue Jean Moulin"
                 aria-label="Server"
                 name="street"
+                value="<?php if(isset($street)){echo $street;}?>"
+
             />
             <span class="input-group-text">Ville</span>
             <input
@@ -118,6 +131,8 @@ $cityArray = $DaoCity->getAllCities();
                     placeholder="ex: Nantes"
                     aria-label="Server"
                     name="city"
+                    value="<?php if(isset($city)){echo ucfirst($city);}?>"
+
             />
         </div>
         <div class="input-group mb-3">
@@ -129,6 +144,8 @@ $cityArray = $DaoCity->getAllCities();
                     aria-label="Recipient's username"
                     aria-describedby="basic-addon2"
                     name="name_e"
+                    value="<?php if(isset($namePlace)){echo $namePlace;}?>"
+
             />
         </div>
         <h4>Votre spécialité</h4>

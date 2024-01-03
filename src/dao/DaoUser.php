@@ -124,7 +124,6 @@ class DaoUser {
                 $needle = "Ce numéro de téléphone";
             }
             else $needle = "Cette adresse email";
-            echo $needle;
             return $errString = $utils->pdoErrors($err->getCode(), $needle);
         }
         $resultUserId = $statementUser->fetch(PDO::FETCH_ASSOC);

@@ -19,7 +19,7 @@ require_once "header.php";
 
                     <div class="mb-3">
                         <label for="phone" class="form-label">N° de téléphone</label>
-                        <input type="phone" name="phone" class="form-control" id="phone" value="<?=$user->get_phone()?>">
+                        <input type="tel" name="phone" class="form-control" id="phone" value="<?=$user->get_phone()?>">
                     </div>
 
                     <div class="mb-3">
@@ -42,7 +42,7 @@ require_once "header.php";
 
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Mot de passe actuel</label>
-                    <input type="password" name="oldPass" class="form-control" id="exampleInputPassword1">
+                    <input type="password" name="oldPass" class="form-control" id="exampleInputPassword1" required>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Submit</button>
