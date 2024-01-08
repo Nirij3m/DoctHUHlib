@@ -56,6 +56,7 @@ class cntrlApp {
     }
     public function createMeeting(){
         $user = $_SESSION['user'];
+        $now = new DateTime();
         if ($user->get_speciality() == null) header("Location: /");
 
         if(!isset($_SESSION)){
@@ -76,6 +77,16 @@ class cntrlApp {
 
         $beg = DateTime::createFromFormat('D. d/m/Y H:i', $date. " ".$ts);
         $end = DateTime::createFromFormat('D. d/m/Y H:i', $date. " ".$te);
+        if($beg < $now){
+            $utils->echoError("Vous ne pouvez créer de rendez-vous antérieur à aujourd'hui");
+            $this->getDocPage();
+            return;
+        }
+        if($beg >= $end){
+            $utils->echoError("Cet horaire est incorrect");
+            $this->getDocPage();
+            return;
+        }
         if(!$beg || !$end){
             $utils->echoError("Erreur lors de la création du rendez-vous");
         }

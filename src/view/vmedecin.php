@@ -63,6 +63,12 @@ else $days = $currentWeek->getDays();
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
+                                                        <img
+                                                                src="/assets/img/<?=$user->get_picture()?>"
+                                                                alt=""
+                                                                style="width: 90px; height: 90px; margin-bottom: 5%"
+                                                                class="rounded-circle"
+                                                        />
                                                         <span class="fbContainer"><p class="frontText"> Horaire:</p> <p class="backText"><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></span>
                                                         <span class="fbContainer"><p class="frontText"> Patient:</p> <p class="backText"><?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p></span>
                                                         <span class="fbContainer"><p class="frontText"> Numéro de téléphone:</p> <p class="backText"><?= $user->get_phone()?></p></span>
@@ -160,7 +166,13 @@ else $days = $currentWeek->getDays();
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
-                                                    <div class="modal-body">
+                                                   <div class="modal-body">
+                                                        <img
+                                                                src="/assets/img/<?=$user->get_picture()?>"
+                                                                alt=""
+                                                                style="width: 90px; height: 90px; margin-bottom: 5%"
+                                                                class="rounded-circle"
+                                                        />
                                                         <span class="fbContainer"><p class="frontText"> Horaire:</p> <p class="backText"><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></span>
                                                         <span class="fbContainer"><p class="frontText"> Patient:</p> <p class="backText"><?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p></span>
                                                         <span class="fbContainer"><p class="frontText"> Numéro de téléphone:</p> <p class="backText"><?= $user->get_phone()?></p></span>
@@ -257,7 +269,13 @@ else $days = $currentWeek->getDays();
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
-                                                    <div class="modal-body">
+                                                   <div class="modal-body">
+                                                        <img
+                                                                src="/assets/img/<?=$user->get_picture()?>"
+                                                                alt=""
+                                                                style="width: 90px; height: 90px; margin-bottom: 5%"
+                                                                class="rounded-circle"
+                                                        />
                                                         <span class="fbContainer"><p class="frontText"> Horaire:</p> <p class="backText"><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></span>
                                                         <span class="fbContainer"><p class="frontText"> Patient:</p> <p class="backText"><?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p></span>
                                                         <span class="fbContainer"><p class="frontText"> Numéro de téléphone:</p> <p class="backText"><?= $user->get_phone()?></p></span>
@@ -354,7 +372,13 @@ else $days = $currentWeek->getDays();
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
-                                                    <div class="modal-body">
+                                                   <div class="modal-body">
+                                                        <img
+                                                                src="/assets/img/<?=$user->get_picture()?>"
+                                                                alt=""
+                                                                style="width: 90px; height: 90px; margin-bottom: 5%"
+                                                                class="rounded-circle"
+                                                        />
                                                         <span class="fbContainer"><p class="frontText"> Horaire:</p> <p class="backText"><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></span>
                                                         <span class="fbContainer"><p class="frontText"> Patient:</p> <p class="backText"><?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p></span>
                                                         <span class="fbContainer"><p class="frontText"> Numéro de téléphone:</p> <p class="backText"><?= $user->get_phone()?></p></span>
@@ -450,7 +474,13 @@ else $days = $currentWeek->getDays();
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
-                                                    <div class="modal-body">
+                                                   <div class="modal-body">
+                                                        <img
+                                                                src="/assets/img/<?=$user->get_picture()?>"
+                                                                alt=""
+                                                                style="width: 90px; height: 90px; margin-bottom: 5%"
+                                                                class="rounded-circle"
+                                                        />
                                                         <span class="fbContainer"><p class="frontText"> Horaire:</p> <p class="backText"><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></span>
                                                         <span class="fbContainer"><p class="frontText"> Patient:</p> <p class="backText"><?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p></span>
                                                         <span class="fbContainer"><p class="frontText"> Numéro de téléphone:</p> <p class="backText"><?= $user->get_phone()?></p></span>
@@ -546,7 +576,13 @@ else $days = $currentWeek->getDays();
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
-                                                    <div class="modal-body">
+                                                   <div class="modal-body">
+                                                        <img
+                                                                src="/assets/img/<?=$user->get_picture()?>"
+                                                                alt=""
+                                                                style="width: 90px; height: 90px; margin-bottom: 5%"
+                                                                class="rounded-circle"
+                                                        />
                                                         <span class="fbContainer"><p class="frontText"> Horaire:</p> <p class="backText"><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></span>
                                                         <span class="fbContainer"><p class="frontText"> Patient:</p> <p class="backText"><?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p></span>
                                                         <span class="fbContainer"><p class="frontText"> Numéro de téléphone:</p> <p class="backText"><?= $user->get_phone()?></p></span>
@@ -643,7 +679,13 @@ else $days = $currentWeek->getDays();
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
-                                                    <div class="modal-body">
+                                                   <div class="modal-body">
+                                                        <img
+                                                                src="/assets/img/<?=$user->get_picture()?>"
+                                                                alt=""
+                                                                style="width: 90px; height: 90px; margin-bottom: 5%"
+                                                                class="rounded-circle"
+                                                        />
                                                         <span class="fbContainer"><p class="frontText"> Horaire:</p> <p class="backText"><?= $m->get_beginning()->format("H\hi"). " - ". $m->get_ending()->format("H\hi")?></p></span>
                                                         <span class="fbContainer"><p class="frontText"> Patient:</p> <p class="backText"><?=ucfirst($user->get_name()). " ". strtoupper($user->get_surname())?></p></span>
                                                         <span class="fbContainer"><p class="frontText"> Numéro de téléphone:</p> <p class="backText"><?= $user->get_phone()?></p></span>

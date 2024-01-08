@@ -95,6 +95,8 @@ The website view is different if you are connected as a lambda user or as a doct
 To differenciate them, you can either create one in the corresponding login/creation section or check the column id_speciality in the users table.
 If the user has a speciality, then it's a doctor, otherwise if null it's a user.
 
+Don't forget to change the const in the file `/src/appli/utils.php` and adapt them to your backend configuration
+
 
 
 
