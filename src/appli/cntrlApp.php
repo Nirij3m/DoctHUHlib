@@ -19,6 +19,7 @@ class cntrlApp {
             $daoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
             $meetings   = $daoMeeting->getMeetingsOfPatient($user);
             $today      = new DateTime();
+            $today->modify("+1 hour");
             $tomorrow   = new DateTime();
             $tomorrow  = $tomorrow->modify('+1 day');
 
@@ -149,6 +150,7 @@ class cntrlApp {
         $daoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
         $meetings   = $daoMeeting->getMeetingsOfPatient($user);
         $today      = new DateTime();
+        $today->modify("+1 hour");
         $tomorrow   = new DateTime();
         $tomorrow  = $tomorrow->modify('+1 day');
 
@@ -175,10 +177,11 @@ class cntrlApp {
         $meetings = $daoMeeting->getMeetingsOfDoctor($medecin);
         $orderedMeetings = [];
         $today = new DateTime();
+        $today->modify("+1 hour");
 
         foreach ($meetings as $meeting) {
-            $day = $meeting->get_beginning()->format('D d/m Y');
             if ($meeting->get_beginning() > $today) {
+                $day = $meeting->get_beginning()->format('D d/m Y');
                 if (!isset($orderedMeetings[$day])) $orderedMeetings[$day] = [];
                 array_push($orderedMeetings[$day], $meeting);
             }
@@ -209,6 +212,7 @@ class cntrlApp {
         $daoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
         $meetings   = $daoMeeting->getMeetingsOfPatient($user);
         $today      = new DateTime();
+        $today->modify("+1 hour");
         $tomorrow   = new DateTime();
         $tomorrow  = $tomorrow->modify('+1 day');
 
@@ -257,6 +261,7 @@ class cntrlApp {
         $daoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
         $meetings   = $daoMeeting->getMeetingsOfPatient($user);
         $today      = new DateTime();
+        $today->modify("+1 hour");
         $tomorrow   = new DateTime();
         $tomorrow  = $tomorrow->modify('+1 day');
 

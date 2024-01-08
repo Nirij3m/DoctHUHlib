@@ -201,6 +201,7 @@ class DaoUser {
     }
     public function getFullById($id){
         $daoPlace = new DaoPlace(DBHOST, DBNAME, PORT, USER, PASS);
+        $daoCity = new DaoCity(DBHOST, DBNAME, PORT, USER, PASS);
         $daoSpeciality = new DaoSpeciality(DBHOST, DBNAME, PORT, USER, PASS);
 
         $statement = $this->db->prepare("SELECT * FROM users WHERE id = :id");
@@ -211,7 +212,10 @@ class DaoUser {
         $user = new User($result['id'], $result['name'], $result['surname'], $result['phone'], $result['mail'], $result['picture'], null, null, []);
         
         $place = $daoPlace->getPlaceOfUser($user);
-        if ($place != null) $user->set_place($place);
+        if ($place != null) {
+            $place->set_city($daoCity->getCityOfPlace($place));
+            $user->set_place($place);
+        }
         $speciality = $daoSpeciality->getSpecialityOfUser($user);
         if ($speciality != null) $user->set_speciality($speciality);
 
