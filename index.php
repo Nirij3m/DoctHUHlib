@@ -2,8 +2,9 @@
 // Organize server path requested
 $method = $_SERVER["REQUEST_METHOD"];                   // Récupération de la méthode (GET/POST)
 $uri    = explode("?", $_SERVER["REQUEST_URI"])[0];     // Récupération du contexte (/...)
-/*
-ini_set('display_errors', 1);
+
+// Uncomment this if you want to display errors on all pages.
+/* ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);*/
 
@@ -27,7 +28,6 @@ else                            $user = null;
 
 
 // Redirection selon l'URL
-// (oui, un switch case peut très bien fonctionner aussi si tu le souhaites ! :3)
 
 if ($method == "GET") {
     if ($uri == "/")                        $cntrlApp->getAccueil();

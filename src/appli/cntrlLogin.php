@@ -221,9 +221,13 @@ class  cntrlLogin {
         }
         if(!$utils->isSanitize($street)){
             $utils->echoWarning("Le nom de rue ne peut contenir de caractères spéciaux");
+            require PATH_VIEW . "vmconnection.php";
+            return;
         }
         if(!$utils->isSanitize($namePlace)){
             $utils->echoWarning("Le nom d'établissement ne peut contenir de caractères spéciaux");
+            require PATH_VIEW . "vmconnection.php";
+            return;
         }
 
         if($password !== $passwordVerify){

@@ -2,7 +2,8 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Doct'HUH'lib</title>
+    <link rel="icon" type="image/png" href="/assets/img/huh.png">
     <link rel="stylesheet" type="text/css" href="/src/css/header.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
     <script src="https://kit.fontawesome.com/5b8b37978c.js" crossorigin="anonymous"></script>
