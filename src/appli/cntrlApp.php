@@ -58,6 +58,7 @@ class cntrlApp {
     public function createMeeting(){
         $user = $_SESSION['user'];
         $now = new DateTime();
+        $now->modify("+1 hour");
         if ($user->get_speciality() == null) header("Location: /");
 
         if(!isset($_SESSION)){

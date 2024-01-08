@@ -89,13 +89,14 @@ The objects can be found at `./src/metier/`. Each file has the name of its corre
 The views can be found at `./src/view/` and usually start with a `v` if they are showed to the user. *(i.e: header.php isn't showed to the user on its own: though it is used on every page and therefor represent a "view")*
 
 ## Usage
-In order to connect as a user (to take a rendez-vous or consult your history) or as a doctor (to create appointements and manage your rendez-vous) the __default password__ is for all base users: __Isen44N__
+- In order to connect as a user (to take a rendez-vous or consult your history) or as a doctor (to create appointements and manage your rendez-vous) the __default password__ is for all base users: __Isen44N__
 
-The website view is different if you are connected as a lambda user or as a doctor. 
+- The website view is different if you are connected as a lambda user or as a doctor. 
 To differenciate them, you can either create one in the corresponding login/creation section or check the column id_speciality in the users table.
 If the user has a speciality, then it's a doctor, otherwise if null it's a user.
 
-Don't forget to change the const in the file `/src/appli/utils.php` and adapt them to your backend configuration
+- Don't forget to change the const in the file `/src/appli/utils.php` and adapt them to your backend configuration
+- You will find the sql creation document and insert document inside `/ressources/` as `CTDoctisen.sql` and `ITDoctisen`.
 
 
 

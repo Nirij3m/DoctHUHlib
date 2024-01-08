@@ -39,7 +39,7 @@ class User {
     }
 
     public function get_phone() : string {
-        return $this->phone;
+        return trim(strrev(chunk_split(strrev($this->phone),2, ' ')));
     }
 
     public function get_mail() : string {

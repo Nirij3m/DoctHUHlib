@@ -39245,4 +39245,18 @@ INSERT INTO users (id, name, surname, phone, mail, password, id_speciality, pict
 (8, 'jane', 'smith', '0678901234', 'jane@example.com', '$2y$10$xPfcnaxeluW/HjzzV5Fdl.XelLOttmoDf8t1SB33lEMLIPYjAIjEu', 14, 'unknown.png'),
 (9, 'alice', 'johnson', '0655566777', 'alice@example.com', '$2y$10$xPfcnaxeluW/HjzzV5Fdl.XelLOttmoDf8t1SB33lEMLIPYjAIjEu', 9, 'unknown.png');
 
+INSERT INTO works (id, id_user) VALUES
+(1, 1),
+(1, 3),
+(6, 4),
+(5, 5),
+(4, 7),
+(2, 8),
+(5, 9),
+(3, 2),
+(7, 13),
+(8, 17),
+(9, 19);
+
+
 
