@@ -38,7 +38,7 @@ require_once "header.php";
                         <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"></use></svg>
                     </a>
                 <?php } else { ?>
-                    <h2>Bienvenue, <?=ucfirst($user->get_surname())?>.</h2>
+                    <h2>Bienvenue, <?=ucfirst($user->get_name())?> <?=strtoupper($user->get_surname())?>.</h2>
                     <?php if ($meeting != null) { ?>
                     <p>
                         Votre prochain rendez-vous est le <?=$meeting->get_beginning()->format('d/m/y')?> à <?=$meeting->get_beginning()->format('H\hi')?> avec le <?=$meeting->get_medecin()->get_speciality()->get_type()?> <?=ucfirst($meeting->get_medecin()->get_surname())?> <?=strtoupper($meeting->get_medecin()->get_name())?>.<br>

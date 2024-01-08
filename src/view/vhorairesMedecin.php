@@ -33,7 +33,7 @@ $speArray = $DaoSpeciality->getSpeciality();
                                         <button type="submit" class="btn btn-primary">Réserver</button>
                                     </form>
                                     <?php }
-                                    else if ($meeting->get_user() == $user) { ?>
+                                    else if ($meeting->get_user()->get_id() == $user->get_id()) { ?>
                                         <buttton class="btn btn-warning">Votre horaire</buttton>
                                     <?php }
                                     else { ?>
