@@ -254,5 +254,5 @@ class  cntrlLogin {
             require  PATH_VIEW . "vmconnection.php";
             return;
         }
-    }
+    } 
 }

@@ -64,8 +64,8 @@ CREATE TABLE Place(
 ------------------------------------------------------------
 CREATE TABLE Meeting(
 	id                 SERIAL NOT NULL ,
-	beginning          DATE  NOT NULL ,
-	ending                DATE  NOT NULL ,
+	beginning          TIMESTAMP  NOT NULL ,
+	ending                TIMESTAMP  NOT NULL ,
 	id_Place           INT  NOT NULL ,
 	id_User            INT  NOT NULL ,
 	id_User_Asks_for   INT   NULL  ,
@@ -87,5 +87,7 @@ CREATE TABLE works(
 	,CONSTRAINT works_Place_FK FOREIGN KEY (id) REFERENCES Place(id)
 	,CONSTRAINT works_User0_FK FOREIGN KEY (id_User) REFERENCES Users(id)
 );
+
+
 
 

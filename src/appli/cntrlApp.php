@@ -134,7 +134,6 @@ class cntrlApp {
                     $utils->echoInfo("Aucun practicien trouvé");
             }
         }
-        
         $user = $_SESSION['user'];
         $daoMeeting = new DaoMeeting(DBHOST, DBNAME, PORT, USER, PASS);
         $meetings   = $daoMeeting->getMeetingsOfPatient($user);

@@ -72,7 +72,8 @@ $speArray = $DaoSpeciality->getSpeciality();
                                             <?= $u->get_phone()?>
                                         </td>
                                         <td>
-                                            <p class="fw-normal mb-1"><?= $u->get_place()->get_num_street() . " " . ucfirst($u->get_place()->get_street())?></p>
+                                            <p class="fw-normal mb-1"><?= $u->get_place()->get_name()?> </p>
+                                            <p class="fw-normal mb-0"><?= $u->get_place()->get_num_street() . " " . ucfirst($u->get_place()->get_street())?></p>
                                             <p class="text-muted mb-0"><?= $u->get_place()->get_city()->get_code_postal() . " " . ucfirst($u->get_place()->get_city()->get_city())?></p>
                                         </td>
                                         <td>

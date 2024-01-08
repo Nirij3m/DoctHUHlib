@@ -31,7 +31,6 @@ class DaoPlace {
         $place = new Place($result['id'], $result['name'], $result['num_street'], $result['street'], $result['code_insee'], null);
         $city = $daoCity->getCityOfPlace($place);
         $place->set_city($city);
-
         return $place;
     }
 
