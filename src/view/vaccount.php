@@ -1,5 +1,7 @@
 <?php 
 require_once "header.php";
+$phone = $user->get_phone();
+preg_replace('/\s+/', '', $phone)
 ?>
 <link rel="stylesheet" href="/src/css/accueil.css">
 <script src="/src/js/editAccount.js" defer></script>
@@ -19,7 +21,7 @@ require_once "header.php";
 
                     <div class="mb-3">
                         <label for="phone" class="form-label">N° de téléphone</label>
-                        <input type="tel" name="phone" class="form-control" id="phone" value="<?=$user->get_phone()?>">
+                        <input type="tel" name="phone" class="form-control" id="phone" value="<?=$phone?>">
                     </div>
 
                     <div class="mb-3">
@@ -36,7 +38,7 @@ require_once "header.php";
                 <div class="col">
                     <div class="mb-3">
                         <img src="<?=$img_account . $user->get_picture()?>" id="pfp" width=250 height=250>
-                        <input name="img" type="file" id="img" accept="image/png, image/jpeg image/jpg" />
+                        <input name="img" type="file" id="img" accept="image/png, image/jpeg, image/jpg" />
                     </div>
                 </div>
 

@@ -177,7 +177,7 @@ class Utils {
                 $boolUpload = false;
             }
 
-            if ($_FILES[$inputName]["size"] > 500000) {
+            if ($_FILES[$inputName]["size"] > 500000000) {
                 array_push($erreurs, "Photo trop lourde");
                 $boolUpload = false;
             }

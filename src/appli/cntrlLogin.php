@@ -157,6 +157,7 @@ class  cntrlLogin {
         else {
             $photo = null;
             $pfpResult = $utils->savePicture($user->get_id(), "img", "assets/img/");
+            if ($pfpResult[2] != []) $utils->echoError($pfpResult[2][0]);
             if ($pfpResult[1] == true)  $photo = $pfpResult[0];
             $result = $daoUser->getEditUser($user, $email, $phone, $photo, $oldPass, $newPass);
         }
